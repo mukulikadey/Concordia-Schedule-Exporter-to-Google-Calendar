@@ -7,3 +7,4 @@
 * Samrat Debroy
 * Corey Levine
 * Regina Kandiah
+* Jameel Brochu
