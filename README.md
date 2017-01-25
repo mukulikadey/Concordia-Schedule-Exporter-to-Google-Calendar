@@ -5,3 +5,4 @@ Gabriel Belanger
 Senaga Velupillai
 Jonathan Sugumar
 Samrat Debroy
+Regina Kandiah
