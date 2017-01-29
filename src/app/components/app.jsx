@@ -47,7 +47,7 @@ class App extends Component {
 
     renderName(currentUser)
     {
-        if(currentUser && currentUser.uid) 
+        if(currentUser && currentUser.uid)
             return <div>Welcome {currentUser.displayName}!</div>
          return <div></div>
     }
@@ -66,7 +66,7 @@ class App extends Component {
                                 <span className="icon-bar" />
                                 <span className="icon-bar" />
                             </button>
-                            <Link to="/" className="navbar-brand">Firebase & Redux boilerplate</Link>
+                            <Link to="/" className="navbar-brand">SOEN341-S: Team 1 Schedule Exporter</Link>
 
                         </div>
                         <nav className="collapse navbar-collapse bs-navbar-collapse" role="navigation">
@@ -84,7 +84,7 @@ class App extends Component {
                 <div className="container">
                     {this.props.children}
                     {this.renderName(this.props.currentUser)}
-                    
+
                 </div>
             </div>
         );
