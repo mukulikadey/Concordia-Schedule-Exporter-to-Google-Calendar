@@ -45,6 +45,13 @@ class App extends Component {
         }
     }
 
+    renderName(currentUser)
+    {
+        if(currentUser && currentUser.uid) 
+            return <div>Welcome {currentUser.displayName}!</div>
+         return <div></div>
+    }
+
     render() {
         return (
             <div>
@@ -76,6 +83,8 @@ class App extends Component {
 
                 <div className="container">
                     {this.props.children}
+                    {this.renderName(this.props.currentUser)}
+                    
                 </div>
             </div>
         );
