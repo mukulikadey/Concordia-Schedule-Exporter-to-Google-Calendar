@@ -55,7 +55,7 @@ class UserRegister extends Component {
                 </form>
             </div>
             <div className="bottom">
-              Note: You will not be able to synchronize with your Google Calendar if you login with email.
+              Note: You will not be able to synchronize with your Google Calendar if you do not use your gmail account.
             </div>
           </div>
         );
