@@ -43,7 +43,8 @@ class UserLogin extends Component {
 
     render() {
         return (
-            <div className="col-md-4">
+          <div>
+            <div className="centercolumn">
                 <form id="frmLogin" role="form" onSubmit={this.onFormSubmit}>
                     <p>
                         {this.state.message}
@@ -68,17 +69,6 @@ class UserLogin extends Component {
                     <h5><Link to="/reset">Forgot password?</Link></h5>
 
                     <h4>Login with</h4>
-                    <a
-                      href="#" className="btn btn-block btn-social btn-facebook" onClick={() => {
-                          this.loginWithProvider('facebook');
-                      }} data-provider="facebook"
-                    >Facebook</a>
-
-                    <a
-                      href="#" className="btn btn-block btn-social btn-twitter" onClick={() => {
-                          this.loginWithProvider('twitter');
-                      }} data-provider="twitter"
-                    >Twitter</a>
 
                     <a
                       href="#" className="btn btn-block btn-social btn-google" onClick={() => {
@@ -86,14 +76,12 @@ class UserLogin extends Component {
                       }} data-provider="twitter"
                     >Google</a>
 
-                    <a
-                      href="#" className="btn btn-block btn-social btn-github" onClick={() => {
-                          this.loginWithProvider('github');
-                      }} data-provider="twitter"
-                    >Github</a>
-
                 </form>
             </div>
+            <div className="bottom">
+              Note: You will not be able to synchronize with your Google Calendar if you do not use your gmail account.
+            </div>
+          </div>
 
         );
     }
