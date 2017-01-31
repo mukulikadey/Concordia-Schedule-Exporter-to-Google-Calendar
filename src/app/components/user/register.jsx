@@ -31,7 +31,8 @@ class UserRegister extends Component {
 
     render() {
         return (
-            <div className="col-md-4">
+          <div>
+            <div className="centercolumn">
                 <form id="frmRegister" role="form" onSubmit={this.onFormSubmit}>
                     <p>{this.state.message}</p>
                     <h2>Register</h2>
@@ -51,30 +52,12 @@ class UserRegister extends Component {
                     </div>
                     <button type="submit" className="btn btn-default">Register</button>
                     <br /> <br />
-
-                    <a
-                      href="#" className="btn btn-block btn-social btn-facebook" onClick={() => {
-                          this.loginWithProvider('facebook');
-                      }} data-provider="facebook"
-                    >Facebook</a>
-                    <a
-                      href="#" className="btn btn-block btn-social btn-twitter" onClick={() => {
-                          this.loginWithProvider('twitter');
-                      }} data-provider="twitter"
-                    >Twitter</a>
-                    <a
-                      href="#" className="btn btn-block btn-social btn-google" onClick={() => {
-                          this.loginWithProvider('google');
-                      }} data-provider="twitter"
-                    >Google</a>
-                    <a
-                      href="#" className="btn btn-block btn-social btn-github" onClick={() => {
-                          this.loginWithProvider('github');
-                      }} data-provider="twitter"
-                    >Github</a>
-
                 </form>
             </div>
+            <div className="bottom">
+              Note: You will not be able to synchronize with your Google Calendar if you login with email.
+            </div>
+          </div>
         );
     }
 
