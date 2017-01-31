@@ -18,7 +18,6 @@ class App extends Component {
         this.props.logoutUser().then((data) => {
       // reload props from reducer
             this.props.fetchUser();
-            browserHistory.push('/login');
         });
     }
 
