@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import { browserHistory, Link } from 'react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { fetchUser, logoutUser } from '../actions/firebase_actions';
@@ -17,6 +17,7 @@ class App extends Component {
         this.props.logoutUser().then((data) => {
       // reload props from reducer
             this.props.fetchUser();
+            browserHistory.push('/login');
         });
     }
 
