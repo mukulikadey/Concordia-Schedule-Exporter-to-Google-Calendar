@@ -17,14 +17,8 @@ const FireBaseTools = {
         switch (provider) {
         case 'email':
             return new firebase.auth.EmailAuthProvider();
-        case 'facebook':
-            return new firebase.auth.FacebookAuthProvider();
-        case 'github':
-            return new firebase.auth.GithubAuthProvider();
         case 'google':
             return new firebase.auth.GoogleAuthProvider();
-        case 'twitter':
-            return new firebase.auth.TwitterAuthProvider();
         default:
             throw new Error('Provider is not supported!!!');
         }
