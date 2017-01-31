@@ -22,7 +22,6 @@ class App extends Component {
 
     renderUserMenu(currentUser) {
     // if current user exists and user id exists than make user navigation
-    console.log(this.props.currentUser)
         if (currentUser && currentUser.uid) {
             return (
                 <li className="dropdown">
