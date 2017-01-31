@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { fetchUser, logoutUser } from '../actions/firebase_actions';
+import { browserHistory } from 'react-router';
 
 class App extends Component {
 
@@ -22,6 +23,7 @@ class App extends Component {
 
     renderUserMenu(currentUser) {
     // if current user exists and user id exists than make user navigation
+    console.log(this.props.currentUser)
         if (currentUser && currentUser.uid) {
             return (
                 <li className="dropdown">
@@ -33,7 +35,9 @@ class App extends Component {
                     <ul className="dropdown-menu">
                         <li><Link to="/profile">Profile</Link></li>
                         <li role="separator" className="divider" />
-                        <li><Link to="/logout" onClick={this.logOut}>Logout</Link></li>
+                        <li><Link to="/scheduleGen">Schedule</Link></li>
+                        <li role="separator" className="divider" />
+                        <li><Link to="/login" onClick={this.logOut}>Logout</Link></li>
                     </ul>
                 </li>
             );
@@ -50,6 +54,19 @@ class App extends Component {
         if(currentUser && currentUser.uid)
             return <div>Welcome {currentUser.displayName}!</div>
          return <div></div>
+    }
+
+    renderContent(currentUser)
+    {
+        if(!this.currentUser)
+        {
+             browserHistory.push('/login');
+        }
+        else
+        {
+            browserHistory.push('/schedule');
+
+        }
     }
 
     render() {
@@ -84,6 +101,8 @@ class App extends Component {
                 <div className="container">
                     {this.props.children}
                     {this.renderName(this.props.currentUser)}
+                    
+                    
 
                 </div>
             </div>
