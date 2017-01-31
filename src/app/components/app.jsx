@@ -3,7 +3,6 @@ import { browserHistory, Link } from 'react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { fetchUser, logoutUser } from '../actions/firebase_actions';
-import { browserHistory } from 'react-router';
 
 class App extends Component {
 
