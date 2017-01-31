@@ -17,7 +17,6 @@ class App extends Component {
         this.props.logoutUser().then((data) => {
       // reload props from reducer
             this.props.fetchUser();
-            browserHistory.push('/login');
         });
     }
 
@@ -34,7 +33,9 @@ class App extends Component {
                     <ul className="dropdown-menu">
                         <li><Link to="/profile">Profile</Link></li>
                         <li role="separator" className="divider" />
-                        <li><Link to="/logout" onClick={this.logOut}>Logout</Link></li>
+                        <li><Link to="/scheduleGen">Schedule</Link></li>
+                        <li role="separator" className="divider" />
+                        <li><Link to="/login" onClick={this.logOut}>Logout</Link></li>
                     </ul>
                 </li>
             );
@@ -51,6 +52,19 @@ class App extends Component {
         if(currentUser && currentUser.uid)
             return <div>Welcome {currentUser.displayName}!</div>
          return <div></div>
+    }
+
+    renderContent(currentUser)
+    {
+        if(!this.currentUser)
+        {
+             browserHistory.push('/login');
+        }
+        else
+        {
+            browserHistory.push('/schedule');
+
+        }
     }
 
     render() {
@@ -85,6 +99,8 @@ class App extends Component {
                 <div className="container">
                     {this.props.children}
                     {this.renderName(this.props.currentUser)}
+                    
+                    
 
                 </div>
             </div>
