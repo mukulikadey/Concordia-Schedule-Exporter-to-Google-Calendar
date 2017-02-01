@@ -54,20 +54,13 @@ class App extends Component {
          return <div></div>
     }
 
-    renderContent(currentUser)
-    {
-        if(!this.currentUser)
-        {
-             browserHistory.push('/login');
-        }
-        else
-        {
-            browserHistory.push('/schedule');
-
-        }
-    }
-
     render() {
+      var homeLink ;
+      if (this.props.currentUser)
+        homeLink = "/scheduleGen";
+      else
+        homeLink = "/login";
+
         return (
             <div>
                 <header className="navbar navbar-static-top navbar-inverse" id="top" role="banner">
@@ -81,14 +74,9 @@ class App extends Component {
                                 <span className="icon-bar" />
                                 <span className="icon-bar" />
                             </button>
-                            <Link to="/" className="navbar-brand">SOEN341-S: Team 1 Schedule Exporter</Link>
-
+                            <Link to={homeLink} className="navbar-brand">SOEN341-S: Team 1 Schedule Exporter</Link>
                         </div>
                         <nav className="collapse navbar-collapse bs-navbar-collapse" role="navigation">
-                            <ul className="nav navbar-nav">
-                                <li><Link to="/"> Home</Link></li>
-                ,
-              </ul>
                             <ul className="nav navbar-nav navbar-right">
                                 { this.renderUserMenu(this.props.currentUser) }
                             </ul>
@@ -99,8 +87,8 @@ class App extends Component {
                 <div className="container">
                     {this.props.children}
                     {this.renderName(this.props.currentUser)}
-                    
-                    
+
+
 
                 </div>
             </div>
