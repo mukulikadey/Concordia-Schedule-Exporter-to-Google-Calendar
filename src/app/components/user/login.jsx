@@ -68,13 +68,12 @@ class UserLogin extends Component {
                     <br />
                     <h5><Link to="/reset">Forgot password?</Link></h5>
 
-                    <h4>Login with</h4>
-
                     <a
                       href="#" className="btn btn-block btn-social btn-google" onClick={() => {
                           this.loginWithProvider('google');
-                      }} data-provider="twitter"
-                    >Google</a>
+                      }} data-provider="google"
+                    ><span className="fa fa-google"></span>Sign in with Gmail</a>
+
 
                 </form>
             </div>
