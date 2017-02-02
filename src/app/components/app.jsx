@@ -31,11 +31,11 @@ class App extends Component {
                     >
                         {currentUser.email} <span className="caret" /></a>
                     <ul className="dropdown-menu">
-                        <li><Link to="/profile">Profile</Link></li>
+                        <li><Link to="/profile"><span className="fa fa-user" aria-hidden="true"></span> Profile</Link></li>
                         <li role="separator" className="divider" />
-                        <li><Link to="/scheduleGen">Schedule</Link></li>
+                        <li><Link to="/scheduleGen"><span className="fa fa-calendar" aria-hidden="true"></span> Schedule</Link></li>
                         <li role="separator" className="divider" />
-                        <li><Link to="/login" onClick={this.logOut}>Logout</Link></li>
+                        <li><Link to="/login" onClick={this.logOut}> <span className="fa fa-sign-out" aria-hidden="true"></span> Logout</Link></li>
                     </ul>
                 </li>
             );
@@ -74,7 +74,7 @@ class App extends Component {
                                 <span className="icon-bar" />
                                 <span className="icon-bar" />
                             </button>
-                            <Link to={homeLink} className="navbar-brand">SOEN341-S: Team 1 Schedule Exporter</Link>
+                            <Link to={homeLink} className="navbar-brand">Concordia University Schedule Exporter (C.U.S.E)</Link>
                         </div>
                         <nav className="collapse navbar-collapse bs-navbar-collapse" role="navigation">
                             <ul className="nav navbar-nav navbar-right">
