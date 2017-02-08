@@ -16,7 +16,6 @@ export default (
     <Route path="/" component={App} >
         <IndexRoute component={Index_home} onEnter={requireAuth} />
         <Route path="/login" component={UserLogin} />
-        <Route path="/register" component={UserRegister} />
         <Route path="/reset" component={ResetPassword} />
         <Route path="/profile" component={UserProfile} onEnter={requireAuth} />
         <Route path="/scheduleGen" component={ScheduleGen} onEnter={requireAuth} />

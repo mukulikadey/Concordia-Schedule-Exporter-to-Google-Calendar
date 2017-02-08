@@ -41,18 +41,10 @@ class App extends Component {
             );
         } else {
             return [
-                <li key={1}><Link to="/login">Login</Link></li>,
-                <li key={2}><Link to="/register">Register</Link></li>,
+                <li key={1}><Link to="/login">Login/Register</Link></li>,
             ];
         }
     }
-
-    renderName(currentUser)
-    {/*
-        if(currentUser && currentUser.uid)
-            return <div>Welcome {currentUser.displayName}!</div>
-         return <div></div>
-    */}
 
     render() {
       var homeLink ;
