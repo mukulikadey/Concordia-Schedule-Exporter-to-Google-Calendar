@@ -13,6 +13,10 @@ class UserRegister extends Component {
         };
     }
 
+     mathLib(a) {
+        return a + 5;
+    }
+
     onFormSubmit(event) {
         event.preventDefault();
 
