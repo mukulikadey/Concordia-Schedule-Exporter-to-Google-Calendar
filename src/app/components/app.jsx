@@ -48,16 +48,16 @@ class App extends Component {
     }
 
     renderName(currentUser)
-    {
+    {/*
         if(currentUser && currentUser.uid)
             return <div>Welcome {currentUser.displayName}!</div>
          return <div></div>
-    }
+    */}
 
     render() {
       var homeLink ;
       if (this.props.currentUser)
-        homeLink = "/scheduleGen";
+        homeLink = "/index_home";
       else
         homeLink = "/login";
 
@@ -86,7 +86,7 @@ class App extends Component {
 
                 <div className="container">
                     {this.props.children}
-                    {this.renderName(this.props.currentUser)}
+
 
 
 
