@@ -16,5 +16,3 @@ The goal of this project is to create a web application with the following featu
 * Export the student and/or TA’s schedule to PDF or jpeg format
 * Notify students about any changes made to their courses 
 * TA can upload documents to the application for students to see 
-
-
