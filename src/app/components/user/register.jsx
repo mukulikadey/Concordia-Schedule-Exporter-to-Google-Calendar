@@ -13,6 +13,10 @@ class UserRegister extends Component {
         };
     }
 
+     mathLib(a) {
+        return a + 5;
+    }
+
     onFormSubmit(event) {
         event.preventDefault();
 
@@ -23,7 +27,7 @@ class UserRegister extends Component {
                 this.setState({ message: data.payload.errorMessage })
               ;
             } else {
-                browserHistory.push('/profile');
+                browserHistory.push('/index_home');
             }
         }
     );
@@ -31,8 +35,7 @@ class UserRegister extends Component {
 
     render() {
         return (
-          <div>
-            <div className="centercolumn">
+            <div className="col-md-4">
                 <form id="frmRegister" role="form" onSubmit={this.onFormSubmit}>
                     <p>{this.state.message}</p>
                     <h2>Register</h2>
@@ -54,10 +57,7 @@ class UserRegister extends Component {
                     <br /> <br />
                 </form>
             </div>
-            <div className="bottom">
-              Note: You will not be able to synchronize with your Google Calendar if you do not use your gmail account.
-            </div>
-          </div>
+          
         );
     }
 
