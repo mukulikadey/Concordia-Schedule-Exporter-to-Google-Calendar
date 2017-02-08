@@ -47,9 +47,9 @@ class Index_home extends Component{
             <b>About</b>
             <p>This is the about paragraph.</p>
             <p>
-              <Link to="/profile"><button type="button" className="home btn btn-info btn-lg"><span className="fa fa-user"></span>    Profile</button></Link>
-              <Link to="/scheduleGen"><button type="button" className="home btn btn-success btn-lg"><span className="fa fa-calendar"></span>    Schedule</button></Link>
-              <a href=""><button type="button" className="home btn btn-warning btn-lg"><span className="fa fa-comments"></span>    Forum</button></a>
+              <Link to="/profile"><button type="button" className="home btn btn-info btn-lg"><span className="fa fa-user"></span>    Profile </button></Link>
+              <Link to="/scheduleGen"><button type="button" className="home btn btn-success btn-lg"><span className="fa fa-calendar"></span>    Schedule </button></Link>
+              <a href=""><button type="button" className="home btn btn-warning btn-lg"><span className="fa fa-comments"></span>    Forum </button></a>
             </p>
         </div>
       </div>
