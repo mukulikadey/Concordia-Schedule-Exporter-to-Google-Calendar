@@ -1,6 +1,6 @@
 ﻿//import UserRegister from '../app/components/user/register';
 
-///<reference path="/src/app/utils/authenticated.js"/>
+///<reference path="/src/test/converted.js"/>
 
 
 module("Checking if tests work");
@@ -15,7 +15,7 @@ test("testing static function",
 module("Checking if tests work");
 test("testing matlib",
     function () {
-        var temp = requireAuth(1, 2);
+        var temp = mathLib(5);
         var answer = 10;
         strictEqual(temp, answer);
     });
