@@ -35,6 +35,8 @@ class App extends Component {
                         <li role="separator" className="divider" />
                         <li><Link to="/scheduleGen"><span className="fa fa-calendar" aria-hidden="true"></span> Schedule</Link></li>
                         <li role="separator" className="divider" />
+                      <li><Link to><span className="fa fa-comments" aria-hidden="true"></span> Forum</Link></li>
+                        <li role="separator" className="divider" />
                         <li><Link to="/login" onClick={this.logOut}> <span className="fa fa-sign-out" aria-hidden="true"></span> Logout</Link></li>
                     </ul>
                 </li>

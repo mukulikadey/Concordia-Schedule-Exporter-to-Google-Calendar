@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { browserHistory, Link } from 'react-router';
+
 
 
 import { fetchUser } from '../actions/firebase_actions';
@@ -44,6 +46,11 @@ class Index_home extends Component{
         <div>
             <b>About</b>
             <p>This is the about paragraph.</p>
+            <p>
+              <Link to="/profile"><button type="button" className="btn btn-info btn-lg"><span className="fa fa-user"></span>    Profile</button></Link>
+              <Link to="/scheduleGen"><button type="button" className="btn btn-success btn-lg"><span className="fa fa-calendar"></span>    Schedule</button></Link>
+              <a href=""><button type="button" className="btn btn-warning btn-lg"><span className="fa fa-comments"></span>    Forum</button></a>
+            </p>
         </div>
       </div>
 
@@ -56,6 +63,7 @@ class Index_home extends Component{
       return <div>Welcome {currentUser.displayName}!</div>
     return <div></div>
   }
+
 
 }
 
