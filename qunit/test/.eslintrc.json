@@ -1,0 +1,17 @@
+{
+	"extends": [ "plugin:qunit/two" ],
+	"env": {
+		"browser": true
+	},
+	"plugins": [
+		"html",
+		"qunit"
+	],
+	"parserOptions": {
+		"sourceType": "script"
+	},
+	"globals": {
+		"QUnit": false,
+		"console": false
+	}
+}

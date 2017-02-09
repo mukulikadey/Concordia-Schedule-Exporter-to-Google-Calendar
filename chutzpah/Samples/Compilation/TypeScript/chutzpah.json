@@ -1,0 +1,14 @@
+{
+  "Compile": {
+    "Extensions": [".ts"],
+    "ExtensionsWithNoOutput": [".d.ts"],
+    "Executable": "compile.bat",
+    "UseSourceMaps": true
+   },
+  "References": [
+    {"Includes": ["*/src/*.ts"], "Excludes": ["*/src/*.d.ts"] }
+  ],
+  "Tests": [
+    { "Includes": ["*/test/*.ts"], "Excludes": ["*/test/*.d.ts"] }
+  ]
+}

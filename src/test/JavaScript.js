@@ -1,9 +1,4 @@
-﻿//import UserRegister from '../app/components/user/register';
-
-///<reference path="/src/test/converted.js"/>
-
-
-module("Checking if tests work");
+﻿module("Checking if tests work");
 test("testing static function",
     function() {
         var actual = '1';
