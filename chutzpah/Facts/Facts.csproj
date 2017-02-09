@@ -1,0 +1,206 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\xunit.runner.visualstudio.2.1.0\build\net20\xunit.runner.visualstudio.props" Condition="Exists('..\packages\xunit.runner.visualstudio.2.1.0\build\net20\xunit.runner.visualstudio.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{37ABEA6D-398D-47DD-A833-E39282B36A42}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Chutzpah.Facts</RootNamespace>
+    <AssemblyName>facts.chutzpah</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\chutzpah.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Moq, Version=4.2.1510.2205, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <HintPath>..\packages\Moq.4.2.1510.2205\lib\net40\Moq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SourceMapDotNet, Version=1.0.5478.26629, Culture=neutral, PublicKeyToken=d357635542166cea, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\SourceMapDotNet.1.0.5478.26629\lib\SourceMapDotNet.dll</HintPath>
+    </Reference>
+    <Reference Include="StructureMap, Version=2.6.3.0, Culture=neutral, PublicKeyToken=e60ad81abae3c223, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\structuremap.2.6.3\lib\StructureMap.dll</HintPath>
+    </Reference>
+    <Reference Include="StructureMap.AutoMocking, Version=2.6.3.0, Culture=neutral, PublicKeyToken=e60ad81abae3c223, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\structuremap.automocking.2.6.3\lib\StructureMap.AutoMocking.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="xunit.abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\packages\xunit.abstractions.2.0.0\lib\net35\xunit.abstractions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="xunit.assert, Version=2.1.0.3179, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\packages\xunit.assert.2.1.0\lib\dotnet\xunit.assert.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="xunit.core, Version=2.1.0.3179, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\packages\xunit.extensibility.core.2.1.0\lib\dotnet\xunit.core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="xunit.execution.desktop, Version=2.1.0.3179, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\packages\xunit.extensibility.execution.2.1.0\lib\net45\xunit.execution.desktop.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ConsoleRunner\CallbackFacts.cs" />
+    <Compile Include="ConsoleRunner\CommandLineFacts.cs" />
+    <Compile Include="Exceptions\ExceptionFacts.cs" />
+    <Compile Include="Library\BatchCompilerServiceFacts.cs" />
+    <Compile Include="Library\ChutzpahContainerFacts.cs" />
+    <Compile Include="Library\ChutzpahSettingsFileEnvironmentFacts.cs" />
+    <Compile Include="Library\Coverage\BlanketJsCoverageEngineFacts.cs" />
+    <Compile Include="Library\Coverage\SourceMapDotNetLineCoverageMapperFacts.cs" />
+    <Compile Include="Library\Transformers\JacocoTransformerFacts.cs" />
+    <Compile Include="Library\UrlBuilderFacts.cs" />
+    <Compile Include="Library\MochaLineNumberProcessorFacts.cs" />
+    <Compile Include="Library\MochaDefinitionFacts.cs" />
+    <Compile Include="Library\JasmineDefinitionFacts.cs" />
+    <Compile Include="Library\JasmineLineNumberProcessorFacts.cs" />
+    <Compile Include="Library\Models\ChutzpahTestSettingsServiceFacts.cs" />
+    <Compile Include="Library\Models\CoverageDataFacts.cs" />
+    <Compile Include="Library\QUnitDefinitionFacts.cs" />
+    <Compile Include="Library\QUnitLineNumberProcessorFacts.cs" />
+    <Compile Include="Library\FileProbeFacts.cs" />
+    <Compile Include="Library\ReferenceProcessorFacts.cs" />
+    <Compile Include="Library\SourceMapDiscovererFacts.cs" />
+    <Compile Include="Library\TestCaseStreamReaderFacts.cs" />
+    <Compile Include="Library\TestContextBuilderFacts.cs" />
+    <Compile Include="Library\TestHarnessBuilderFacts.cs" />
+    <Compile Include="Library\TestHarnessFacts.cs" />
+    <Compile Include="Library\TestingModeExtensionsFacts.cs" />
+    <Compile Include="Library\Transformers\EmmaXmlTransformerFacts.cs" />
+    <Compile Include="Library\Transformers\SummaryTransformerFacts.cs" />
+    <Compile Include="Library\Transformers\NUnit2XmlTransformerFacts.cs" />
+    <Compile Include="Library\Transformers\JUnitXmlTransformerFacts.cs" />
+    <Compile Include="Library\Transformers\LcovTransformerFacts.cs" />
+    <Compile Include="Library\Transformers\TransformProcessorFacts.cs" />
+    <Compile Include="Library\Transformers\TrxTransformerFacts.cs" />
+    <Compile Include="Mocks\MockTestMethodRunnerCallback.cs" />
+    <Compile Include="Models\TestResultFacts.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Library\TestRunnerFacts.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Testable.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Chutzpah\Chutzpah.csproj">
+      <Project>{5E8EE6D2-52A1-46EE-BD2B-449B0B8FDA6F}</Project>
+      <Name>Chutzpah</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ConsoleRunner\ConsoleRunner.csproj">
+      <Project>{57E76D1A-B564-49C8-ACCF-63CDD9B3A49D}</Project>
+      <Name>ConsoleRunner</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="VisualStudio\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MochaSuite.coffee" />
+    <None Include="Resources\QUnitSuite.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\JasmineSuite.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\JSSpecSuite.js" />
+    <None Include="Resources\YUITestSuite.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\JsTestDriverSuite.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\JasmineHarness.html" />
+    <None Include="Resources\QUnitHarness.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\QUnitSuite.coffee" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\JasmineSuite.coffee" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MochaSuite.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MochaHarness.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\xunit.runner.visualstudio.2.1.0\build\net20\xunit.runner.visualstudio.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\xunit.runner.visualstudio.2.1.0\build\net20\xunit.runner.visualstudio.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

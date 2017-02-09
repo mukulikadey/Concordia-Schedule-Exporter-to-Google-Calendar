@@ -1,0 +1,482 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5E8EE6D2-52A1-46EE-BD2B-449B0B8FDA6F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Chutzpah</RootNamespace>
+    <AssemblyName>chutzpah</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>../chutzpah.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)..\packages\Libuv.*\runtimes\win7-x64\native\*.dll">
+      <Link>x64\%(FileName)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <InProject>false</InProject>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)..\packages\Libuv.*\runtimes\win7-x86\native\*.dll">
+      <Link>x86\%(FileName)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <InProject>false</InProject>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="AntiXssLibrary, Version=4.3.0.0, Culture=neutral, PublicKeyToken=d127efab8a9c114f, processorArchitecture=MSIL">
+      <HintPath>..\packages\AntiXSS.4.3.0\lib\net40\AntiXssLibrary.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="HtmlSanitizationLibrary, Version=4.3.0.0, Culture=neutral, PublicKeyToken=d127efab8a9c114f, processorArchitecture=MSIL">
+      <HintPath>..\packages\AntiXSS.4.3.0\lib\net40\HtmlSanitizationLibrary.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Hosting, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Hosting.1.1.0\lib\net451\Microsoft.AspNetCore.Hosting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Hosting.Abstractions, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Hosting.Abstractions.1.1.0\lib\net451\Microsoft.AspNetCore.Hosting.Abstractions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Hosting.Server.Abstractions, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Hosting.Server.Abstractions.1.1.0\lib\net451\Microsoft.AspNetCore.Hosting.Server.Abstractions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Http, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Http.1.1.0\lib\net451\Microsoft.AspNetCore.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Http.Abstractions, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Http.Abstractions.1.1.0\lib\net451\Microsoft.AspNetCore.Http.Abstractions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Http.Extensions, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Http.Extensions.1.1.0\lib\net451\Microsoft.AspNetCore.Http.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Http.Features, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Http.Features.1.1.0\lib\net451\Microsoft.AspNetCore.Http.Features.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Server.Kestrel, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Server.Kestrel.1.1.0\lib\net451\Microsoft.AspNetCore.Server.Kestrel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.StaticFiles, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.StaticFiles.1.1.0\lib\net451\Microsoft.AspNetCore.StaticFiles.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.WebUtilities, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.WebUtilities.1.1.0\lib\net451\Microsoft.AspNetCore.WebUtilities.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.1.1.0\lib\netstandard1.1\Microsoft.Extensions.Configuration.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Abstractions, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Abstractions.1.1.0\lib\netstandard1.0\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.EnvironmentVariables, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.EnvironmentVariables.1.1.0\lib\net451\Microsoft.Extensions.Configuration.EnvironmentVariables.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.1.1.0\lib\netstandard1.1\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.1.1.0\lib\netstandard1.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileProviders.Abstractions, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.FileProviders.Abstractions.1.1.0\lib\netstandard1.0\Microsoft.Extensions.FileProviders.Abstractions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileProviders.Physical, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.FileProviders.Physical.1.1.0\lib\net451\Microsoft.Extensions.FileProviders.Physical.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileSystemGlobbing, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.FileSystemGlobbing.1.1.0\lib\net45\Microsoft.Extensions.FileSystemGlobbing.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.1.1.0\lib\netstandard1.1\Microsoft.Extensions.Logging.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.1.1.0\lib\netstandard1.1\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.ObjectPool, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.ObjectPool.1.1.0\lib\net451\Microsoft.Extensions.ObjectPool.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Options, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Options.1.1.0\lib\netstandard1.0\Microsoft.Extensions.Options.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.PlatformAbstractions, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.PlatformAbstractions.1.1.0\lib\net451\Microsoft.Extensions.PlatformAbstractions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Primitives.1.1.0\lib\netstandard1.0\Microsoft.Extensions.Primitives.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.WebEncoders, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.WebEncoders.1.1.0\lib\netstandard1.0\Microsoft.Extensions.WebEncoders.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Net.Http.Headers, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Net.Http.Headers.1.1.0\lib\netstandard1.1\Microsoft.Net.Http.Headers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ServiceStack.Text, Version=4.5.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages_autosigned\ServiceStack.Text.dll</HintPath>
+    </Reference>
+    <Reference Include="SourceMapDotNet, Version=1.0.5478.26629, Culture=neutral, PublicKeyToken=d357635542166cea, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\SourceMapDotNet.1.0.5478.26629\lib\SourceMapDotNet.dll</HintPath>
+    </Reference>
+    <Reference Include="StructureMap, Version=2.6.3.0, Culture=neutral, PublicKeyToken=e60ad81abae3c223, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\structuremap.2.6.3\lib\StructureMap.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.3.0\lib\netstandard1.1\System.Buffers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Collections.Immutable, Version=1.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Collections.Immutable.1.3.0\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.3.0\lib\portable-net45+win8+wpa81\System.Diagnostics.DiagnosticSource.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.3.0\lib\portable-net45+win8+wp8+wpa81\System.Numerics.Vectors.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reflection.Metadata, Version=1.4.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Reflection.Metadata.1.4.1\lib\portable-net45+win8\System.Reflection.Metadata.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.3.0\lib\netstandard1.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Text.Encodings.Web, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encodings.Web.4.3.0\lib\netstandard1.0\System.Text.Encodings.Web.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.3.0\lib\portable-net45+win8+wp8+wpa81\System.Threading.Tasks.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BatchCompiler\IBatchCompilerService.cs" />
+    <Compile Include="BatchCompiler\BatchCompilerService.cs" />
+    <Compile Include="Callbacks\ParallelRunnerCallbackAdapter.cs" />
+    <Compile Include="ChutzpahContainer.cs" />
+    <Compile Include="ChutzpahTestSettingsService.cs" />
+    <Compile Include="ChutzpahMsBuildProps.cs" />
+    <Compile Include="CoverageOptions.cs" />
+    <Compile Include="Coverage\CoverageEngineFactory.cs" />
+    <Compile Include="Coverage\CoverageOutputGenerator.cs" />
+    <Compile Include="Coverage\ILineCoverageMapper.cs" />
+    <Compile Include="Coverage\SourceMapDotNetLineCoverageMapper.cs" />
+    <Compile Include="IUrlBuilder.cs" />
+    <Compile Include="Server\ChutzpahServerFileProvider.cs" />
+    <Compile Include="Transformers\JacocoTransformer.cs" />
+    <Compile Include="UrlBuilder.cs" />
+    <Compile Include="FileProcessors\ISourceMapDiscoverer.cs" />
+    <Compile Include="Extensions\VSTSExtensions.cs" />
+    <Compile Include="FileProcessors\LineNumberProcessor.cs" />
+    <Compile Include="FileProcessors\MochaInterfaceDetectionProcessor.cs" />
+    <Compile Include="FileProcessors\SourceMapDiscoverer.cs" />
+    <Compile Include="ITestLauncher.cs" />
+    <Compile Include="Models\ChutzpahWebServerConfiguration.cs" />
+    <Compile Include="Models\BatchCompileConfiguration.cs" />
+    <Compile Include="Models\BatchCompileResult.cs" />
+    <Compile Include="Models\ChutzpahSettingsFileEnvironments.cs" />
+    <Compile Include="Models\SettingsFilePath.cs" />
+    <Compile Include="Models\SettingsFileTestPath.cs" />
+    <Compile Include="Models\TestHarnessOptions.cs" />
+    <Compile Include="Models\TestLaunchMode.cs" />
+    <Compile Include="Models\TestRunConfiguration.cs" />
+    <Compile Include="Models\TransformConfig.cs" />
+    <Compile Include="Models\vstsModel\vstst.cs">
+      <DependentUpon>vstst.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Models\VSTSTestCase.cs" />
+    <Compile Include="NativeImports.cs" />
+    <Compile Include="Exceptions\ChutzpahCompilationFailedException.cs" />
+    <Compile Include="FileProcessors\IMochaReferencedFileProcessor.cs" />
+    <Compile Include="FileProcessors\MochaLineNumberProcessor.cs" />
+    <Compile Include="FileProcessors\IJasmineReferencedFileProcessor.cs" />
+    <Compile Include="FileProcessors\IQUnitReferencedFileProcessor.cs" />
+    <Compile Include="FileProcessors\IReferencedFileProcessor.cs" />
+    <Compile Include="FileProcessors\JasmineLineNumberProcessor.cs" />
+    <Compile Include="FileProcessors\QUnitLineNumberProcessor.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="Exceptions\ChutzpahException.cs" />
+    <Compile Include="Exceptions\ChutzpahTimeoutException.cs" />
+    <Compile Include="Extensions\EnumerableExtensions.cs" />
+    <Compile Include="FileProbe.cs" />
+    <Compile Include="FrameworkDefinitions\BaseFrameworkDefinition.cs" />
+    <Compile Include="FrameworkDefinitions\MochaDefinition.cs" />
+    <Compile Include="FrameworkDefinitions\IFrameworkDefinition.cs" />
+    <Compile Include="FrameworkDefinitions\JasmineDefinition.cs" />
+    <Compile Include="FrameworkDefinitions\QUnitDefinition.cs" />
+    <Compile Include="ITestCaseStreamReader.cs" />
+    <Compile Include="ITestCaseStreamReaderFactory.cs" />
+    <Compile Include="Models\BaseTestCaseSummary.cs" />
+    <Compile Include="Models\SettingsFileReference.cs" />
+    <Compile Include="Models\CoverageData.cs" />
+    <Compile Include="Models\ChutzpahTestSettingsFile.cs" />
+    <Compile Include="Models\FilePosition.cs" />
+    <Compile Include="Models\FilePositions.cs" />
+    <Compile Include="Models\JS\JsCoverage.cs" />
+    <Compile Include="Models\JS\JsErrors.cs" />
+    <Compile Include="Models\JS\JsLogs.cs" />
+    <Compile Include="Models\Stack.cs" />
+    <Compile Include="Models\TestError.cs" />
+    <Compile Include="Models\JS\JsFileDone.cs" />
+    <Compile Include="Models\TestFileSummary.cs" />
+    <Compile Include="Models\TestingMode.cs" />
+    <Compile Include="Extensions\TestingModeExtensions.cs" />
+    <Compile Include="Models\TestLog.cs" />
+    <Compile Include="Models\JS\JsRunnerOutput.cs" />
+    <Compile Include="Models\JS\JsTestCase.cs" />
+    <Compile Include="Models\PathInfo.cs" />
+    <Compile Include="Models\ProcessResult.cs" />
+    <Compile Include="Models\ReferencedFile.cs" />
+    <Compile Include="Models\PathType.cs" />
+    <Compile Include="Models\TestCase.cs" />
+    <Compile Include="Models\TestExecutionMode.cs" />
+    <Compile Include="Models\TestProcessExitCode.cs" />
+    <Compile Include="ReferenceProcessor.cs" />
+    <Compile Include="RegexPatterns.cs" />
+    <Compile Include="Callbacks\RunnerCallback.cs" />
+    <Compile Include="Server\IChutzpahWebServerFactory.cs" />
+    <Compile Include="Server\Models\ChutzpahWebServerHost.cs" />
+    <Compile Include="Server\ChutzpahWebServerFactory.cs" />
+    <Compile Include="TestCaseStreamReaderFactory.cs" />
+    <Compile Include="TestContextBuilder.cs" />
+    <Compile Include="IFileProbe.cs" />
+    <Compile Include="ITestContextBuilder.cs" />
+    <Compile Include="Callbacks\ITestMethodRunnerCallback.cs" />
+    <Compile Include="ITestRunner.cs" />
+    <Compile Include="Models\TestContext.cs" />
+    <Compile Include="Models\TestResult.cs" />
+    <Compile Include="TestHarness.cs" />
+    <Compile Include="TestHarnessBuilder.cs" />
+    <Compile Include="TestOptions.cs" />
+    <Compile Include="TestCaseStreamReader.cs" />
+    <Compile Include="EmbeddedManifestResourceReader.cs" />
+    <Compile Include="ChutzpahTracer.cs" />
+    <Compile Include="Transformers\EmmaXmlTransformer.cs" />
+    <Compile Include="Transformers\CoverageJsonTransformer.cs" />
+    <Compile Include="Transformers\ISummaryTransformerProvider.cs" />
+    <Compile Include="Transformers\ITransformProcessor.cs" />
+    <Compile Include="Transformers\CoverageHtmlTransformer.cs" />
+    <Compile Include="Transformers\NUnitXmlTransformer.cs" />
+    <Compile Include="Transformers\LcovTransformer.cs" />
+    <Compile Include="Transformers\SummaryTransformer.cs" />
+    <Compile Include="Transformers\JUnitXmlTransformer.cs" />
+    <Compile Include="Transformers\SummaryTransformerProvider.cs" />
+    <Compile Include="Transformers\TransformProcessor.cs" />
+    <Compile Include="Transformers\TransformResult.cs" />
+    <Compile Include="Transformers\TrxXmlTransformer.cs" />
+    <Compile Include="Utility\BrowserPathHelper.cs" />
+    <Compile Include="Utility\ComHelpers.cs" />
+    <Compile Include="Utility\Hasher.cs" />
+    <Compile Include="Utility\IHasher.cs" />
+    <Compile Include="Utility\ProcessExtensions.cs" />
+    <Compile Include="Wrappers\EnvironmentWrapper.cs" />
+    <Compile Include="Wrappers\FileSystemWrapper.cs" />
+    <Compile Include="Wrappers\HtmlUtility.cs" />
+    <Compile Include="Wrappers\BinarySerializer.cs" />
+    <Compile Include="Wrappers\HttpWrapper.cs" />
+    <Compile Include="Wrappers\ICompilerEngineWrapper.cs" />
+    <Compile Include="Wrappers\IEnvironmentWrapper.cs" />
+    <Compile Include="Wrappers\IFileSystemWrapper.cs" />
+    <Compile Include="Wrappers\IHtmlUtility.cs" />
+    <Compile Include="Coverage\ICoverageEngine.cs" />
+    <Compile Include="Wrappers\IJsonSerializer.cs" />
+    <Compile Include="IProcessHelper.cs" />
+    <Compile Include="Wrappers\IProcessWrapper.cs" />
+    <Compile Include="Coverage\BlanketJsCoverageEngine.cs" />
+    <Compile Include="Wrappers\JsonSerializer.cs" />
+    <Compile Include="ProcessHelper.cs" />
+    <Compile Include="TestRunner.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Models\TestCaseSummary.cs" />
+    <Compile Include="Models\ProcessStream.cs" />
+    <Compile Include="Wrappers\ProcessWrapper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="JSRunners\jasmineRunnerV2.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="JSRunners\mochaRunner.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestFiles\chutzpah_boot.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestFiles\Coverage\blanket_jasmine_v2.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestFiles\Coverage\blanket_jasmine_v1.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestFiles\Coverage\blanket_mocha.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestFiles\Coverage\blanket_qunit.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestFiles\Jasmine\v1\jasmine-ddescribe-iit.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestFiles\Jasmine\v1\jasmine-html.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestFiles\Jasmine\v1\jasmine.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestFiles\Jasmine\v1\jasmine.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestFiles\Jasmine\v1\jasmine.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestFiles\Jasmine\v1\jasmine_favicon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestFiles\Jasmine\v2\boot.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestFiles\Jasmine\v2\jasmine-html.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestFiles\Jasmine\v2\jasmine.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestFiles\Jasmine\v2\jasmine.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestFiles\Jasmine\v2\jasmine.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestFiles\Jasmine\v2\jasmine_favicon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestFiles\Mocha\mocha.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestFiles\Mocha\mocha.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestFiles\Mocha\mocha.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestFiles\QUnit\qunit.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestFiles\QUnit\qunit.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestFiles\QUnit\qunit.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\3rdParty\Phantom\phantomjs.exe">
+      <Link>phantomjs.exe</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="JSRunners\chutzpahRunner.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="JSRunners\jasmineRunnerV1.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="JSRunners\qunitRunner.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Models\vstsModel\vstst.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

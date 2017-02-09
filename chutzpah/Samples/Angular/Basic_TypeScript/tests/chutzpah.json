@@ -1,0 +1,16 @@
+﻿{
+  "Framework": "jasmine",
+  "Compile": {
+    "Mode": "Executable",
+    "Executable": "../compile.bat",
+    "Extensions": [ ".ts" ],
+    "ExtensionsWithNoOutput": [ ".d.ts" ],
+    "UseSourceMaps": true
+  },
+  "References": [
+    { "Path": "../../libs/angular.min.js", "IsTestFrameworkFile": true },
+    { "Path": "../../libs/angular-mocks.js", "IsTestFrameworkFile": true },
+    { "Path": "../src", "Includes": [ "*.ts" ], "Excludes": ["*.d.ts"] }
+  ],
+  "Tests": [{ "Include": "*Tests.ts" }]
+}

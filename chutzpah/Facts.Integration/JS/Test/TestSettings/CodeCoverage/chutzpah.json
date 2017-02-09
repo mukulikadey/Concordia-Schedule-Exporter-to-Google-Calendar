@@ -1,0 +1,7 @@
+{
+    "CodeCoverageExecutionMode": "always",
+    "Transforms": [
+        { "Name":  "coveragehtml", "Path":  "myCoverage.html" },
+        { "Name":  "coveragejson", "Path":  "myCoverage.json" }
+    ]
+}
