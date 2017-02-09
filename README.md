@@ -10,9 +10,9 @@
 * Jameel Brochu
 
 ###Goal:
-The goal of this project is to create a web application with the following features:
+The goal of this project is to create a web application that make the agenda/schedule more accessible and interactive.
+The features of this web application include:
 * Students can display schedule by choosing their courses
 * Export the student and/or TA’s schedule to google calendar
 * Export the student and/or TA’s schedule to PDF or jpeg format
 * Notify students about any changes made to their courses 
-* TA can upload documents to the application for students to see 
