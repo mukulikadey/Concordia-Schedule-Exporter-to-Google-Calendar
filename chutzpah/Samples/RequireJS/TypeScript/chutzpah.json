@@ -1,0 +1,20 @@
+{
+   "Framework": "qunit",
+   "TestHarnessReferenceMode": "AMD",
+   "TestHarnessLocationMode": "SettingsFileAdjacent",
+   "EnableTestFileBatching": true,
+   "AMDBaseUrl": "out",
+   "AMDAppDirectory": "./",
+    "References" : [
+      { "Path": "require-2.1.8.js", "IsTestFrameworkFile": "true" },
+    ],
+    "Tests" : [
+      {"Path": "tests"}
+    ],  
+   "Compile": {
+    "Extensions": [".ts"],
+    "ExtensionsWithNoOutput": [".d.ts"],
+    "OutDirectory": "out",
+    "Executable": "compile.bat"
+   }
+}

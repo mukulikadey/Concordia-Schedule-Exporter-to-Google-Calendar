@@ -1,0 +1,22 @@
+syntax: glob
+*.suo
+*_ReSharper.*
+*/bin/*
+*/obj/*
+*ReSharper.user
+*.csproj.user
+*.orig
+*.psess
+*.vsp
+*.cache
+*.Cache
+*.StyleCop
+Chutzpah.sln.DotSettings.user
+TestResults
+*.user
+_build/
+_nuget/
+_package/
+_Chutzpah.*
+_UpgradeReport_Files/
+UpgradeLog.*

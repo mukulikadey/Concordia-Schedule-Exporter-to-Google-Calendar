@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package>
+    <metadata>
+        <id>Chutzpah</id>
+        <version>@Version@</version>
+        <title>Chutzpah - A JavaScript Test Runner</title>
+        <authors>Matthew Manela</authors>
+        <summary>Chutzpah is an open source JavaScript test runner which enables you to run JavaScript unit tests from the command line and from inside of Visual Studio.</summary>
+        <description>Chutzpah is an open source JavaScript test runner which helps you integrate JavaScript unit testing into your website. It enables you to run JavaScript unit tests from the command line and from inside of Visual Studio. It also supports running in the TeamCity continuous integration server.</description>
+        <language>en-US</language>
+        <projectUrl>https://github.com/mmanela/chutzpah</projectUrl>
+        <licenseUrl>https://github.com/mmanela/chutzpah/blob/master/License.txt</licenseUrl>
+        <iconUrl>https://raw.githubusercontent.com/mmanela/chutzpah/master/doc/images/chetTimes.png</iconUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <tags>testing javascript tdd qunit jasmine mocha coffeescript typescript</tags>
+        <releaseNotes>
+* Fix bug in coverage timeout setting
+        </releaseNotes>
+    </metadata>
+</package>
