@@ -43,9 +43,18 @@ class Index_home extends Component{
     return (
       <div>
         {this.renderName(this.props.currentUser)}
-        <div>
-            <b>About</b>
-            <p>This is the about paragraph.</p>
+        <div className="welcomeHome">
+            <div className="transBox">
+              <p>Here is the list of classes you are taking:</p>
+
+                <p>Class A</p>
+                <p>Class B</p>
+                <p>Class C</p>
+                <p>Class D</p>
+                <p>Class E</p>
+
+            </div>
+
             <p>
               <Link to="/profile"><button type="button" className="home btn btn-info btn-lg"><span className="fa fa-user"></span>    Profile </button></Link>
               <Link to="/scheduleGen"><button type="button" className="home btn btn-success btn-lg"><span className="fa fa-calendar"></span>    Schedule </button></Link>
@@ -60,7 +69,7 @@ class Index_home extends Component{
   renderName(currentUser)
   {
     if(currentUser && currentUser.uid)
-      return <div>Welcome {currentUser.displayName}!</div>
+      return <div className="welcomeHome">Welcome {currentUser.displayName}!</div>
     return <div></div>
   }
 
