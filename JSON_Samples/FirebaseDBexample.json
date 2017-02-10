@@ -272,8 +272,7 @@
           "subscribers":{
             "rq1C7Sfap6WLkMOSwqsw8F61xwU2": "Gabriel Belanger",
             "KxMKVXMkdFP4s8h6jQqKm01zI6R2": "Samrat Debroy"
-          },
-          "subscribers":{}
+          }
         },
         "SB":{
           "classtype": "Tutorial",
@@ -336,7 +335,8 @@
               "endtime": "13:05",
               "description": ""
             }
-          }
+          },
+          "subscribers":{}
         }
       }
     }
