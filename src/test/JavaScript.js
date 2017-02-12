@@ -4,6 +4,7 @@ test("testing static function",
         var actual = '1';
         var expected = 1;
         ok(actual == expected, "Truth");
+       
         equal(actual, expected, 'Are Equal');
     });
 
