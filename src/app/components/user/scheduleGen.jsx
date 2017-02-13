@@ -41,10 +41,12 @@ class ScheduleGen extends Component {
     }
 
     return (
-      <div>Schedule
+      <div>
         <div className="cd-schedule loading">
           <div className="timeline">
             <ul>
+              <li><span>08:00</span></li>
+              <li><span>08:30</span></li>
               <li><span>09:00</span></li>
               <li><span>09:30</span></li>
               <li><span>10:00</span></li>
@@ -70,6 +72,11 @@ class ScheduleGen extends Component {
               <li><span>20:00</span></li>
               <li><span>20:30</span></li>
               <li><span>21:00</span></li>
+              <li><span>21:30</span></li>
+              <li><span>22:00</span></li>
+              <li><span>22:30</span></li>
+              <li><span>23:00</span></li>
+              <li><span>23:30</span></li>
             </ul>
           </div>
           {/* .timeline */}

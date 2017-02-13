@@ -42,7 +42,7 @@ Main Components
 @media only screen and (min-width: 800px) {
   .cd-schedule {
     width: auto;
-    max-width: 2000px;
+    max-width: 750px;
     margin: 2em auto;
     height: auto;
   }
@@ -74,7 +74,7 @@ Main Components
   }
   .cd-schedule .timeline li {
     position: relative;
-    height: 35px;
+    height: 20px;
   }
   .cd-schedule .timeline li::after {
     /* this is used to create the table horizontal lines */
@@ -82,7 +82,7 @@ Main Components
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 100%;
+    width: 10%;
     height: 1px;
     background: #EAEAEA;
   }
@@ -92,6 +92,7 @@ Main Components
   }
   .cd-schedule .timeline li span {
     display: none;
+    font-size: small;
   }
 }
 
@@ -128,6 +129,7 @@ Main Components
   line-height: 1.2;
   margin-bottom: 10px;
   font-weight: bold;
+  height: auto;
 }
 
 .cd-schedule .events .events-group > ul {
@@ -213,9 +215,11 @@ Main Components
     /* reset style */
     font-weight: normal;
     margin-bottom: 0;
+    height: auto;
   }
   .cd-schedule .events .events-group > ul {
-    height: 950px;
+    /* height of the box template schedule thing */
+    height: 640px;
     /* reset style */
     display: block;
     overflow: visible;
