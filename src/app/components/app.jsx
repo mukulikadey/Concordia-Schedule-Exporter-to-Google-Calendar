@@ -15,7 +15,7 @@ class App extends Component {
 
   componentDidUpdate()
   {
-    if(window.location.pathname=="/index_home")
+    if(window.location.pathname=="/index_home" || window.location.pathname=='/')
     {
       $(document.body).addClass('bg');
     }
