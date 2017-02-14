@@ -1,5 +1,7 @@
 language: node_js
 sudo: required
+ignore: 	
+  - /src/test/JavaScript.js
 node_js:
   - "node"
   - "6"
