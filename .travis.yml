@@ -1,6 +1,8 @@
 language: node_js
+sudo: required
+exclude:
+  - SOEN331-Group1/src/test/JavaScript.js
 node_js:
   - "node"
   - "6"
   - "5"
-  - "4"
