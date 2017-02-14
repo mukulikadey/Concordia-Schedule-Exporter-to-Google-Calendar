@@ -1,12 +1,5 @@
 language: node_js
 sudo: required
-notifications:
-	email:
-		recipients:
-		  - coreylevine123@gmail.com
-		  - reginakandiah.cv@gmail.com
-		on_success: never
-		on_failure: always
 node_js:
   - "node"
   - "6"
