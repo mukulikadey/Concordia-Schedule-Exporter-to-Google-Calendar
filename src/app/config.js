@@ -1,6 +1,6 @@
 module.exports = {
 
-  // Change this to your firebase configuration! (Add Firebase to your web app)
+    // Change this to your firebase configuration! (Add Firebase to your web app)
     FIREBASE_CONFIG: {
         apiKey: 'AIzaSyD8aGSZqtEG1J4Spw7L_0Qe1f3GAJmuwqw',
         authDomain: 'concorde-b6468.firebaseapp.com',
