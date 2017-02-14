@@ -1,7 +1,12 @@
 language: node_js
 sudo: required
-exclude:
-  - SOEN331-Group1/src/test/JavaScript.js
+notifications:
+	email:
+		recipients:
+		  - coreylevine123@gmail.com
+		  - reginakandiah.cv@gmail.com
+		on_success: never
+		on_failure: always
 node_js:
   - "node"
   - "6"
