@@ -314,29 +314,37 @@ Main Components
 
 .cd-schedule .single-event[data-event="event-2"],
 .cd-schedule [data-event="event-2"] .header-bg {
-  background: #443453;
+  background: salmon;
 }
 
 .cd-schedule .single-event[data-event="event-2"]:hover {
-  background: #513e63;
+  background: #618da1;
 }
 
 .cd-schedule .single-event[data-event="event-3"],
 .cd-schedule [data-event="event-3"] .header-bg {
-  background: #A2B9B2;
+  background: skyblue;
 }
 
 .cd-schedule .single-event[data-event="event-3"]:hover {
-  background: #b1c4be;
+  background: #618da1;
 }
 
 .cd-schedule .single-event[data-event="event-4"],
 .cd-schedule [data-event="event-4"] .header-bg {
-  background: #f6b067;
+  background: lemonchiffon;
 }
 
 .cd-schedule .single-event[data-event="event-4"]:hover {
-  background: #f7bd7f;
+  background: #618da1;
+}
+.cd-schedule .single-event[data-event="event-5"],
+.cd-schedule [data-event="event-5"] .header-bg {
+  background: springgreen;
+}
+
+.cd-schedule .single-event[data-event="event-5"]:hover {
+  background: #618da1;
 }
 
 .cd-schedule .event-modal {

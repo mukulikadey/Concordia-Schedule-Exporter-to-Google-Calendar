@@ -46,7 +46,7 @@ class ScheduleGen extends Component {
         <div className="cd-schedule loading">
           <div className="timeline">
             <ul>
-              <li><span>08:00</span></li>
+              <li><span>8:00</span></li>
               <li><span>08:30</span></li>
               <li><span>09:00</span></li>
               <li><span>09:30</span></li>
@@ -87,9 +87,9 @@ class ScheduleGen extends Component {
                 <div className="top-info"><span>Monday</span></div>
                 <ul>
                   <ul>
-                    <li className="single-event" data-start="13:30" data-end="14:30" data-content="event-abs-circuit" data-event="event-1">
+                    <li className="single-event" data-start="9:30" data-end="10:30" data-content="event-275" data-event="event-1">
                       <a href="#0">
-                        <em className="event-name">ELEC 275 </em>
+                        <em className="event-name">ELEC 275</em>
                       </a>
                     </li>
                 </ul>
@@ -98,16 +98,16 @@ class ScheduleGen extends Component {
               <li className="events-group">
                 <div className="top-info"><span>Tuesday</span></div>
                 <ul>
-                  <li className="single-event" data-start="13:30" data-end="14:30" data-content="event-abs-circuit" data-event="event-1">
-                    <a href="#0">
-                      <em className="event-name">ELEC 275</em>
-                    </a>
-                  </li>
                 </ul>
               </li>
               <li className="events-group">
                 <div className="top-info"><span>Wednesday</span></div>
                 <ul>
+                  <li className="single-event" data-start="13:30" data-end="14:30" data-content="event-341" data-event="event-2">
+                    <a href="#0">
+                      <em className="event-name">SOEN 341</em>
+                    </a>
+                  </li>
                 </ul>
               </li>
               <li className="events-group">
