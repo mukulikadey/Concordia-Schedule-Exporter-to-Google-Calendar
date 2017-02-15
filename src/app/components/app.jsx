@@ -13,6 +13,20 @@ class App extends Component {
         this.logOut = this.logOut.bind(this);
     }
 
+  componentDidUpdate()
+  {
+    if(window.location.pathname=="/index_home" || window.location.pathname=='/')
+    {
+      $(document.body).addClass('bg');
+    }
+
+    else
+    {
+      $(document.body).removeClass('bg');
+    }
+
+  }
+
     logOut() {
         this.props.logoutUser().then((data) => {
       // reload props from reducer
