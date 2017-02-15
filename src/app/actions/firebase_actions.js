@@ -8,6 +8,7 @@ import {
   CHANGE_FIREBASE_USER_PASSWORD,
   FIREBASE_PASSWORD_RESET_EMAIL,
   LOGOUT_FIREBASE_USER,
+  GET_USER_COURSES,
 } from './types';
 
 
@@ -17,6 +18,15 @@ export function loginWithProvider(provider) {
         type: LOGIN_WITH_PROVIDER_FIREBASE,
         payload: request,
     };
+}
+
+export function getUserCourses(){
+       const request = FireBaseTools.getUserCourses();
+    return {
+        type: GET_USER_COURSES,
+        payload: request,
+    };
+
 }
 
 export function registerUser(user) {
