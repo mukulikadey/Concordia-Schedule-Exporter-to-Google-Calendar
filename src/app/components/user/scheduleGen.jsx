@@ -41,7 +41,10 @@ class ScheduleGen extends Component {
         }
 
         return (
-    <div>Schedule</div>
+            <div>Schedule
+              <h2>Inserting Schedule Here</h2>
+            </div>
+
         );
     }
 

@@ -1,0 +1,345 @@
+{
+  "users": {
+    "rq1C7Sfap6WLkMOSwqsw8F61xwU2": {
+      "displayname": "Gabriel Belanger",
+      "email": "snoscope@gmail.com",
+      "coursearray": {
+        "0": {
+          "coursename": "Software Process",
+          "coursenumber": "SOEN341",
+          "section": "S",
+          "tutorialsection": "SA",
+          "labsection": "N/A"
+        },
+        "1": {
+          "coursename": "Operating Systems",
+          "coursenumber": "COEN346",
+          "section": "Y",
+          "tutorialsection": "YA",
+          "labsection": "X"
+        },
+        "2": {
+          "coursename": "Basic Electromagnetics and Transmission Line Theory",
+          "coursenumber": "ELEC353",
+          "section": "W",
+          "tutorialsection": "WA",
+          "labsection": "N/A"
+        },
+        "3": {
+          "coursename": "Introductory Engineering Team Design Project",
+          "coursenumber": "ENGR290",
+          "section": "U",
+          "tutorialsection": "UA",
+          "labsection": "N/A"
+        },
+        "4": {
+          "coursename": "Digital Systems Design II",
+          "coursenumber": "COEN313",
+          "section": "W",
+          "tutorialsection": "WB",
+          "labsection": "WI-X"
+        }
+      }
+    },
+    "KxMKVXMkdFP4s8h6jQqKm01zI6R2": {
+      "displayname": "Samrat Debroy",
+      "email": "samdebroy@gmail.com",
+      "coursearray": {
+        "0": {
+          "coursename": "Software Process",
+          "coursenumber": "SOEN341",
+          "section": "S",
+          "tutorialsection": "SA",
+          "labsection": "N/A"
+        },
+        "1": {
+          "coursename": "Operating Systems",
+          "coursenumber": "COEN346",
+          "section": "Y",
+          "tutorialsection": "YA",
+          "labsection": "X"
+        },
+        "2": {
+          "coursename": "Introduction to Semiconductor Materials and Devices",
+          "coursenumber": "ELEC321",
+          "section": "EC",
+          "tutorialsection": "ECEA",
+          "labsection": "EJ-X"
+        },
+        "3": {
+          "coursename": "Introductory Engineering Team Design Project",
+          "coursenumber": "ENGR290",
+          "section": "U",
+          "tutorialsection": "UA",
+          "labsection": "N/A"
+        },
+        "4": {
+          "coursename": "Digital Systems Design II",
+          "coursenumber": "COEN313",
+          "section": "W",
+          "tutorialsection": "WB",
+          "labsection": "WJ-X"
+        }
+      }
+    }
+  },
+  "courses": {
+    "SOEN341": {
+      "S":{
+        "instructor": "Weiyi Shang",
+        "instructoremail": "Weiyi.shang@fakemail.com",
+        "classtype": "Lecture",
+        "roomnumber": "H 920 SGW",
+        "timetable":{
+          "01-11-17":{
+            "starttime": "08:45",
+            "endtime": "10:00",
+            "description": "First Lecture"
+          },
+          "01-13-17":{
+            "starttime": "08:45",
+            "endtime": "10:00",
+            "description": "First Lecture"
+          },
+          "01-18-17":{
+            "starttime": "08:45",
+            "endtime": "10:00",
+            "description": "Second Lecture "
+          },
+          "01-20-17":{
+            "starttime": "08:45",
+            "endtime": "10:00",
+            "description": "Second Lecture "
+          },
+          "02-01-17":{
+            "starttime": "08:45",
+            "endtime": "10:00",
+            "description": ""
+          },
+          "02-03-17":{
+            "starttime": "08:45",
+            "endtime": "10:00",
+            "description": ""
+          },
+          "02-08-17":{
+            "starttime": "08:45",
+            "endtime": "10:00",
+            "description": ""
+          },
+          "02-10-17":{
+            "starttime": "08:45",
+            "endtime": "10:00",
+            "description": ""
+          },
+          "02-15-17":{
+            "starttime": "08:45",
+            "endtime": "10:00",
+            "description": ""
+          },
+          "02-17-17":{
+            "starttime": "08:45",
+            "endtime": "10:00",
+            "description": ""
+          },
+          "03-01-17":{
+            "starttime": "08:45",
+            "endtime": "10:00",
+            "description": ""
+          },
+          "03-03-17":{
+            "starttime": "08:45",
+            "endtime": "10:00",
+            "description": ""
+          },
+          "03-08-17":{
+            "starttime": "08:45",
+            "endtime": "10:00",
+            "description": ""
+          },
+          "03-10-17":{
+            "starttime": "08:45",
+            "endtime": "10:00",
+            "description": ""
+          },
+          "03-15-17":{
+            "starttime": "08:45",
+            "endtime": "10:00",
+            "description": ""
+          },
+          "03-17-17":{
+            "starttime": "08:45",
+            "endtime": "10:00",
+            "description": ""
+          },
+          "03-22-17":{
+            "starttime": "08:45",
+            "endtime": "10:00",
+            "description": ""
+          },
+          "03-24-17":{
+            "starttime": "08:45",
+            "endtime": "10:00",
+            "description": ""
+          },
+          "03-29-17":{
+            "starttime": "08:45",
+            "endtime": "10:00",
+            "description": ""
+          },
+          "03-31-17":{
+            "starttime": "08:45",
+            "endtime": "10:00",
+            "description": ""
+          },
+          "04-05-17":{
+            "starttime": "08:45",
+            "endtime": "10:00",
+            "description": ""
+          },
+          "04-07-17":{
+            "starttime": "08:45",
+            "endtime": "10:00",
+            "description": ""
+          }
+        },
+        "subscribers":{
+          "rq1C7Sfap6WLkMOSwqsw8F61xwU2": "Gabriel Belanger",
+          "KxMKVXMkdFP4s8h6jQqKm01zI6R2": "Samrat Debroy"
+        },
+
+        "SA":{
+          "classtype": "Tutorial",
+          "instructor": "Johny John",
+          "instructoremail": "Johny.John@fakemail.com",
+          "roomnumber": "H 929 SGW",
+          "timetable":{
+            "01-13-17":{
+              "starttime": "12:15",
+              "endtime": "13:05",
+              "description": "First Tutorial - intro to life"
+            },
+            "01-20-17":{
+              "starttime": "12:15",
+              "endtime": "13:05",
+              "description": "Second Tutorial - learning photosynthesis"
+            },
+            "02-03-17":{
+              "starttime": "12:15",
+              "endtime": "13:05",
+              "description": ""
+            },
+            "02-10-17":{
+              "starttime": "12:15",
+              "endtime": "13:05",
+              "description": ""
+            },
+            "02-17-17":{
+              "starttime": "12:15",
+              "endtime": "13:05",
+              "description": ""
+            },
+            "03-03-17":{
+              "starttime": "12:15",
+              "endtime": "13:05",
+              "description": ""
+            },
+            "03-10-17":{
+              "starttime": "12:15",
+              "endtime": "13:05",
+              "description": ""
+            },
+            "03-17-17":{
+              "starttime": "12:15",
+              "endtime": "13:05",
+              "description": ""
+            },
+            "03-24-17":{
+              "starttime": "12:15",
+              "endtime": "13:05",
+              "description": ""
+            },
+            "03-31-17":{
+              "starttime": "12:15",
+              "endtime": "13:05",
+              "description": ""
+            },
+            "04-07-17":{
+              "starttime": "12:15",
+              "endtime": "13:05",
+              "description": ""
+            }
+          },
+          "subscribers":{
+            "rq1C7Sfap6WLkMOSwqsw8F61xwU2": "Gabriel Belanger",
+            "KxMKVXMkdFP4s8h6jQqKm01zI6R2": "Samrat Debroy"
+          }
+        },
+        "SB":{
+          "classtype": "Tutorial",
+          "instructor": "Mister Sir",
+          "instructoremail": "Mr.Sir@fakemail.com",
+          "roomnumber": "H 823 SGW",
+          "timetable":{
+            "01-13-17":{
+              "starttime": "12:15",
+              "endtime": "13:05",
+              "description": "First Tutorial"
+            },
+            "01-20-17":{
+              "starttime": "12:15",
+              "endtime": "13:05",
+              "description": "Second Tutorial "
+            },
+            "02-03-17":{
+              "starttime": "12:15",
+              "endtime": "13:05",
+              "description": ""
+            },
+            "02-10-17":{
+              "starttime": "12:15",
+              "endtime": "13:05",
+              "description": ""
+            },
+            "02-17-17":{
+              "starttime": "12:15",
+              "endtime": "13:05",
+              "description": ""
+            },
+            "03-03-17":{
+              "starttime": "12:15",
+              "endtime": "13:05",
+              "description": ""
+            },
+            "03-10-17":{
+              "starttime": "12:15",
+              "endtime": "13:05",
+              "description": ""
+            },
+            "03-17-17":{
+              "starttime": "12:15",
+              "endtime": "13:05",
+              "description": ""
+            },
+            "03-24-17":{
+              "starttime": "12:15",
+              "endtime": "13:05",
+              "description": ""
+            },
+            "03-31-17":{
+              "starttime": "12:15",
+              "endtime": "13:05",
+              "description": ""
+            },
+            "04-07-17":{
+              "starttime": "12:15",
+              "endtime": "13:05",
+              "description": ""
+            }
+          },
+          "subscribers":{}
+        }
+      }
+    }
+  }
+
+}

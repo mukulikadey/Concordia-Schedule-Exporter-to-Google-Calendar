@@ -3,6 +3,7 @@ import { browserHistory, Link } from 'react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { loginUser, fetchUser, loginWithProvider } from '../../actions/firebase_actions';
+import UserRegister from './register';
 
 
 class UserLogin extends Component {
@@ -25,7 +26,7 @@ class UserLogin extends Component {
             if (data.payload.errorCode) {
                 this.setState({ message: data.payload.errorMessage });
             } else {
-                browserHistory.push('/scheduleGen');
+                browserHistory.push('/index_home');
             }
         }
     );
@@ -36,7 +37,7 @@ class UserLogin extends Component {
             if (data.payload.errorCode) {
                 this.setState({ message: data.payload.errorMessage });
             } else {
-                browserHistory.push('/scheduleGen');
+                browserHistory.push('/index_home');
             }
         });
     }
@@ -44,7 +45,8 @@ class UserLogin extends Component {
     render() {
         return (
           <div>
-            <div className="centercolumn">
+            <div className="row center">
+                <div className='col-md-4'>
                 <form id="frmLogin" role="form" onSubmit={this.onFormSubmit}>
                     <p>
                         {this.state.message}
@@ -73,9 +75,9 @@ class UserLogin extends Component {
                           this.loginWithProvider('google');
                       }} data-provider="google"
                     ><span className="fa fa-google"></span>Sign in with Gmail</a>
-
-
                 </form>
+                </div>
+                <UserRegister/>
             </div>
             <div className="bottom">
               Note: You will not be able to synchronize with your Google Calendar if you do not use your gmail account.

@@ -23,6 +23,39 @@ body {
   margin-top: 5%;
  }
 
+.home{
+  margin-left: 40px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.center{
+  margin-left:25%;
+}
 
 
+.bg{
+  background: url("http://www.asfa.ca/wp-content/uploads/2016/03/ASFA_Blur.jpg");
+  background-size: cover;
+}
+.welcomeHome {
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+div.transBox{
+  margin: 30px;
+  background-color: #ffffff;
+  border: 1px solid black;
+  opacity: 0.6;
+  filter: alpha(opacity=60);
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+}
+div.transBox p {
+  margin: 5%;
+  font-weight: bold;
+  color: #000000;
+}
 

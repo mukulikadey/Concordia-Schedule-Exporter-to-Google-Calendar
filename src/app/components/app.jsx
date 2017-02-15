@@ -13,6 +13,20 @@ class App extends Component {
         this.logOut = this.logOut.bind(this);
     }
 
+  componentDidUpdate()
+  {
+    if(window.location.pathname=="/index_home" || window.location.pathname=='/')
+    {
+      $(document.body).addClass('bg');
+    }
+
+    else
+    {
+      $(document.body).removeClass('bg');
+    }
+
+  }
+
     logOut() {
         this.props.logoutUser().then((data) => {
       // reload props from reducer
@@ -35,29 +49,23 @@ class App extends Component {
                         <li role="separator" className="divider" />
                         <li><Link to="/scheduleGen"><span className="fa fa-calendar" aria-hidden="true"></span> Schedule</Link></li>
                         <li role="separator" className="divider" />
+                      <li><Link to><span className="fa fa-comments" aria-hidden="true"></span> Forum</Link></li>
+                        <li role="separator" className="divider" />
                         <li><Link to="/login" onClick={this.logOut}> <span className="fa fa-sign-out" aria-hidden="true"></span> Logout</Link></li>
                     </ul>
                 </li>
             );
         } else {
             return [
-                <li key={1}><Link to="/login">Login</Link></li>,
-                <li key={2}><Link to="/register">Register</Link></li>,
+                <li key={1}><Link to="/login">Login/Register</Link></li>,
             ];
         }
-    }
-
-    renderName(currentUser)
-    {
-        if(currentUser && currentUser.uid)
-            return <div>Welcome {currentUser.displayName}!</div>
-         return <div></div>
     }
 
     render() {
       var homeLink ;
       if (this.props.currentUser)
-        homeLink = "/scheduleGen";
+        homeLink = "/index_home";
       else
         homeLink = "/login";
 
@@ -86,7 +94,7 @@ class App extends Component {
 
                 <div className="container">
                     {this.props.children}
-                    {this.renderName(this.props.currentUser)}
+
 
 
 
