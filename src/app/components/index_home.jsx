@@ -2,10 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { browserHistory, Link } from 'react-router';
-
-
-
-import { fetchUser } from '../actions/firebase_actions';
+import { fetchUser, getUserCourses } from '../actions/firebase_actions';
 import Loading from './helpers/loading';
 
 
@@ -36,6 +33,27 @@ class Index_home extends Component{
     );
   }
 
+  getCourses()
+  {
+    if(this.props.currentUser && !this.props.databaseInfo.courses)
+    {
+      this.props.getUserCourses()
+    }
+
+    if(this.props.databaseInfo&& this.props.databaseInfo.loaded && this.props.databaseInfo.courses && this.props.databaseInfo.courses[0]!='No Courses')
+    return this.props.databaseInfo.courses.map((course)=>{
+      return <p key={course.coursename}>{course.coursename}</p>
+    })
+
+    else if(!this.props.databaseInfo.courses)
+    {
+      return <Loading/>
+    }
+
+    else
+    {return <p>No Courses in Database</p>}
+  }
+
   render() {
     if (!this.props.currentUser) {
       return <Loading />;
@@ -47,11 +65,7 @@ class Index_home extends Component{
             <div className="transBox">
               <p>Here is the list of classes you are taking:</p>
 
-                <p>Class A</p>
-                <p>Class B</p>
-                <p>Class C</p>
-                <p>Class D</p>
-                <p>Class E</p>
+                {this.getCourses()}
 
             </div>
 
@@ -77,12 +91,12 @@ class Index_home extends Component{
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ fetchUser}, dispatch);
+  return bindActionCreators({ fetchUser, getUserCourses}, dispatch);
 }
 
 
 function mapStateToProps(state) {
-  return { currentUser: state.currentUser };
+  return { currentUser: state.currentUser, databaseInfo: state.databaseInfo };
 }
 
 
