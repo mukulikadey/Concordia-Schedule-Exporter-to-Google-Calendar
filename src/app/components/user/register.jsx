@@ -53,11 +53,11 @@ class UserRegister extends Component {
                           name="password"
                         />
                     </div>
-                    <button type="submit" className="btn btn-default">Register</button>
+                    <button type="submit" className="btn btn-default btn-block">Register</button>
                     <br /> <br />
                 </form>
             </div>
-          
+
         );
     }
 
