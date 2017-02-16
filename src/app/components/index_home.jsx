@@ -66,13 +66,13 @@ class Index_home extends Component{
               <p>Here is the list of classes you are taking:</p>
 
                 {this.getCourses()}
-
+              <a href="#"><span className="fa fa-plus-circle"></span>    Add Course</a><br/><br/>
             </div>
 
             <p>
               <Link to="/profile"><button type="button" className="home btn btn-info btn-lg"><span className="fa fa-user"></span>    Profile </button></Link>
               <Link to="/scheduleGen"><button type="button" className="home btn btn-success btn-lg"><span className="fa fa-calendar"></span>    Schedule </button></Link>
-              <a href=""><button type="button" className="home btn btn-warning btn-lg"><span className="fa fa-comments"></span>    Forum </button></a>
+              <a href="#"><button type="button" className="home btn btn-warning btn-lg"><span className="fa fa-comments"></span>    Forum </button></a>
             </p>
         </div>
       </div>
