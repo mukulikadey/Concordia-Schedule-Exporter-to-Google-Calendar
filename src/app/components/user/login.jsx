@@ -51,7 +51,7 @@ class UserLogin extends Component {
                     <p>
                         {this.state.message}
                     </p>
-                    <h2>Login</h2>
+                    <h2>Login</h2><br />
                     <div className="form-group">
                         <label htmlFor="txtEmail">Email address</label>
                         <input
@@ -78,8 +78,8 @@ class UserLogin extends Component {
                 </form>
                 </div>
                 <UserRegister/>
-            </div>
-            <div className="bottom">
+            </div><br />
+            <div className="alert alert-info" role="alert">
               Note: You will not be able to synchronize with your Google Calendar if you do not use your gmail account.
             </div>
           </div>

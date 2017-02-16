@@ -37,8 +37,8 @@ class UserRegister extends Component {
         return (
             <div className="col-md-4">
                 <form id="frmRegister" role="form" onSubmit={this.onFormSubmit}>
-                    <p>{this.state.message}</p>
-                    <h2>Register</h2>
+                  <p>{this.state.message}</p>
+                    <h2>Register</h2><br />
                     <div className="form-group">
                         <label htmlFor="txtRegEmail">Email address</label>
                         <input
