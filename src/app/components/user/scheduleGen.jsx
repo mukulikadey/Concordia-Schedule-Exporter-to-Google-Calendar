@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import firebase from '../../utils/firebase';
 import BigCalendar from 'react-big-calendar';
-import  'react-big-calendar/lib/css/react-big-calendar.css'
+import  '../user/react-big-calendar.css';
 import moment from 'moment';
 import localizer from 'react-big-calendar/lib/localizers/moment';
 import events from '../user/events';
