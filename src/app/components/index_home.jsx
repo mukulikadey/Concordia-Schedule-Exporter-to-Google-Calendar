@@ -16,41 +16,27 @@ class Index_home extends Component{
       searching: false,
       course_name: "",
     };
-    this.onFormSubmit = this.onFormSubmit.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
     this.handleForm = this.handleForm.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
 
-  onFormSubmit(event) {
-    event.preventDefault();
-    const email = this.refs.email.value;
-    const displayName = this.refs.displayName.value;
-    this.props.updateUser({ email, displayName }).then((data) => {
-        if (data.payload.errorCode) {
-          this.setState({ message: data.payload.errorMessage });
-        } else {
-          this.setState({
-            message: 'Updated successfuly!',
-          });
-        }
-      }
-    );
-  }
 
   getCourses()
   {
-    if(this.props.currentUser && !this.props.databaseInfo.courses)
+   
+    if(this.props.currentUser && !this.props.userCourses.courses)
     {
       this.props.getUserCourses()
+      
     }
 
-    if(this.props.databaseInfo&& this.props.databaseInfo.loaded && this.props.databaseInfo.courses && this.props.databaseInfo.courses[0]!='No Courses')
-    return this.props.databaseInfo.courses.map((course)=>{
+    if(this.props.userCourses&& this.props.userCourses.loaded && this.props.userCourses.courses && this.props.userCourses.courses[0]!='No Courses')
+    return this.props.userCourses.courses.map((course)=>{
       return <p key={course.coursename}>{course.coursename}</p>
     })
 
-    else if(!this.props.databaseInfo.courses)
+    else if(!this.props.userCourses.courses)
     {
       return <Loading/>
     }
@@ -70,8 +56,11 @@ class Index_home extends Component{
   }
   handleForm()
   {
-    var sections = this.props.getSections(this.state.course_name);
-    console.log(sections);
+
+       this.props.getSections(this.state.course_name).then((data) => {
+      // reload props from reducer
+            console.log(this.props.sections.sections)
+        });
   }
 
   render() {
@@ -131,7 +120,7 @@ function mapDispatchToProps(dispatch) {
 
 
 function mapStateToProps(state) {
-  return { currentUser: state.currentUser, databaseInfo: state.databaseInfo };
+  return { currentUser: state.currentUser, userCourses: state.userCourses,sections:state.sections };
 }
 
 

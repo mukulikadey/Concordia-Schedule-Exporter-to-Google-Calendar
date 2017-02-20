@@ -47,10 +47,14 @@ const FireBaseTools = {
       var sections = [];
       return sectionsRef.once('value').then(function (snap) {
         snap.child(course_name).forEach(function(childSnap) {
-          sections.push(childSnap.key);
+          sections.push(childSnap.key)
         })
-        return sections;
-      })
+        return sections
+      }).catch(error => ({
+          errorCode: error.code,
+            errorMessage: error.message,
+
+      }))
     },
 
   /**
