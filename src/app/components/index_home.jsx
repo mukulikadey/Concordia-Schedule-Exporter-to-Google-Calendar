@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { browserHistory, Link } from 'react-router';
-import { fetchUser, getUserCourses } from '../actions/firebase_actions';
+import { fetchUser, getUserCourses, getSections } from '../actions/firebase_actions';
 import Loading from './helpers/loading';
 
 
@@ -13,8 +13,13 @@ class Index_home extends Component{
     this.props.fetchUser();
     this.state = {
       message: '',
+      searching: false,
+      course_name: "",
     };
     this.onFormSubmit = this.onFormSubmit.bind(this);
+    this.handleAdd = this.handleAdd.bind(this);
+    this.handleForm = this.handleForm.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   onFormSubmit(event) {
@@ -54,6 +59,21 @@ class Index_home extends Component{
     {return <p>No Courses in Database</p>}
   }
 
+  handleAdd()
+  {
+    this.setState({searching: !this.state.searching});
+  }
+  handleChange(event) {
+    //Making sure that the course name is in capital letters just like in the database
+    var search_input = event.target.value.toUpperCase();
+    this.setState({course_name: search_input});
+  }
+  handleForm()
+  {
+    var sections = this.props.getSections(this.state.course_name);
+    console.log(sections);
+  }
+
   render() {
     if (!this.props.currentUser) {
       return <Loading />;
@@ -66,7 +86,7 @@ class Index_home extends Component{
               <p>Here is the list of classes you are taking:</p>
 
                 {this.getCourses()}
-              <a href="#"><span className="fa fa-plus-circle"></span>    Add Course</a><br/><br/>
+              {this.renderSearchBar()}<br/><br/>
             </div>
 
             <p>
@@ -87,11 +107,26 @@ class Index_home extends Component{
     return <div></div>
   }
 
+  renderSearchBar()
+  {
+    //If the user has clicked on add course, pull up the search bar. If not, show the add button.
+    if(this.state.searching){
+      return <a href="#">
+        <form onSubmit={this.handleForm}><input type="search" value={this.state.value} onChange={this.handleChange} placeholder="Ex: COEN346" autoFocus/>
+        </form>
+        <span onClick={this.handleAdd} className="fa fa-plus-circle"></span></a>;
+    }
+    else
+    {
+      return <a href="#" onClick={this.handleAdd}><span className="fa fa-plus-circle"></span> Add Text</a>
+    }
+  }
+
 
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ fetchUser, getUserCourses}, dispatch);
+  return bindActionCreators({ fetchUser, getUserCourses, getSections}, dispatch);
 }
 
 

@@ -9,6 +9,7 @@ import {
   FIREBASE_PASSWORD_RESET_EMAIL,
   LOGOUT_FIREBASE_USER,
   GET_USER_COURSES,
+  GET_SECTIONS,
 } from './types';
 
 
@@ -26,6 +27,15 @@ export function getUserCourses(){
         type: GET_USER_COURSES,
         payload: request,
     };
+
+}
+
+export function getSections(course_name){
+  const request = FireBaseTools.getSections(course_name);
+  return {
+    type: GET_SECTIONS,
+    payload: request,
+  };
 
 }
 
