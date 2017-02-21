@@ -32,9 +32,9 @@ const FireBaseTools = {
 
     getUserCourses :()=>{
         var userCur=null,id = firebaseAuth.currentUser? firebaseAuth.currentUser.uid: null
-        return usersRef.once('value').then(function (snap) {
-            if(snap.val()[id])
-                userCur=(snap.val()[id].coursearray)
+        return usersRef.child(id.toString()).once('value').then(function (snap) {
+            if(snap.val())
+                userCur=(snap.val().coursearray)
             if(id && !userCur) {userCur=['No Courses']}
             return userCur
             }).catch(error => ({
@@ -45,8 +45,8 @@ const FireBaseTools = {
 ,
     getSections :(course_name)=>{
       var sections = [];
-      return sectionsRef.once('value').then(function (snap) {
-        snap.child(course_name).forEach(function(childSnap) {
+      return sectionsRef.child(course_name).once('value').then(function (snap) {
+        snap.forEach(function(childSnap) {
           sections.push(childSnap.key)
         })
         return sections
