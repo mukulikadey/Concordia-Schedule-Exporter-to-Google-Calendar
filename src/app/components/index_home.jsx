@@ -14,6 +14,7 @@ class Index_home extends Component{
     this.state = {
       message: '',
       searching: false,
+      display_sections: "",
       course_name: "",
     };
     this.handleAdd = this.handleAdd.bind(this);
@@ -24,11 +25,11 @@ class Index_home extends Component{
 
   getCourses()
   {
-   
+
     if(this.props.currentUser && !this.props.userCourses.courses)
     {
       this.props.getUserCourses()
-      
+
     }
 
     if(this.props.userCourses&& this.props.userCourses.loaded && this.props.userCourses.courses && this.props.userCourses.courses[0]!='No Courses')
@@ -56,10 +57,9 @@ class Index_home extends Component{
   }
   handleForm()
   {
-
        this.props.getSections(this.state.course_name).then((data) => {
       // reload props from reducer
-            console.log(this.props.sections.sections)
+        this.setState({display_sections: data});
         });
   }
 
@@ -76,6 +76,8 @@ class Index_home extends Component{
 
                 {this.getCourses()}
               {this.renderSearchBar()}<br/><br/>
+
+              {this.renderSectionResult()}
             </div>
 
             <p>
@@ -109,6 +111,18 @@ class Index_home extends Component{
     {
       return <a href="#" onClick={this.handleAdd}><span className="fa fa-plus-circle"></span> Add Text</a>
     }
+  }
+  renderSectionResult()
+  {
+    let sections_array = this.state.display_sections.payload;
+    if(this.state.searching && sections_array != undefined) {
+      let return_render = [];
+      for(let i = 0; i < sections_array.length; i++) {
+        return_render.push(<button key={sections_array[i].toString()} type="button" className="btn btn-default"><a href="#">{sections_array[i]}</a></button>);
+      }
+      return <div>{return_render}</div>;
+    }
+    return <div></div>;
   }
 
 
