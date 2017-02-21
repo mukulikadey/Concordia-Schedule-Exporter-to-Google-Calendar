@@ -21,23 +21,21 @@ export function loginWithProvider(provider) {
     };
 }
 
-export function getUserCourses(){
-
+export function getUserCourses() {
        // Using the redux-thunk library, we can dispatch functions
        // instead of returning a static value once, we dispatch every time
        // a change event is called by Firebase's .on() function
-       return dispatch => {
-         FireBaseTools.getUserCourses(dispatch,GET_USER_COURSES );
-       };
+    return (dispatch => {
+           FireBaseTools.getUserCourses(dispatch ,GET_USER_COURSES);
+       });
 }
 
-export function getSections(course_name){
-  const request = FireBaseTools.getSections(course_name);
-  return {
-    type: GET_SECTIONS,
-    payload: request,
+export function getSections(courseName) {
+    const request = FireBaseTools.getSections(courseName);
+    return {
+      type: GET_SECTIONS,
+      payload: request,
   };
-
 }
 
 export function registerUser(user) {
