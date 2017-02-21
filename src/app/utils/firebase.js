@@ -30,19 +30,23 @@ const FireBaseTools = {
     },
 
 
-    getUserCourses :()=>{
+    getUserCourses :(dispatch, TYPE)=>{
         var userCur=null,id = firebaseAuth.currentUser? firebaseAuth.currentUser.uid: null
-        return usersRef.child(id.toString()).once('value').then(function (snap) {
+         usersRef.child(id.toString()).on('value', function (snap) {
             if(snap.val())
-                userCur=(snap.val().coursearray)
+                userCur=(snap.val().coursearray);
             if(id && !userCur) {userCur=['No Courses']}
-            return userCur
-            }).catch(error => ({
-            errorCode: error.code,
-            errorMessage: error.message,
-        }));;
-    }
-,
+
+            // By not returning anything and dispatching from here,
+            // the action will be dispatched every time the coursearray changes
+            dispatch({
+              type: TYPE,
+              payload: userCur
+            });
+
+         });
+    },
+
     getSections :(course_name)=>{
       var sections = [];
       return sectionsRef.child(course_name).once('value').then(function (snap) {
