@@ -9,9 +9,9 @@ const initialState = {
 
 
 export default function (state = initialState, action) {
-    var newState;
+    let newState;
     switch (action.type) {
-      case GET_SECTIONS:
+    case GET_SECTIONS:
         newState = { loaded: true, sections: action.payload };
         return newState;
     default:

@@ -30,34 +30,34 @@ const FireBaseTools = {
 
 
     getUserCourses: (dispatch, TYPE) => {
-        var userCur = nul;
-        var id = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
-        usersRef.child(id.toString()).on('value', function (snap) {
+        let userCur = null;
+        let id = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
+        usersRef.child(id.toString()).on('value', function func (snap) {
             if (snap.val()) {
-                userCur = (snap.val().coursearray); }
-            if (id && !userCur) { userCur = [ 'No Courses' ]; }
+                userCur = (snap.val().coursearray); 
+            }
+            if (id && !userCur) { userCur = ['No Courses']; }
 
             // By not returning anything and dispatching from here,
             // the action will be dispatched every time the coursearray changes
-            dispatch( {
-              type: TYPE,
-              payload: userCur
-            } );
-         });
+            dispatch({
+                type: TYPE,
+                payload: userCur,
+            });
+        });
     },
 
-    getSections :(course_name)=>{
-      var sections = [];
-      return sectionsRef.child(course_name).once('value').then(function (snap) {
-        snap.forEach(function(childSnap) {
-          sections.push(childSnap.key)
-        })
-        return sections
+    getSections: (courseName) => {
+        let sections = [];
+        return sectionsRef.child(courseName).once('value').then(function func (snap) {
+          snap.forEach(function func2 (childSnap) {
+            sections.push(childSnap.key);
+        });
+          return sections;
       }).catch(error => ({
           errorCode: error.code,
-            errorMessage: error.message,
-
-      }))
+          errorMessage: error.message,
+      }));
     },
 
   /**
