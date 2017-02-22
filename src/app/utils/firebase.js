@@ -4,7 +4,8 @@ import { FIREBASE_CONFIG } from '../config';
 export const firebaseApp = firebase.initializeApp(FIREBASE_CONFIG);
 export const firebaseAuth = firebaseApp.auth();
 export const firebaseDb = firebaseApp.database();
-export const rootRef = firebase.database().ref('users/');
+export const usersRef = firebase.database().ref('users/');
+export const sectionsRef = firebase.database().ref('sections/');
 
 
 const FireBaseTools = {
@@ -25,23 +26,40 @@ const FireBaseTools = {
         default:
             throw new Error('Provider is not supported!!!');
         }
-        
+
     },
 
 
-    getUserCourses :()=>{
+    getUserCourses :(dispatch, TYPE)=>{
         var userCur=null,id = firebaseAuth.currentUser? firebaseAuth.currentUser.uid: null
-        return rootRef.once('value').then(function (snap) {
-            if(snap.val()[id])
-                userCur=(snap.val()[id].coursearray)
+         usersRef.child(id.toString()).on('value', function (snap) {
+            if(snap.val())
+                userCur=(snap.val().coursearray);
             if(id && !userCur) {userCur=['No Courses']}
-            return userCur
-            }).catch(error => ({
-            errorCode: error.code,
+
+            // By not returning anything and dispatching from here,
+            // the action will be dispatched every time the coursearray changes
+            dispatch({
+              type: TYPE,
+              payload: userCur
+            });
+
+         });
+    },
+
+    getSections :(course_name)=>{
+      var sections = [];
+      return sectionsRef.child(course_name).once('value').then(function (snap) {
+        snap.forEach(function(childSnap) {
+          sections.push(childSnap.key)
+        })
+        return sections
+      }).catch(error => ({
+          errorCode: error.code,
             errorMessage: error.message,
-        }));;
-    }
-,
+
+      }))
+    },
 
   /**
    * Login with provider => p is provider "email", "facebook", "github", "google", or "twitter"
