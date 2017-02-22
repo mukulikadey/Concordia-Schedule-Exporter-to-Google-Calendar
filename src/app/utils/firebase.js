@@ -26,24 +26,23 @@ const FireBaseTools = {
         default:
             throw new Error('Provider is not supported!!!');
         }
-
     },
 
 
-    getUserCourses :(dispatch, TYPE)=>{
-        var userCur=null,id = firebaseAuth.currentUser? firebaseAuth.currentUser.uid: null
-         usersRef.child(id.toString()).on('value', function (snap) {
-            if(snap.val())
-                userCur=(snap.val().coursearray);
-            if(id && !userCur) {userCur=['No Courses']}
+    getUserCourses: (dispatch, TYPE) => {
+        var userCur = nul;
+        var id = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
+        usersRef.child(id.toString()).on('value', function (snap) {
+            if (snap.val()) {
+                userCur = (snap.val().coursearray); }
+            if (id && !userCur) { userCur = [ 'No Courses' ]; }
 
             // By not returning anything and dispatching from here,
             // the action will be dispatched every time the coursearray changes
-            dispatch({
+            dispatch( {
               type: TYPE,
               payload: userCur
-            });
-
+            } );
          });
     },
 
