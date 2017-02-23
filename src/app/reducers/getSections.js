@@ -2,18 +2,11 @@ import {
   GET_SECTIONS,
 } from '../actions/types';
 
-const initialState = {
-    sections: null,
-    loaded: false,
-};
-
-
-export default function (state = initialState, action) {
+export default function (state = null, action) {
     let newState;
     switch (action.type) {
     case GET_SECTIONS:
-        newState = { loaded: true, sections: action.payload };
-        return newState;
+        return action.payload;
     default:
         return state;
     }

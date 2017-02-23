@@ -114,11 +114,12 @@ class Index_home extends Component{
   }
   renderSectionResult()
   {
-    let sections_array = this.state.display_sections.payload;
+    let sections_array = this.props.sections;
+    
     if(this.state.searching && sections_array != undefined) {
       let return_render = [];
       for(let i = 0; i < sections_array.length; i++) {
-        return_render.push(<button key={sections_array[i].toString()} type="button" className="btn btn-default"><a href="#">{sections_array[i]}</a></button>);
+        return_render.push(<button key={sections_array[i].section.toString()} type="button" className="btn btn-default"><a href="#">{sections_array[i].section}</a></button>);
       }
       return <div>{return_render}</div>;
     }
