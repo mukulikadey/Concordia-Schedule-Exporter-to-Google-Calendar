@@ -17,12 +17,12 @@ class App extends Component {
   {
     if(window.location.pathname=="/index_home" || window.location.pathname=='/')
     {
-      $(document.body).addClass('bg');
+      document.body.classList.add('bg');
     }
 
     else
     {
-      $(document.body).removeClass('bg');
+      document.body.classList.remove('bg');
     }
 
   }
