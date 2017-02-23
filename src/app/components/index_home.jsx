@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { browserHistory, Link } from 'react-router';
-import { fetchUser, getUserCourses } from '../actions/firebase_actions';
+import { fetchUser, getUserCourses, getSections } from '../actions/firebase_actions';
 import Loading from './helpers/loading';
 
 
@@ -13,45 +13,54 @@ class Index_home extends Component{
     this.props.fetchUser();
     this.state = {
       message: '',
+      searching: false,
+      display_sections: "",
+      course_name: "",
     };
-    this.onFormSubmit = this.onFormSubmit.bind(this);
+    this.handleAdd = this.handleAdd.bind(this);
+    this.handleForm = this.handleForm.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
-  onFormSubmit(event) {
-    event.preventDefault();
-    const email = this.refs.email.value;
-    const displayName = this.refs.displayName.value;
-    this.props.updateUser({ email, displayName }).then((data) => {
-        if (data.payload.errorCode) {
-          this.setState({ message: data.payload.errorMessage });
-        } else {
-          this.setState({
-            message: 'Updated successfuly!',
-          });
-        }
-      }
-    );
-  }
 
   getCourses()
   {
-    if(this.props.currentUser && !this.props.databaseInfo.courses)
+
+    if(this.props.currentUser && !this.props.userCourses.courses)
     {
       this.props.getUserCourses()
+
     }
 
-    if(this.props.databaseInfo&& this.props.databaseInfo.loaded && this.props.databaseInfo.courses && this.props.databaseInfo.courses[0]!='No Courses')
-    return this.props.databaseInfo.courses.map((course)=>{
+    if(this.props.userCourses&& this.props.userCourses.loaded && this.props.userCourses.courses && this.props.userCourses.courses[0]!='No Courses')
+    return this.props.userCourses.courses.map((course)=>{
       return <p key={course.coursename}>{course.coursename}</p>
     })
 
-    else if(!this.props.databaseInfo.courses)
+    else if(!this.props.userCourses.courses)
     {
       return <Loading/>
     }
 
     else
     {return <p>No Courses in Database</p>}
+  }
+
+  handleAdd()
+  {
+    this.setState({searching: !this.state.searching});
+  }
+  handleChange(event) {
+    //Making sure that the course name is in capital letters just like in the database
+    var search_input = event.target.value.toUpperCase();
+    this.setState({course_name: search_input});
+  }
+  handleForm()
+  {
+       this.props.getSections(this.state.course_name).then((data) => {
+      // reload props from reducer
+        this.setState({display_sections: data});
+        });
   }
 
   render() {
@@ -66,7 +75,9 @@ class Index_home extends Component{
               <p>Here is the list of classes you are taking:</p>
 
                 {this.getCourses()}
-              <a href="#"><span className="fa fa-plus-circle"></span>    Add Course</a><br/><br/>
+              {this.renderSearchBar()}<br/><br/>
+
+              {this.renderSectionResult()}
             </div>
 
             <p>
@@ -87,16 +98,43 @@ class Index_home extends Component{
     return <div></div>
   }
 
+  renderSearchBar()
+  {
+    //If the user has clicked on add course, pull up the search bar. If not, show the add button.
+    if(this.state.searching){
+      return <a href="#">
+        <form onSubmit={this.handleForm}><input type="search" value={this.state.value} onChange={this.handleChange} placeholder="Ex: COEN346" autoFocus/>
+        </form>
+        <span onClick={this.handleAdd} className="fa fa-plus-circle"></span></a>;
+    }
+    else
+    {
+      return <a href="#" onClick={this.handleAdd}><span className="fa fa-plus-circle"></span> Add Text</a>
+    }
+  }
+  renderSectionResult()
+  {
+    let sections_array = this.state.display_sections.payload;
+    if(this.state.searching && sections_array != undefined) {
+      let return_render = [];
+      for(let i = 0; i < sections_array.length; i++) {
+        return_render.push(<button key={sections_array[i].toString()} type="button" className="btn btn-default"><a href="#">{sections_array[i]}</a></button>);
+      }
+      return <div>{return_render}</div>;
+    }
+    return <div></div>;
+  }
+
 
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ fetchUser, getUserCourses}, dispatch);
+  return bindActionCreators({ fetchUser, getUserCourses, getSections}, dispatch);
 }
 
 
 function mapStateToProps(state) {
-  return { currentUser: state.currentUser, databaseInfo: state.databaseInfo };
+  return { currentUser: state.currentUser, userCourses: state.userCourses,sections:state.sections };
 }
 
 
