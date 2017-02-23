@@ -31,10 +31,11 @@ const FireBaseTools = {
 
     getUserCourses: (dispatch, TYPE) => {
         let userCur = null;
-        let id = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
-        usersRef.child(id.toString()).on('value', function func (snap) {
+        const id = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
+        /* eslint-disable */
+        usersRef.child(id.toString()).on('value', function(snap) {
             if (snap.val()) {
-                userCur = (snap.val().coursearray); 
+                userCur = (snap.val().coursearray);
             }
             if (id && !userCur) { userCur = ['No Courses']; }
 
@@ -45,19 +46,22 @@ const FireBaseTools = {
                 payload: userCur,
             });
         });
+        /* eslint-enable */
     },
 
     getSections: (courseName) => {
-        let sections = [];
-        return sectionsRef.child(courseName).once('value').then(function func (snap) {
-          snap.forEach(function func2 (childSnap) {
-            sections.push(childSnap.key);
-        });
-          return sections;
-      }).catch(error => ({
+        const sections = [];
+        /* eslint-disable */
+        return sectionsRef.child(courseName).once('value').then(function(snap) {
+            snap.forEach(function(childSnap) {
+              sections.push(childSnap.key);
+          });
+            return sections;
+        }).catch(error => ({
           errorCode: error.code,
           errorMessage: error.message,
       }));
+      /* eslint-enable */
     },
 
   /**
