@@ -54,7 +54,7 @@ const FireBaseTools = {
         /* eslint-disable */
         return sectionsRef.child(courseName).once('value').then(function(snap) {
             snap.forEach(function(childSnap) {
-              sections.push({section:childSnap.key, maxPat:childSnap.child('MaxPat').val()})
+              sections.push({section:childSnap.key, maxPat:childSnap.child('MaxPat').val(), component:childSnap.child('Component').val()})
           });
             return sections;
         }).catch(error => ({
