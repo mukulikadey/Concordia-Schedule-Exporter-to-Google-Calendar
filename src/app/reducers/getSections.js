@@ -3,7 +3,6 @@ import {
 } from '../actions/types';
 
 export default function (state = null, action) {
-    let newState;
     switch (action.type) {
     case GET_SECTIONS:
         return action.payload;
