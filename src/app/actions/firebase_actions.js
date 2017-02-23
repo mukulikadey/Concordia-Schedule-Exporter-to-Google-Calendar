@@ -9,6 +9,7 @@ import {
   FIREBASE_PASSWORD_RESET_EMAIL,
   LOGOUT_FIREBASE_USER,
   GET_USER_COURSES,
+  GET_SECTIONS,
 } from './types';
 
 
@@ -20,13 +21,21 @@ export function loginWithProvider(provider) {
     };
 }
 
-export function getUserCourses(){
-       const request = FireBaseTools.getUserCourses();
+export function getUserCourses() {
+       // Using the redux-thunk library, we can dispatch functions
+       // instead of returning a static value once, we dispatch every time
+       // a change event is called by Firebase's .on() function
+    return (dispatch) => {
+        FireBaseTools.getUserCourses(dispatch, GET_USER_COURSES);
+    };
+}
+
+export function getSections(courseName) {
+    const request = FireBaseTools.getSections(courseName);
     return {
-        type: GET_USER_COURSES,
+        type: GET_SECTIONS,
         payload: request,
     };
-
 }
 
 export function registerUser(user) {
