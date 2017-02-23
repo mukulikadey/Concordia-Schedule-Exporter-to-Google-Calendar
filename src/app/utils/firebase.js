@@ -26,39 +26,42 @@ const FireBaseTools = {
         default:
             throw new Error('Provider is not supported!!!');
         }
-
     },
 
 
-    getUserCourses :(dispatch, TYPE)=>{
-        var userCur=null,id = firebaseAuth.currentUser? firebaseAuth.currentUser.uid: null
-         usersRef.child(id.toString()).on('value', function (snap) {
-            if(snap.val())
-                userCur=(snap.val().coursearray);
-            if(id && !userCur) {userCur=['No Courses']}
+    getUserCourses: (dispatch, TYPE) => {
+        let userCur = null;
+        const id = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
+        /* eslint-disable */
+        usersRef.child(id.toString()).on('value', function(snap) {
+            if (snap.val()) {
+                userCur = (snap.val().coursearray);
+            }
+            if (id && !userCur) { userCur = ['No Courses']; }
 
             // By not returning anything and dispatching from here,
             // the action will be dispatched every time the coursearray changes
             dispatch({
-              type: TYPE,
-              payload: userCur
+                type: TYPE,
+                payload: userCur,
             });
-
-         });
+        });
+        /* eslint-enable */
     },
 
-    getSections :(course_name)=>{
-      var sections = [];
-      return sectionsRef.child(course_name).once('value').then(function (snap) {
-        snap.forEach(function(childSnap) {
-          sections.push(childSnap.key)
-        })
-        return sections
-      }).catch(error => ({
+    getSections: (courseName) => {
+        const sections = [];
+        /* eslint-disable */
+        return sectionsRef.child(courseName).once('value').then(function(snap) {
+            snap.forEach(function(childSnap) {
+              sections.push(childSnap.key);
+          });
+            return sections;
+        }).catch(error => ({
           errorCode: error.code,
-            errorMessage: error.message,
-
-      }))
+          errorMessage: error.message,
+      }));
+      /* eslint-enable */
     },
 
   /**
