@@ -58,10 +58,16 @@ class Index_home extends Component{
   handleForm()
   {
        this.props.getSections(this.state.course_name).then((data) => {
-      // reload props from reducer
+        // reload props from reducer
         this.setState({display_sections: data});
         });
   }
+
+  addSection(newSection)
+  {
+    //console.log(this.props.userCourses.courses + newSection);
+  }
+
 
   render() {
     if (!this.props.currentUser) {
@@ -115,12 +121,15 @@ class Index_home extends Component{
   renderSectionResult()
   {
     let sections_array = this.props.sections;
-    
+
     if(this.state.searching && sections_array != undefined) {
       let return_render = [];
       for(let i = 0; i < sections_array.length; i++) {
-        return_render.push(<button key={sections_array[i].section.toString()} type="button" className="btn btn-default"><a href="#">{sections_array[i].section}</a></button>);
+        // bind function prepends the arguments to the function so that it cna be passed as a variable with args already set
+        let sectionClick = this.addSection.bind(this,sections_array[i].section.toString());
+        return_render.push(<button key={sections_array[i].section.toString()} onClick = {sectionClick} type="button" className="btn btn-default"><a href="#">{sections_array[i].section}</a></button>);
       }
+
       return <div>{return_render}</div>;
     }
     return <div></div>;
