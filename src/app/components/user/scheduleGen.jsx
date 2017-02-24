@@ -64,7 +64,7 @@ class ScheduleGen extends Component {
       return <Loading />;
     }
     return (
-      <div>
+      <div className="trans-sc">
           <BigCalendar
             {...this.props}
             events={events}
@@ -78,7 +78,7 @@ class ScheduleGen extends Component {
             onSelectEvent={event => alert(event.desc)}
             eventPropGetter={this.eventStyleGetter}
             views={["month", "week", "day",]}/>
-        </div>
+      </div>
 
     );
   }

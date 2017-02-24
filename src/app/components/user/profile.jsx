@@ -41,11 +41,13 @@ class UserProfile extends Component {
         }
 
         return (
-            <div className="col-md-6">
-                <form id="frmProfile" role="form" onSubmit={this.onFormSubmit}>
-                    <h2>User Profile Page</h2>
+            <div>
+
+              <div className="trans">
+              <form id="frmProfile" role="form" onSubmit={this.onFormSubmit}>
+                    <h4>My Profile</h4>
                     <p>{this.state.message}</p>
-                    <br />
+
                     <div className="form-group">
                         <label htmlFor="email">Email: </label>
                         <input
@@ -64,6 +66,8 @@ class UserProfile extends Component {
                     <button type="submit" className="btn btn-primary">Update</button>
                 </form>
                 <ChangePassword />
+              </div>
+
             </div>
         );
     }

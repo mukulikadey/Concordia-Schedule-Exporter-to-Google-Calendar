@@ -65,9 +65,9 @@ class Index_home extends Component{
 
   addSection(newSection)
   {
-    if(this.props.userCourses && this.props.userCourses.loaded && this.props.userCourses.courses && this.props.userCourses.courses[0]!='No Courses')
+    if(this.props.userCourses && this.props.userCourses.loaded && this.props.userCourses.courses)
     {
-      let courseArray = this.props.userCourses.courses;
+      let courseArray = this.props.userCourses.courses[0] == 'No Courses' ? []:this.props.userCourses.courses;
 
       // Update the Firebase database by adding the nwe section to the user's CourseArray
       this.props.addUserSection(courseArray, this.state.course_name,newSection);
@@ -122,7 +122,7 @@ class Index_home extends Component{
     }
     else
     {
-      return <a href="#" onClick={this.handleAdd}><span className="fa fa-plus-circle"></span> Add Text</a>
+      return <a href="#" onClick={this.handleAdd}><span className="fa fa-plus-circle"></span> Add Course</a>
     }
   }
   renderSectionResult()
