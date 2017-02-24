@@ -34,10 +34,29 @@ const FireBaseTools = {
         const id = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
         /* eslint-disable */
         usersRef.child(id.toString()).on('value', function(snap) {
+
+            // Before modifying the course array, check if the user node
+            // has been initialized in Firebase, If not, their display name and email
+            // must be added to our database
+            if (!snap.hasChild('displayname'))
+            {
+              let updates = {};
+              updates['displayname'] = firebaseAuth.currentUser.displayName;
+              usersRef.child(id.toString()).update(updates);
+            }
+            if (!snap.hasChild('email'))
+            {
+              let updates = {};
+              updates['email'] = firebaseAuth.currentUser.email;
+              usersRef.child(id.toString()).update(updates);
+            }
+
+
+            // Get user's Course Array if it exists
             if (snap.val()) {
                 userCur = (snap.val().coursearray);
             }
-            if (id && !userCur) { userCur = ['No Courses']; }
+            if (id && !userCur) { userCur = ['No Courses'];}
 
             // By not returning anything and dispatching from here,
             // the action will be dispatched every time the coursearray changes
@@ -73,10 +92,10 @@ const FireBaseTools = {
             coursenumber: courseNumber
           };
 
-        // set course index to the next available index value
-        courseIndex = courseArray.length;
+        // Set course index to the next available index value or to 0 if courseArray doesn't exist yet
+        courseIndex = courseArray ? courseArray.length : 0;
 
-        // create new firebase path with the course details
+        // Create new firebase path with the course details
         let updates = {};
         updates[courseIndex] = newCourse;
         usersRef.child(id.toString()).child('coursearray').update(updates);
