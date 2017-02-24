@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { browserHistory, Link } from 'react-router';
-import { fetchUser, getUserCourses, getSections } from '../actions/firebase_actions';
+import { fetchUser, getUserCourses, getSections, addUserSection } from '../actions/firebase_actions';
 import Loading from './helpers/loading';
 
 
@@ -65,9 +65,16 @@ class Index_home extends Component{
 
   addSection(newSection)
   {
+    if(this.props.userCourses && this.props.userCourses.loaded && this.props.userCourses.courses && this.props.userCourses.courses[0]!='No Courses')
+    {
+      let courseArray = this.props.userCourses.courses;
+
+      // Update the Firebase database by adding the nwe section to the user's CourseArray
+      this.props.addUserSection(courseArray, this.state.course_name,newSection);
+    }
+
     //console.log(this.props.userCourses.courses + newSection);
   }
-
 
   render() {
     if (!this.props.currentUser) {
@@ -126,7 +133,7 @@ class Index_home extends Component{
       let return_render = [];
       for(let i = 0; i < sections_array.length; i++) {
         // bind function prepends the arguments to the function so that it cna be passed as a variable with args already set
-        let sectionClick = this.addSection.bind(this,sections_array[i].section.toString());
+        let sectionClick = this.addSection.bind(this,sections_array[i]);
         return_render.push(<button key={sections_array[i].section.toString()} onClick = {sectionClick} type="button" className="btn btn-default"><a href="#">{sections_array[i].section}</a></button>);
       }
 
@@ -139,7 +146,7 @@ class Index_home extends Component{
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ fetchUser, getUserCourses, getSections}, dispatch);
+  return bindActionCreators({ fetchUser, getUserCourses, getSections, addUserSection}, dispatch);
 }
 
 

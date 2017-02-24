@@ -49,6 +49,70 @@ const FireBaseTools = {
         /* eslint-enable */
     },
 
+    addUserSection: (courseArray, courseNumber, section) => {
+
+      // Variable to keep track of course index
+      let courseIndex = -1;
+      // current user's UID
+      const id = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
+
+      // Check if the user has already subscribed to one section of the course
+      for(let i = 0; i < courseArray.length ; i++)
+      {
+        // If the course is already in the course array, then overwrite the section
+        if(courseArray[i].coursenumber == courseNumber)
+          courseIndex = i; // contains index number of course in user's courseArray
+      }
+
+      if(courseIndex < 0)
+      {
+        // A new course is added to the courseArray if the student was not previously subscribed to it
+        let newCourse =
+          {
+            coursename: courseNumber,
+            coursenumber: courseNumber
+          };
+
+        // set course index to the next available index value
+        courseIndex = courseArray.length;
+
+        // create new firebase path with the course details
+        let updates = {};
+        updates[courseIndex] = newCourse;
+        usersRef.child(id.toString()).child('coursearray').update(updates);
+      }
+
+      let updates = {};
+
+      //Update appropriate section depending on whether it's a lab,tutorial or lecture
+      if(section.component == 'LEC'){
+        updates['/' + courseIndex + '/section'] = section.section;
+        usersRef.child(id.toString()).child('coursearray').update(updates);
+      }
+      else if(section.component == 'TUT'){
+        updates['/' + courseIndex + '/tutorialsection'] = section.section;
+        usersRef.child(id.toString()).child('coursearray').update(updates);
+      }
+      else if(section.component == 'LAB'){
+        updates['/' + courseIndex + '/labsection'] = section.section;
+        usersRef.child(id.toString()).child('coursearray').update(updates);
+      }
+      else
+        console.log("an error occurred, this section has no component");
+
+
+      return null;
+
+      // TODO update the error message
+      // TODO Subscribe user to course
+      // TODO if course has been added for the first time, then create a timetable
+      // TODO If it's the user's first course, then they might not even have a course array
+      // so we would need to initialize that as well
+      // TODO add more error checking
+
+    },
+
+
     getSections: (courseName) => {
         const sections = [];
         /* eslint-disable */
