@@ -34,10 +34,29 @@ const FireBaseTools = {
         const id = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
         /* eslint-disable */
         usersRef.child(id.toString()).on('value', function(snap) {
+
+            // Before modifying the course array, check if the user node
+            // has been initialized in Firebase, If not, their display name and email
+            // must be added to our database
+            if (!snap.hasChild('displayname'))
+            {
+              let updates = {};
+              updates['displayname'] = firebaseAuth.currentUser.displayName;
+              usersRef.child(id.toString()).update(updates);
+            }
+            if (!snap.hasChild('email'))
+            {
+              let updates = {};
+              updates['email'] = firebaseAuth.currentUser.email;
+              usersRef.child(id.toString()).update(updates);
+            }
+
+
+            // Get user's Course Array if it exists
             if (snap.val()) {
                 userCur = (snap.val().coursearray);
             }
-            if (id && !userCur) { userCur = ['No Courses']; }
+            if (id && !userCur) { userCur = ['No Courses'];}
 
             // By not returning anything and dispatching from here,
             // the action will be dispatched every time the coursearray changes
@@ -49,12 +68,76 @@ const FireBaseTools = {
         /* eslint-enable */
     },
 
+    addUserSection: (courseArray, courseNumber, section) => {
+
+      // Variable to keep track of course index
+      let courseIndex = -1;
+      // current user's UID
+      const id = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
+
+      // Check if the user has already subscribed to one section of the course
+      for(let i = 0; i < courseArray.length ; i++)
+      {
+        // If the course is already in the course array, then overwrite the section
+        if(courseArray[i].coursenumber == courseNumber)
+          courseIndex = i; // contains index number of course in user's courseArray
+      }
+
+      if(courseIndex < 0)
+      {
+        // A new course is added to the courseArray if the student was not previously subscribed to it
+        let newCourse =
+          {
+            coursename: courseNumber,
+            coursenumber: courseNumber
+          };
+
+        // Set course index to the next available index value or to 0 if courseArray doesn't exist yet
+        courseIndex = courseArray ? courseArray.length : 0;
+
+        // Create new firebase path with the course details
+        let updates = {};
+        updates[courseIndex] = newCourse;
+        usersRef.child(id.toString()).child('coursearray').update(updates);
+      }
+
+      let updates = {};
+
+      //Update appropriate section depending on whether it's a lab,tutorial or lecture
+      if(section.component == 'LEC'){
+        updates['/' + courseIndex + '/section'] = section.section;
+        usersRef.child(id.toString()).child('coursearray').update(updates);
+      }
+      else if(section.component == 'TUT'){
+        updates['/' + courseIndex + '/tutorialsection'] = section.section;
+        usersRef.child(id.toString()).child('coursearray').update(updates);
+      }
+      else if(section.component == 'LAB'){
+        updates['/' + courseIndex + '/labsection'] = section.section;
+        usersRef.child(id.toString()).child('coursearray').update(updates);
+      }
+      else
+        console.log("an error occurred, this section has no component");
+
+
+      return null;
+
+      // TODO update the error message
+      // TODO Subscribe user to course
+      // TODO if course has been added for the first time, then create a timetable
+      // TODO If it's the user's first course, then they might not even have a course array
+      // so we would need to initialize that as well
+      // TODO add more error checking
+
+    },
+
+
     getSections: (courseName) => {
         const sections = [];
         /* eslint-disable */
         return sectionsRef.child(courseName).once('value').then(function(snap) {
             snap.forEach(function(childSnap) {
-              sections.push(childSnap.key);
+              sections.push({section:childSnap.key, maxPat:childSnap.child('MaxPat').val(), component:childSnap.child('Component').val()})
           });
             return sections;
         }).catch(error => ({

@@ -10,6 +10,7 @@ import {
   LOGOUT_FIREBASE_USER,
   GET_USER_COURSES,
   GET_SECTIONS,
+  ADD_USER_SECTION,
 } from './types';
 
 
@@ -27,6 +28,15 @@ export function getUserCourses() {
        // a change event is called by Firebase's .on() function
     return (dispatch) => {
         FireBaseTools.getUserCourses(dispatch, GET_USER_COURSES);
+    };
+}
+
+export function  addUserSection(courseArray, courseNumber, section)
+{
+    const request = FireBaseTools.addUserSection(courseArray, courseNumber, section);
+    return {
+        type: ADD_USER_SECTION,
+        payload: request,
     };
 }
 
