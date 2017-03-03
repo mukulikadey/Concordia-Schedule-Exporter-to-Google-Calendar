@@ -34,7 +34,7 @@ class Index_home extends Component{
 
     if(this.props.userCourses&& this.props.userCourses.loaded && this.props.userCourses.courses && this.props.userCourses.courses[0]!='No Courses')
     return this.props.userCourses.courses.map((course)=>{
-      return <p key={course.coursename}>{course.coursename}</p>
+      return <p key={course.coursename}>{course.coursenumber}</p>
     })
 
     else if(!this.props.userCourses.courses)

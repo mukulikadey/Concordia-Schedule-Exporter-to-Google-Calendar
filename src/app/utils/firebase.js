@@ -6,7 +6,7 @@ export const firebaseAuth = firebaseApp.auth();
 export const firebaseDb = firebaseApp.database();
 export const usersRef = firebase.database().ref('users/');
 export const sectionsRef = firebase.database().ref('sections/');
-
+export const coursesRef = firebase.database().ref('course/');
 
 const FireBaseTools = {
 
@@ -119,6 +119,98 @@ const FireBaseTools = {
       else
         console.log("an error occurred, this section has no component");
 
+      // Building path to course section so that it can be read/written to
+      let sectionPath = courseNumber + section.section;
+      // If it's a lab section, then append the patnumber of the first lab class (append '1')
+      if (section.component == 'LAB' )
+        sectionPath += '1/';
+
+
+      // Get the course node and add Timetable if it doesn't already exist
+      coursesRef.child(sectionPath).once('value').then(function(snap){
+
+        // Check if course section already contains timetable
+        if(!snap.hasChild('timetable')){
+          // Create Timetable if this course did not already contain one
+          // Get start and end dates of the semester
+          let startDate = new Date(snap.child('Start Date').val());
+          let endDate = new Date(snap.child('End Date').val());
+
+          console.log(snap.val()); //TODO REMOVE
+          console.log(sectionPath); //TODO REMOVE
+
+          // JSON object will be contained in this variable
+          var timetable = {};
+          // Get the days of the weeks where the course is given
+          let givenWeekDay = [snap.val().Sun, snap.val().Mon, snap.val().Tues, snap.val().Wed, snap.val().Thurs, snap.val().Fri, snap.val().Sat];
+          // Iterate through every date between day 1 and the last day to see if there's a class
+          while(startDate < endDate ) {
+
+            // Format the month so that it is always a two digit number
+            let monthNumber = startDate.getMonth() < 8 ? '0' + (startDate.getMonth() + 1) :(startDate.getMonth() + 1);
+            // Create the key for the new DateObject in the form "YEAR-MONTH-DATE"
+            let newDateObject = startDate.getFullYear() + '-' + monthNumber + '-' + startDate.getDate();
+            // Add the JSON date key
+            switch (startDate.getDay()){
+
+              case 0: // Sunday
+                if(givenWeekDay[0] == 'Y'){
+                  timetable[newDateObject] = { "description" : "No Description"};
+                }
+                break;
+
+              case 1: // Monday
+                if(givenWeekDay[1] == 'Y'){
+                  timetable[newDateObject] = { "description" : "No Description"};
+                }
+                break;
+
+              case 2: // Tuesday
+                if(givenWeekDay[2] == 'Y'){
+                  timetable[newDateObject] = { "description" : "No Description"};
+                }
+                break;
+
+              case 3: // Wednesday
+                if(givenWeekDay[3] == 'Y'){
+                  timetable[newDateObject] = { "description" : "No Description"};
+                }
+                break;
+
+              case 4: // Thursday
+                if(givenWeekDay[4] == 'Y'){
+                  timetable[newDateObject] = { "description" : "No Description"};
+                }
+                break;
+
+              case 5: // Friday
+                if(givenWeekDay[5] == 'Y'){
+                  timetable[newDateObject] = { "description" : "No Description"};
+                }
+                break;
+
+              case 6: // Saturday
+                if(givenWeekDay[6] == 'Y'){
+                  timetable[newDateObject] = { "description" : "No Description"};
+                }
+                break;
+
+              default:
+                console.log("There was an error in retrieving the day of the week");
+                //TODO add a proper error check?
+            }
+
+            // check next date
+            let newDate = startDate.setDate(startDate.getDate() + 1);
+            startDate = new Date(newDate);
+          }
+
+          console.log(timetable); //TODO REMOVE
+        }
+      }).catch(error => ({
+        errorCode: error.code,
+        errorMessage: error.message,
+      }));
 
       return null;
 
