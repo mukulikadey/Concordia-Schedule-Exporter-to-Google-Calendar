@@ -75,20 +75,20 @@ const FireBaseTools = {
         const id = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
 
        // Check if the user has already subscribed to one section of the course
-        for (let i = 0; i < courseArray.length; i = i + 1) {
+        for (let i = 0; i < courseArray.length; i += 1) {
           // If the course is already in the course array, then overwrite the section
             if (courseArray[i].coursenumber === courseNumber) {
-              courseIndex = i; // contains index number of course in user's courseArray
-          }
+                courseIndex = i; // contains index number of course in user's courseArray
+            }
         }
 
         if (courseIndex < 0) {
             // A new course is added to the courseArray if the student was not previously subscribed to it
             const newCourse =
-              {
-                  coursename: courseNumber,
-                  coursenumber: courseNumber,
-              };
+                {
+                    coursename: courseNumber,
+                    coursenumber: courseNumber,
+                };
 
             // Set course index to the next available index value or to 0 if courseArray doesn't exist yet
             courseIndex = courseArray ? courseArray.length : 0;
@@ -120,12 +120,12 @@ const FireBaseTools = {
           }
           /* eslint-enable */
 
-          // Building path to course section so that it can be read/written to
-          let sectionPath = courseNumber + section.section;
-          // If it's a lab section, then append the patnumber of the first lab class (append '1')
-          if (section.component === 'LAB') {
-            sectionPath += '1/';
-        }
+        // Building path to course section so that it can be read/written to
+        let sectionPath = courseNumber + section.section;
+        // If it's a lab section, then append the patnumber of the first lab class (append '1')
+        if (section.component === 'LAB') {
+              sectionPath += '1/';
+          }
 
 
       // Get the course node and add Timetable if it doesn't already exist
