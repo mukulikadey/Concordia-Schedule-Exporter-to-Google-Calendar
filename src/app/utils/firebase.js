@@ -124,8 +124,8 @@ const FireBaseTools = {
         let sectionPath = courseNumber + section.section;
         // If it's a lab section, then append the patnumber of the first lab class (append '1')
         if (section.component === 'LAB') {
-              sectionPath += '1/';
-          }
+          sectionPath += '1/';
+        }
 
 
       // Get the course node and add Timetable if it doesn't already exist
