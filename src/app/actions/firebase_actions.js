@@ -31,8 +31,7 @@ export function getUserCourses() {
     };
 }
 
-export function  addUserSection(courseArray, courseNumber, section)
-{
+export function addUserSection(courseArray, courseNumber, section) {
     const request = FireBaseTools.addUserSection(courseArray, courseNumber, section);
     return {
         type: ADD_USER_SECTION,

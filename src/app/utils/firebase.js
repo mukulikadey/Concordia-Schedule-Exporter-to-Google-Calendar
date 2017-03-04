@@ -69,134 +69,136 @@ const FireBaseTools = {
     },
 
     addUserSection: (courseArray, courseNumber, section) => {
+        // Variable to keep track of course index
+        let courseIndex = -1;
+        // current user's UID
+        const id = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
 
-      // Variable to keep track of course index
-      let courseIndex = -1;
-      // current user's UID
-      const id = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
+       // Check if the user has already subscribed to one section of the course
+        for (let i = 0; i < courseArray.length; i++) {
+          // If the course is already in the course array, then overwrite the section
+          if (courseArray[i].coursenumber === courseNumber) {
+            courseIndex = i; // contains index number of course in user's courseArray
+          }
+        }
 
-      // Check if the user has already subscribed to one section of the course
-      for(let i = 0; i < courseArray.length ; i++)
-      {
-        // If the course is already in the course array, then overwrite the section
-        if(courseArray[i].coursenumber == courseNumber)
-          courseIndex = i; // contains index number of course in user's courseArray
+        if (courseIndex < 0) {
+          // A new course is added to the courseArray if the student was not previously subscribed to it
+          const newCourse =
+            {
+              coursename: courseNumber,
+              coursenumber: courseNumber,
+            };
+
+          // Set course index to the next available index value or to 0 if courseArray doesn't exist yet
+          courseIndex = courseArray ? courseArray.length : 0;
+
+          // Create new firebase path with the course details
+          const updates = {};
+          updates[courseIndex] = newCourse;
+          usersRef.child(id.toString()).child('coursearray').update(updates);
       }
 
-      if(courseIndex < 0)
-      {
-        // A new course is added to the courseArray if the student was not previously subscribed to it
-        let newCourse =
-          {
-            coursename: courseNumber,
-            coursenumber: courseNumber
-          };
+      const updates = {};
 
-        // Set course index to the next available index value or to 0 if courseArray doesn't exist yet
-        courseIndex = courseArray ? courseArray.length : 0;
+      // Update appropriate section depending on whether it's a lab,tutorial or lecture
+      /* eslint-disable */
+        if (section.component === 'LEC') {
+          updates['/' + courseIndex + '/section'] = section.section;
+          usersRef.child(id.toString()).child('coursearray').update(updates);
+        }
+        else if (section.component === 'TUT') {
+          updates['/' + courseIndex + '/tutorialsection'] = section.section;
+          usersRef.child(id.toString()).child('coursearray').update(updates);
+        }
+        else if (section.component === 'LAB') {
+          updates['/' + courseIndex + '/labsection'] = section.section;
+          usersRef.child(id.toString()).child('coursearray').update(updates);
+        }
+        else {
+          console.log('an error occurred, this section has no component');
+        }
+        /* eslint-enable */
 
-        // Create new firebase path with the course details
-        let updates = {};
-        updates[courseIndex] = newCourse;
-        usersRef.child(id.toString()).child('coursearray').update(updates);
-      }
-
-      let updates = {};
-
-      //Update appropriate section depending on whether it's a lab,tutorial or lecture
-      if(section.component == 'LEC'){
-        updates['/' + courseIndex + '/section'] = section.section;
-        usersRef.child(id.toString()).child('coursearray').update(updates);
-      }
-      else if(section.component == 'TUT'){
-        updates['/' + courseIndex + '/tutorialsection'] = section.section;
-        usersRef.child(id.toString()).child('coursearray').update(updates);
-      }
-      else if(section.component == 'LAB'){
-        updates['/' + courseIndex + '/labsection'] = section.section;
-        usersRef.child(id.toString()).child('coursearray').update(updates);
-      }
-      else
-        console.log("an error occurred, this section has no component");
-
-      // Building path to course section so that it can be read/written to
-      let sectionPath = courseNumber + section.section;
-      // If it's a lab section, then append the patnumber of the first lab class (append '1')
-      if (section.component == 'LAB' )
-        sectionPath += '1/';
+        // Building path to course section so that it can be read/written to
+        let sectionPath = courseNumber + section.section;
+        // If it's a lab section, then append the patnumber of the first lab class (append '1')
+        if (section.component === 'LAB') {
+          sectionPath += '1/';
+        }
 
 
       // Get the course node and add Timetable if it doesn't already exist
-      coursesRef.child(sectionPath).once('value').then(function(snap){
+      /* eslint-disable */
+      coursesRef.child(sectionPath).once('value').then(function(snap) {
 
         // Check if course section already contains timetable
-        if(!snap.hasChild('timetable')){
+        if (!snap.hasChild('timetable')) {
           // Create Timetable if this course did not already contain one
           // Get start and end dates of the semester
           let startDate = new Date(snap.child('Start Date').val());
-          let endDate = new Date(snap.child('End Date').val());
+          const endDate = new Date(snap.child('End Date').val());
 
           console.log(snap.val()); //TODO REMOVE
           console.log(sectionPath); //TODO REMOVE
 
           // JSON object will be contained in this variable
-          var timetable = {};
+          let timetable = {};
           // Get the days of the weeks where the course is given
-          let givenWeekDay = [snap.val().Sun, snap.val().Mon, snap.val().Tues, snap.val().Wed, snap.val().Thurs, snap.val().Fri, snap.val().Sat];
+          const givenWeekDay = [snap.val().Sun, snap.val().Mon, snap.val().Tues, snap.val().Wed, snap.val().Thurs, snap.val().Fri, snap.val().Sat];
           // Iterate through every date between day 1 and the last day to see if there's a class
-          while(startDate < endDate ) {
-
+          while (startDate < endDate) {
             // Format the month so that it is always a two digit number
-            let monthNumber = startDate.getMonth() < 8 ? '0' + (startDate.getMonth() + 1) :(startDate.getMonth() + 1);
+            const monthNumber = startDate.getMonth() < 8 ? '0' + (startDate.getMonth() + 1) : (startDate.getMonth() + 1);
             // Create the key for the new DateObject in the form "YEAR-MONTH-DATE"
-            let newDateObject = startDate.getFullYear() + '-' + monthNumber + '-' + startDate.getDate();
+            const newDateObject = startDate.getFullYear() + '-' + monthNumber + '-' + startDate.getDate();
             // Add the JSON date key
-            switch (startDate.getDay()){
+            switch (startDate.getDay()) {
 
               case 0: // Sunday
-                if(givenWeekDay[0] == 'Y'){
-                  timetable[newDateObject] = { "description" : "No Description"};
+                if(givenWeekDay[0] === 'Y') {
+                  timetable[newDateObject] = { description : 'No Description' };
                 }
                 break;
 
               case 1: // Monday
-                if(givenWeekDay[1] == 'Y'){
-                  timetable[newDateObject] = { "description" : "No Description"};
+                if(givenWeekDay[1] === 'Y') {
+                  timetable[newDateObject] = { description : 'No Description' };
                 }
                 break;
 
               case 2: // Tuesday
-                if(givenWeekDay[2] == 'Y'){
-                  timetable[newDateObject] = { "description" : "No Description"};
+                if(givenWeekDay[2] === 'Y') {
+                  timetable[newDateObject] = { description : 'No Description' };
                 }
                 break;
 
               case 3: // Wednesday
-                if(givenWeekDay[3] == 'Y'){
-                  timetable[newDateObject] = { "description" : "No Description"};
+                if(givenWeekDay[3] === 'Y') {
+                  timetable[newDateObject] = { description : 'No Description' };
                 }
                 break;
 
               case 4: // Thursday
-                if(givenWeekDay[4] == 'Y'){
-                  timetable[newDateObject] = { "description" : "No Description"};
+                if(givenWeekDay[4] === 'Y') {
+                  timetable[newDateObject] = { description : 'No Description' };
                 }
                 break;
 
               case 5: // Friday
-                if(givenWeekDay[5] == 'Y'){
-                  timetable[newDateObject] = { "description" : "No Description"};
+                if(givenWeekDay[5] === 'Y') {
+                  timetable[newDateObject] = { description : 'No Description' };
                 }
                 break;
 
               case 6: // Saturday
-                if(givenWeekDay[6] == 'Y'){
-                  timetable[newDateObject] = { "description" : "No Description"};
+                if(givenWeekDay[6] === 'Y') {
+                  timetable[newDateObject] = { description : 'No Description' };
                 }
                 break;
-
+              
               default:
-                console.log("There was an error in retrieving the day of the week");
+                console.log('There was an error in retrieving the day of the week');
                 //TODO add a proper error check?
             }
 
@@ -211,9 +213,8 @@ const FireBaseTools = {
         errorCode: error.code,
         errorMessage: error.message,
       }));
-
+    /* eslint-enable */
       return null;
-
       // TODO update the error message
       // TODO Subscribe user to course
       // TODO if course has been added for the first time, then create a timetable
@@ -222,7 +223,6 @@ const FireBaseTools = {
       // TODO add more error checking
 
     },
-
 
     getSections: (courseName) => {
         const sections = [];
