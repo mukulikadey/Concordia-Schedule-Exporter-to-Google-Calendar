@@ -20,6 +20,7 @@ class Index_home extends Component{
     this.handleAdd = this.handleAdd.bind(this);
     this.handleForm = this.handleForm.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.onkeyPress=this.onkeyPress.bind(this);
   }
 
 
@@ -49,11 +50,23 @@ class Index_home extends Component{
   handleAdd()
   {
     this.setState({searching: !this.state.searching});
+    
+    //if the state is not searching, don't show the previously populated section's array
+    if(!this.state.searching){this.showSection=false}
   }
-  handleChange(event) {
+  handleChange() {
+    //On enter we set the value of showing the sections to user to true
+    this.showSection=true;
+    
     //Making sure that the course name is in capital letters just like in the database
-    var search_input = event.target.value.toUpperCase();
-    this.setState({course_name: search_input});
+    var search_input = this.refs.myInput.value.toUpperCase();
+    if(search_input != ""){
+      this.setState({course_name: search_input});
+      this.props.getSections(search_input).then((data) => {
+        // reload props from reducer
+        this.setState({display_sections: data});
+      });
+    }
   }
   handleForm()
   {
@@ -110,14 +123,27 @@ class Index_home extends Component{
     return <div></div>
   }
 
+  onkeyPress(e)
+  {
+    var self=this;
+    if(e.key=="Enter" && this.refs.myInput)
+    {
+      e.preventDefault();
+      this.handleChange()
+    }
+
+    return false;
+
+  }
+
   renderSearchBar()
   {
     //If the user has clicked on add course, pull up the search bar. If not, show the add button.
     if(this.state.searching){
       return <a href="#">
-        <form onSubmit={this.handleForm}><input type="search" value={this.state.value} onChange={this.handleChange} placeholder="Ex: COEN346" autoFocus/>
+        <form onKeyDown= {this.onkeyPress}><input type="search" value={this.state.value} ref="myInput" placeholder="Ex: COEN346" autoFocus/>
         </form>
-        <span onClick={this.handleAdd} className="fa fa-plus-circle"></span></a>;
+        <span onClick={this.handleAdd} className="fa fa-minus-circle"></span></a>;
     }
     else
     {
@@ -127,18 +153,22 @@ class Index_home extends Component{
   renderSectionResult()
   {
     let sections_array = this.props.sections;
-
-    if(this.state.searching && sections_array != undefined) {
-      let return_render = [];
-      for(let i = 0; i < sections_array.length; i++) {
-        // bind function prepends the arguments to the function so that it cna be passed as a variable with args already set
-        let sectionClick = this.addSection.bind(this,sections_array[i]);
-        return_render.push(<button key={sections_array[i].section.toString()} onClick = {sectionClick} type="button" className="btn btn-default"><a href="#">{sections_array[i].section}</a></button>);
+    if(this.state.searching && sections_array != undefined && this.showSection) {
+      if(sections_array.length!=0){
+        {
+          let return_render = [];
+          for(let i = 0; i < sections_array.length; i++) {
+            let sectionClick = this.addSection.bind(this,sections_array[i]);
+            return_render.push(<button key={sections_array[i].section.toString()} onClick = {sectionClick} type="button" className="btn btn-default"><a href="#">{sections_array[i].section}</a></button>);
+          }
+          return <div>{return_render}</div>;
+        }
       }
-
-      return <div>{return_render}</div>;
+    else{
+      return <div className= "alert alert-danger">The Course Does Not Exist.</div>
     }
-    return <div></div>;
+  }
+  return <div></div>;
   }
 
 
