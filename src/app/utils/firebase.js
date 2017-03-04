@@ -75,56 +75,56 @@ const FireBaseTools = {
         const id = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
 
        // Check if the user has already subscribed to one section of the course
-        for (let i = 0; i < courseArray.length; i++) {
+        for (let i = 0; i < courseArray.length; i = i + 1) {
           // If the course is already in the course array, then overwrite the section
-          if (courseArray[i].coursenumber === courseNumber) {
-            courseIndex = i; // contains index number of course in user's courseArray
+            if (courseArray[i].coursenumber === courseNumber) {
+              courseIndex = i; // contains index number of course in user's courseArray
           }
         }
 
         if (courseIndex < 0) {
-          // A new course is added to the courseArray if the student was not previously subscribed to it
-          const newCourse =
-            {
-              coursename: courseNumber,
-              coursenumber: courseNumber,
-            };
+            // A new course is added to the courseArray if the student was not previously subscribed to it
+            const newCourse =
+              {
+                  coursename: courseNumber,
+                  coursenumber: courseNumber,
+              };
 
-          // Set course index to the next available index value or to 0 if courseArray doesn't exist yet
-          courseIndex = courseArray ? courseArray.length : 0;
+            // Set course index to the next available index value or to 0 if courseArray doesn't exist yet
+            courseIndex = courseArray ? courseArray.length : 0;
 
-          // Create new firebase path with the course details
-          const updates = {};
-          updates[courseIndex] = newCourse;
-          usersRef.child(id.toString()).child('coursearray').update(updates);
-      }
-
-      const updates = {};
-
-      // Update appropriate section depending on whether it's a lab,tutorial or lecture
-      /* eslint-disable */
-        if (section.component === 'LEC') {
-          updates['/' + courseIndex + '/section'] = section.section;
-          usersRef.child(id.toString()).child('coursearray').update(updates);
+            // Create new firebase path with the course details
+            const updates = {};
+            updates[courseIndex] = newCourse;
+            usersRef.child(id.toString()).child('coursearray').update(updates);
         }
-        else if (section.component === 'TUT') {
-          updates['/' + courseIndex + '/tutorialsection'] = section.section;
-          usersRef.child(id.toString()).child('coursearray').update(updates);
-        }
-        else if (section.component === 'LAB') {
-          updates['/' + courseIndex + '/labsection'] = section.section;
-          usersRef.child(id.toString()).child('coursearray').update(updates);
-        }
-        else {
-          console.log('an error occurred, this section has no component');
-        }
-        /* eslint-enable */
 
-        // Building path to course section so that it can be read/written to
-        let sectionPath = courseNumber + section.section;
-        // If it's a lab section, then append the patnumber of the first lab class (append '1')
-        if (section.component === 'LAB') {
-          sectionPath += '1/';
+        const updates = {};
+
+        // Update appropriate section depending on whether it's a lab,tutorial or lecture
+        /* eslint-disable */
+          if (section.component === 'LEC') {
+            updates['/' + courseIndex + '/section'] = section.section;
+            usersRef.child(id.toString()).child('coursearray').update(updates);
+          }
+          else if (section.component === 'TUT') {
+            updates['/' + courseIndex + '/tutorialsection'] = section.section;
+            usersRef.child(id.toString()).child('coursearray').update(updates);
+          }
+          else if (section.component === 'LAB') {
+            updates['/' + courseIndex + '/labsection'] = section.section;
+            usersRef.child(id.toString()).child('coursearray').update(updates);
+          }
+          else {
+            console.log('an error occurred, this section has no component');
+          }
+          /* eslint-enable */
+
+          // Building path to course section so that it can be read/written to
+          let sectionPath = courseNumber + section.section;
+          // If it's a lab section, then append the patnumber of the first lab class (append '1')
+          if (section.component === 'LAB') {
+            sectionPath += '1/';
         }
 
 
@@ -214,16 +214,14 @@ const FireBaseTools = {
         errorMessage: error.message,
       }));
     /* eslint-enable */
-      return null;
+        return null;
       // TODO update the error message
       // TODO Subscribe user to course
       // TODO if course has been added for the first time, then create a timetable
       // TODO If it's the user's first course, then they might not even have a course array
       // so we would need to initialize that as well
       // TODO add more error checking
-
     },
-
     getSections: (courseName) => {
         const sections = [];
         /* eslint-disable */
