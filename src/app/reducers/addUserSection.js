@@ -3,10 +3,10 @@ import {
 } from '../actions/types';
 
 export default function (state = null, action) {
-  switch (action.type) {
+    switch (action.type) {
     case ADD_USER_SECTION:
-      return action.payload;
+        return action.payload;
     default:
-      return state;
-  }
+        return state;
+    }
 }
