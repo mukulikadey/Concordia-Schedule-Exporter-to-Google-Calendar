@@ -28,6 +28,94 @@ const FireBaseTools = {
     }
   },
 
+  getTimetable :  (tempTimetable, sectionPath) => {
+    // Get the course node and add Timetable if it doesn't already exist
+    /* eslint-disable */
+    // timetable is equal to the inputted timeTable so that it can be updated
+    var timetable = tempTimetable;
+    coursesRef.child(sectionPath).once('value').then(function(snap){
+
+      // Check if course section already contains timetable
+      if (!snap.hasChild('timetable')) {
+        // Create Timetable if this course did not already contain one
+        // Get start and end dates of the semester
+        let startDate = new Date(snap.child('Start Date').val());
+        const endDate = new Date(snap.child('End Date').val());
+
+        console.log(sectionPath); //TODO REMOVE
+        console.log(snap.val()); //TODO REMOVE
+
+        // Get the days of the weeks where the course is given
+        const givenWeekDay = [snap.val().Sun, snap.val().Mon, snap.val().Tues, snap.val().Wed, snap.val().Thurs, snap.val().Fri, snap.val().Sat];
+        // Iterate through every date between day 1 and the last day to see if there's a class
+        while (startDate < endDate) {
+          // Format the month so that it is always a two digit number
+          const monthNumber = startDate.getMonth() < 8 ? '0' + (startDate.getMonth() + 1) : (startDate.getMonth() + 1);
+          // Create the key for the new DateObject in the form "YEAR-MONTH-DATE"
+          const newDateObject = startDate.getFullYear() + '-' + monthNumber + '-' + startDate.getDate();
+          // Add the JSON date key
+          switch (startDate.getDay()) {
+
+            case 0: // Sunday
+              if(givenWeekDay[0] === 'Y') {
+                timetable[newDateObject] = { description : 'No Description' };
+              }
+              break;
+
+            case 1: // Monday
+              if(givenWeekDay[1] === 'Y') {
+                timetable[newDateObject] = { description : 'No Description' };
+              }
+              break;
+
+            case 2: // Tuesday
+              if(givenWeekDay[2] === 'Y') {
+                timetable[newDateObject] = { description : 'No Description' };
+              }
+              break;
+
+            case 3: // Wednesday
+              if(givenWeekDay[3] === 'Y') {
+                timetable[newDateObject] = { description : 'No Description' };
+              }
+              break;
+
+            case 4: // Thursday
+              if(givenWeekDay[4] === 'Y') {
+                timetable[newDateObject] = { description : 'No Description' };
+              }
+              break;
+
+            case 5: // Friday
+              if(givenWeekDay[5] === 'Y') {
+                timetable[newDateObject] = { description : 'No Description' };
+              }
+              break;
+
+            case 6: // Saturday
+              if(givenWeekDay[6] === 'Y') {
+                timetable[newDateObject] = { description : 'No Description' };
+              }
+              break;
+
+            default:
+              console.log('There was an error in retrieving the day of the week');
+            //TODO add a proper error check?
+          }
+
+          // check next date
+          let newDate = startDate.setDate(startDate.getDate() + 1);
+          startDate = new Date(newDate);
+        }
+      }else{ return null;}
+    }).catch(error => ({
+      errorCode: error.code,
+      errorMessage: error.message,
+    }));
+    // return updated timetable
+    console.log('timetable' + timetable);
+    return timetable;
+  },
 
   getUserCourses: (dispatch, TYPE) => {
     let userCur = null;
@@ -133,99 +221,9 @@ const FireBaseTools = {
       let newSectionPath = section.component == 'LAB' ? sectionPath + i + '/' : sectionPath;
       console.log(newSectionPath);
 
-      // timetable is updated with new data every time this function is called
+      // timetable is updated with new data every time the getTimetable function is called
       let tempTimetable = timetable;
-
-      var getTimetable = (tempTimetable, sectionPath) => {
-        // Get the course node and add Timetable if it doesn't already exist
-        /* eslint-disable */
-        return coursesRef.child(sectionPath).once('value').then(function(snap){
-
-          // Check if course section already contains timetable
-          if (!snap.hasChild('timetable')) {
-            // Create Timetable if this course did not already contain one
-            // Get start and end dates of the semester
-            let startDate = new Date(snap.child('Start Date').val());
-            const endDate = new Date(snap.child('End Date').val());
-
-            console.log(sectionPath); //TODO REMOVE
-            console.log(snap.val()); //TODO REMOVE
-
-            // timetable is equal to the inputted timeTable so that it can be updated
-            var timetable = tempTimetable;
-            // Get the days of the weeks where the course is given
-            const givenWeekDay = [snap.val().Sun, snap.val().Mon, snap.val().Tues, snap.val().Wed, snap.val().Thurs, snap.val().Fri, snap.val().Sat];
-            // Iterate through every date between day 1 and the last day to see if there's a class
-            while (startDate < endDate) {
-              // Format the month so that it is always a two digit number
-              const monthNumber = startDate.getMonth() < 8 ? '0' + (startDate.getMonth() + 1) : (startDate.getMonth() + 1);
-              // Create the key for the new DateObject in the form "YEAR-MONTH-DATE"
-              const newDateObject = startDate.getFullYear() + '-' + monthNumber + '-' + startDate.getDate();
-              // Add the JSON date key
-              switch (startDate.getDay()) {
-
-                case 0: // Sunday
-                  if(givenWeekDay[0] === 'Y') {
-                    timetable[newDateObject] = { description : 'No Description' };
-                  }
-                  break;
-
-                case 1: // Monday
-                  if(givenWeekDay[1] === 'Y') {
-                    timetable[newDateObject] = { description : 'No Description' };
-                  }
-                  break;
-
-                case 2: // Tuesday
-                  if(givenWeekDay[2] === 'Y') {
-                    timetable[newDateObject] = { description : 'No Description' };
-                  }
-                  break;
-
-                case 3: // Wednesday
-                  if(givenWeekDay[3] === 'Y') {
-                    timetable[newDateObject] = { description : 'No Description' };
-                  }
-                  break;
-
-                case 4: // Thursday
-                  if(givenWeekDay[4] === 'Y') {
-                    timetable[newDateObject] = { description : 'No Description' };
-                  }
-                  break;
-
-                case 5: // Friday
-                  if(givenWeekDay[5] === 'Y') {
-                    timetable[newDateObject] = { description : 'No Description' };
-                  }
-                  break;
-
-                case 6: // Saturday
-                  if(givenWeekDay[6] === 'Y') {
-                    timetable[newDateObject] = { description : 'No Description' };
-                  }
-                  break;
-
-                default:
-                  console.log('There was an error in retrieving the day of the week');
-                //TODO add a proper error check?
-              }
-
-              // check next date
-              let newDate = startDate.setDate(startDate.getDate() + 1);
-              startDate = new Date(newDate);
-            }
-
-            // return updated timetable
-            return timetable;
-          }else{ return null;}
-        }).catch(error => ({
-          errorCode: error.code,
-          errorMessage: error.message,
-        }));
-      };
-
-      timetable = getTimetable(tempTimetable,sectionPath);
+      timetable = FireBaseTools.getTimetable(tempTimetable,newSectionPath);
     }
     console.log(timetable);
     return null;
@@ -236,6 +234,7 @@ const FireBaseTools = {
     // so we would need to initialize that as well
     // TODO add more error checking
   },
+
   getSections: (courseName) => {
     const sections = [];
     /* eslint-disable */
