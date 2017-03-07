@@ -185,6 +185,11 @@ const FireBaseTools = {
       const updates = {};
       updates[courseIndex] = newCourse;
       usersRef.child(id.toString()).child('coursearray').update(updates);
+
+      //Adding the user to the subscriber list of the course
+      const update_subs = {};
+      update_subs['/Subscribers/' + id.toString()] = firebaseAuth.currentUser.displayName;
+      coursesRef.child(courseNumber + section.section).update(update_subs);
     }
 
     const updates = {};
