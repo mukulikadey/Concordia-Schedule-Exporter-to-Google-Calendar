@@ -320,7 +320,6 @@ const FireBaseTools = {
          userCourses[i].tutorialsection ?  stringCourses.push(userCourses[i].coursename+ userCourses[i].tutorialsection): null
           userCourses[i].labsection ?  stringCourses.push(userCourses[i].coursename+ (userCourses[i].labsection + "1")):null
         }
-        console.log(stringCourses)
 
       var coursePromises = [];
       stringCourses.map((section)=>
@@ -330,24 +329,65 @@ const FireBaseTools = {
         }))
 
       })
-      var finalCourses=[], timetable=null;
+      var finalCourses=[], timetable=null, time=[]
       Promise.all(coursePromises).then(function(resolvedarray){
         resolvedarray.map((course)=>{
-          timetable=course.Timetable? course.Timetable : null;
-          finalCourses.push({timetable:timetable, startTime:course['Mtg Start'], endTime:course['Mtg End'], title:(course.Subject+course.Catalog)})
-          return finalCourses;
+          var timetable=course.Timetable? course.Timetable : null, subject=(course.Subject+course.Catalog);
+          time=[];
+          if(timetable)
+          {
+            Object.keys(timetable).map(function(key, index) {
+                  time.push({start :new Date(key), end: new Date(key), title:""})
+              });
+              
+          }
+        
+         if(course.Timetable) {
+           timetable=time;
+           var time = course['Mtg Start']
+          var hours = Number(time.match(/^(\d+)/)[1]);
+          var minutes = Number(time.match(/:(\d+)/)[1]);
+          var AMPM = time.match(/\s(.*)$/)[1];
+          if(AMPM == "PM" && hours<12) hours = hours+12;
+          if(AMPM == "AM" && hours==12) hours = hours-12;
+          var sHours = hours.toString();
+          var sMinutes = minutes.toString();
+
+          //end
+            var time = course['Mtg End']
+          var hours = Number(time.match(/^(\d+)/)[1]);
+          var minutes = Number(time.match(/:(\d+)/)[1]);
+          var AMPM = time.match(/\s(.*)$/)[1];
+          if(AMPM == "PM" && hours<12) hours = hours+12;
+          if(AMPM == "AM" && hours==12) hours = hours-12;
+          var eHours = hours.toString();
+          var eMinutes = minutes.toString();
+         // console.log(sHours, sMinutes, eHours,eMinutes)
+
+          timetable.map((date)=>{
+           date['start'].setHours(sHours);
+           date['end'].setHours(eHours);
+           date['start'].setMinutes(sMinutes);
+           date['end'].setMinutes(eMinutes);
+           date['title']=subject
+           return date;
+          })
+        }
+         
+          finalCourses.push({timetable:timetable})
+          //return finalCourses;
           //console.log(course)
         })
-
+        //console.log(finalCourses)
+        return finalCourses
       })
-      console.log(finalCourses)
-     
-
-      //console.log(userCourses);
-
-
-    })
-    return null;
+      //console.log(finalCourses)
+     return finalCourses;
+    }).catch(error => ({
+      errorCode: error.code,
+      errorMessage: error.message,
+    }));
+    
   },
 
   /**

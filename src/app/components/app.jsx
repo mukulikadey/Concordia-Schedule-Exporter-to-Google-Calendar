@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { browserHistory, Link } from 'react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { fetchUser, logoutUser } from '../actions/firebase_actions';
+import { fetchUser, logoutUser,getEvents } from '../actions/firebase_actions';
 
 class App extends Component {
 
@@ -10,6 +10,7 @@ class App extends Component {
         super(props);
 
         this.props.fetchUser();
+        //this.props.getEvents();
         this.logOut = this.logOut.bind(this);
     }
 
@@ -23,6 +24,7 @@ class App extends Component {
     renderUserMenu(currentUser) {
     // if current user exists and user id exists than make user navigation
         if (currentUser && currentUser.uid) {
+            this.props.getEvents()
             return (
                 <li className="dropdown">
                     <a
@@ -91,7 +93,7 @@ class App extends Component {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ fetchUser, logoutUser }, dispatch);
+    return bindActionCreators({ fetchUser, logoutUser, getEvents }, dispatch);
 }
 
 

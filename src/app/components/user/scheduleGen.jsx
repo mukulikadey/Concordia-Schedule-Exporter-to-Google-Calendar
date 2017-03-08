@@ -21,10 +21,17 @@ class ScheduleGen extends Component {
     super(props);
     this.props.fetchUser();
     this.props.getEvents();
+
+  
     this.state = {
       message: '',
     };
     this.onFormSubmit = this.onFormSubmit.bind(this);
+  }
+  
+  componentDidUpdate()
+  {
+    console.log(this.props.userEvents)
   }
 
   onFormSubmit(event) {
@@ -61,9 +68,12 @@ class ScheduleGen extends Component {
   }
 
   render() {
-    if (!this.props.currentUser) {
+    
+    if (!this.props.currentUser && !this.props.userEvents) {
+      this.props.getEvents()
       return <Loading />;
     }
+    //console.log(this.props.userEvents)
     return (
       <div className="trans-sc">
           <BigCalendar
@@ -90,7 +100,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-    return { currentUser: state.currentUser };
+    return { currentUser: state.currentUser, userEvents: state.userEvents };
 }
 
 

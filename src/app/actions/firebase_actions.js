@@ -25,9 +25,10 @@ export function loginWithProvider(provider) {
 
 export function getEvents(){
     const request = FireBaseTools.getUserEvents();
+    console.log(request)
     return {
         type: GET_EVENTS,
-        payload:request
+        payload:request,
     }
 }
 
