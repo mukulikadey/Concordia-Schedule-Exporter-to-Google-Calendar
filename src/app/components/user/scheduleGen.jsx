@@ -28,11 +28,7 @@ class ScheduleGen extends Component {
     };
     this.onFormSubmit = this.onFormSubmit.bind(this);
   }
-  
-  componentDidUpdate()
-  {
-    console.log(this.props.userEvents)
-  }
+
 
   onFormSubmit(event) {
     event.preventDefault();

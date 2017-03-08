@@ -310,7 +310,7 @@ const FireBaseTools = {
    getUserEvents: () => {
     let userCourses = null, stringCourses=[];
     const id = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
-    usersRef.child(id.toString()).once('value').then(function(snap) {
+    return usersRef.child(id.toString()).once('value').then(function(snap) {
       userCourses=snap.val()['coursearray']
      // console.log(userCourses)
         for(var i=0; i<userCourses.length; i=i+1)
@@ -379,7 +379,7 @@ const FireBaseTools = {
           //console.log(course)
         })
         //console.log(finalCourses)
-        return finalCourses
+        //return finalCourses
       })
       //console.log(finalCourses)
      return finalCourses;
