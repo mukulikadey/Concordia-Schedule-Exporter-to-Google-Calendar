@@ -28,95 +28,6 @@ const FireBaseTools = {
     }
   },
 
-  getTimetable :  (tempTimetable, sectionPath) => {
-    // Get the course node and add Timetable if it doesn't already exist
-    /* eslint-disable */
-    // timetable is equal to the inputted timeTable so that it can be updated
-    var timetable = tempTimetable;
-    coursesRef.child(sectionPath).once('value').then(function(snap){
-
-      // Check if course section already contains timetable
-      if (!snap.hasChild('timetable')) {
-        // Create Timetable if this course did not already contain one
-        // Get start and end dates of the semester
-        let startDate = new Date(snap.child('Start Date').val());
-        const endDate = new Date(snap.child('End Date').val());
-
-        console.log(sectionPath); //TODO REMOVE
-        console.log(snap.val()); //TODO REMOVE
-
-        // Get the days of the weeks where the course is given
-        const givenWeekDay = [snap.val().Sun, snap.val().Mon, snap.val().Tues, snap.val().Wed, snap.val().Thurs, snap.val().Fri, snap.val().Sat];
-        // Iterate through every date between day 1 and the last day to see if there's a class
-        while (startDate < endDate) {
-          // Format the month so that it is always a two digit number
-          const monthNumber = startDate.getMonth() < 8 ? '0' + (startDate.getMonth() + 1) : (startDate.getMonth() + 1);
-          // Create the key for the new DateObject in the form "YEAR-MONTH-DATE"
-          const newDateObject = startDate.getFullYear() + '-' + monthNumber + '-' + startDate.getDate();
-          // Add the JSON date key
-          switch (startDate.getDay()) {
-
-            case 0: // Sunday
-              if(givenWeekDay[0] === 'Y') {
-                timetable[newDateObject] = { description : 'No Description' };
-              }
-              break;
-
-            case 1: // Monday
-              if(givenWeekDay[1] === 'Y') {
-                timetable[newDateObject] = { description : 'No Description' };
-              }
-              break;
-
-            case 2: // Tuesday
-              if(givenWeekDay[2] === 'Y') {
-                timetable[newDateObject] = { description : 'No Description' };
-              }
-              break;
-
-            case 3: // Wednesday
-              if(givenWeekDay[3] === 'Y') {
-                timetable[newDateObject] = { description : 'No Description' };
-              }
-              break;
-
-            case 4: // Thursday
-              if(givenWeekDay[4] === 'Y') {
-                timetable[newDateObject] = { description : 'No Description' };
-              }
-              break;
-
-            case 5: // Friday
-              if(givenWeekDay[5] === 'Y') {
-                timetable[newDateObject] = { description : 'No Description' };
-              }
-              break;
-
-            case 6: // Saturday
-              if(givenWeekDay[6] === 'Y') {
-                timetable[newDateObject] = { description : 'No Description' };
-              }
-              break;
-
-            default:
-              console.log('There was an error in retrieving the day of the week');
-            //TODO add a proper error check?
-          }
-
-          // check next date
-          let newDate = startDate.setDate(startDate.getDate() + 1);
-          startDate = new Date(newDate);
-        }
-      }else{ return null;}
-    }).catch(error => ({
-      errorCode: error.code,
-      errorMessage: error.message,
-    }));
-    // return updated timetable
-    console.log('timetable' + timetable);
-    return timetable;
-  },
-
   getUserCourses: (dispatch, TYPE) => {
     let userCur = null;
     const id = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
@@ -185,12 +96,14 @@ const FireBaseTools = {
       const updates = {};
       updates[courseIndex] = newCourse;
       usersRef.child(id.toString()).child('coursearray').update(updates);
+
     }
 
     //Adding the user to the subscriber list of the course
     const update_subs = {};
     update_subs['/Subscribers/' + id.toString()] = firebaseAuth.currentUser.displayName;
-    coursesRef.child(courseNumber + section.section).update(update_subs);
+    let courseSectionPath = section.component === 'LAB' ? courseNumber + section.section + 1 : courseNumber + section.section;
+    coursesRef.child(courseSectionPath).update(update_subs);
 
     const updates = {};
 
@@ -217,27 +130,137 @@ const FireBaseTools = {
     let sectionPath = courseNumber + section.section;
 
     // The timetable variable that will contain all the Date objects of each individual class
-    let timetable = {};
+    let timetablePromises = [];
 
     // Loop through every pat value of a given course section (usually only greater than 1 for labs)
     for(let i = 1; i <= section.maxPat; i++){
 
       // new section path has PatNumber appended if it is a lab sections
       let newSectionPath = section.component == 'LAB' ? sectionPath + i + '/' : sectionPath;
-      console.log(newSectionPath);
 
-      // timetable is updated with new data every time the getTimetable function is called
-      let tempTimetable = timetable;
-      timetable = FireBaseTools.getTimetable(tempTimetable,newSectionPath);
+      // We add a promise to the array for every path we're fetching data from (will be more than one if it's a lab section)
+      timetablePromises.push( FireBaseTools.getTimetable(newSectionPath));
     }
-    console.log(timetable);
+
+    // The .then() function is ONLY triggered if and when ALL of the promises in the given array are resolved.
+    // The resolved objects (collection of class date objects) contained inside each promise are merged into a single timetable
+    // If any of the objects didn't resolve, then it probably means that the section already contained a timetable
+    // in that case, we don't need to do anything, otherwise we update firebase with the newly created timetable
+    Promise.all(timetablePromises).then(function(promArray){
+
+      // For each promise, list of dateObjects to the timetable object
+      let timetable = {};
+      promArray.map(function(dateObject){ timetable =  Object.assign(timetable,dateObject)});
+
+      // push the timetable to the appropriate Firebase path
+      FireBaseTools.addTimetableToFirebase(timetable, courseSectionPath);
+    });
+
     return null;
     // TODO update the error message
-    // TODO Subscribe user to course
-    // TODO if course has been added for the first time, then create a timetable
-    // TODO If it's the user's first course, then they might not even have a course array
-    // so we would need to initialize that as well
     // TODO add more error checking
+  },
+
+  addTimetableToFirebase :  (timetable, courseSectionPath) => {
+    // pushes a newly created timetable the appropriate course section path, assuming it doesn't already have one
+    coursesRef.child(courseSectionPath).once('value').then(function(snap){
+      // Check if course section already contains timetable. if it does then don't push to firebase
+      if (!snap.hasChild('Timetable')) {
+        // If it doesn't already have a timetable then add the new timetable
+        const update_timetable = {};
+        update_timetable['Timetable'] = timetable;
+        coursesRef.child(courseSectionPath).update(update_timetable);
+      }
+      // If this course section already contained a timetable, then there is no need to create a new one
+      // do nothing
+    }).catch(error => ({
+      errorCode: error.code,
+      errorMessage: error.message,
+    }));
+  },
+
+  getTimetable :  (sectionPath) => {
+    // Get the course node and add Timetable if it doesn't already exist
+
+
+    // create empty timeTable object
+    let timetable = {};
+    return coursesRef.child(sectionPath).once('value').then(function(snap){
+
+      // Get start and end dates of the semester
+      let startDate = new Date(snap.child('Start Date').val());
+      const endDate = new Date(snap.child('End Date').val());
+
+      // Get the days of the weeks where the course is given
+      const givenWeekDay = [snap.val().Sun, snap.val().Mon, snap.val().Tues, snap.val().Wed, snap.val().Thurs, snap.val().Fri, snap.val().Sat];
+      // Iterate through every date between day 1 and the last day to see if there's a class
+      while (startDate < endDate) {
+        // Format the month and date so that it is always a two digit number. i.e. Prepend a '0' when 1-digit number
+        const monthNumber = startDate.getMonth() < 9 ? '0' + (startDate.getMonth() + 1) : (startDate.getMonth() + 1);
+        const dateNumber = startDate.getDate() < 10 ? '0' + (startDate.getDate()) : (startDate.getDate());
+        // Create the key for the new DateObject in the form "YEAR-MONTH-DATE"
+        const newDateObject = startDate.getFullYear() + '-' + monthNumber + '-' + dateNumber;
+        // Add the JSON date key
+        switch (startDate.getDay()) {
+
+          case 0: // Sunday
+            if(givenWeekDay[0] === 'Y') {
+              timetable[newDateObject] = { description : 'No Description' };
+            }
+            break;
+
+          case 1: // Monday
+            if(givenWeekDay[1] === 'Y') {
+              timetable[newDateObject] = { description : 'No Description' };
+            }
+            break;
+
+          case 2: // Tuesday
+            if(givenWeekDay[2] === 'Y') {
+              timetable[newDateObject] = { description : 'No Description' };
+            }
+            break;
+
+          case 3: // Wednesday
+            if(givenWeekDay[3] === 'Y') {
+              timetable[newDateObject] = { description : 'No Description' };
+            }
+            break;
+
+          case 4: // Thursday
+            if(givenWeekDay[4] === 'Y') {
+              timetable[newDateObject] = { description : 'No Description' };
+            }
+            break;
+
+          case 5: // Friday
+            if(givenWeekDay[5] === 'Y') {
+              timetable[newDateObject] = { description : 'No Description' };
+            }
+            break;
+
+          case 6: // Saturday
+            if(givenWeekDay[6] === 'Y') {
+              timetable[newDateObject] = { description : 'No Description' };
+            }
+            break;
+
+          default:
+            console.log('There was an error in retrieving the day of the week');
+          //TODO add a proper error check?
+        }
+
+        // check next date (startDate acts as our iterator in this loop so it takes the value of the next day)
+        let newDate = startDate.setDate(startDate.getDate() + 1);
+        startDate = new Date(newDate);
+      }
+      // return a promise of a timetable object with all the dates of a given course section path
+      return timetable;
+    }).catch(error => ({
+      errorCode: error.code,
+      errorMessage: error.message,
+    }));
+
   },
 
   getSections: (courseName) => {
