@@ -62,7 +62,8 @@ module.exports = (options) => {
     });
   } else {
     webpackConfig.plugins.push(
-      new Webpack.HotModuleReplacementPlugin()
+      new Webpack.HotModuleReplacementPlugin(),
+      new Webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
     );
 
     webpackConfig.module.loaders.push({

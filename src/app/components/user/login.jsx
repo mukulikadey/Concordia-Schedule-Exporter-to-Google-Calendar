@@ -47,6 +47,7 @@ class UserLogin extends Component {
           <div>
             <div className="row center">
                 <div className='col-md-4'>
+
                 <form id="frmLogin" role="form" onSubmit={this.onFormSubmit}>
                     <p>
                         {this.state.message}
@@ -76,6 +77,7 @@ class UserLogin extends Component {
                       }} data-provider="google"
                     ><span className="fa fa-google"></span>Sign in with Gmail</a>
                 </form>
+
                 </div>
                 <UserRegister/>
             </div><br />
