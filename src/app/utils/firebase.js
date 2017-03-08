@@ -307,6 +307,49 @@ const FireBaseTools = {
     /* eslint-enable */
   },
 
+   getUserEvents: () => {
+    let userCourses = null, stringCourses=[];
+    const id = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
+    usersRef.child(id.toString()).once('value').then(function(snap) {
+      userCourses=snap.val()['coursearray']
+     // console.log(userCourses)
+        for(var i=0; i<userCourses.length; i=i+1)
+        {
+
+          userCourses[i].section ? stringCourses.push(userCourses[i].coursename +userCourses[i].section ):null
+         userCourses[i].tutorialsection ?  stringCourses.push(userCourses[i].coursename+ userCourses[i].tutorialsection): null
+          userCourses[i].labsection ?  stringCourses.push(userCourses[i].coursename+ (userCourses[i].labsection + "1")):null
+        }
+        console.log(stringCourses)
+
+      var coursePromises = [];
+      stringCourses.map((section)=>
+      {
+        coursePromises.push(coursesRef.child(section).once('value').then(function(snap){
+          return snap.val();
+        }))
+
+      })
+      var finalCourses=[], timetable=null;
+      Promise.all(coursePromises).then(function(resolvedarray){
+        resolvedarray.map((course)=>{
+          timetable=course.Timetable? course.Timetable : null;
+          finalCourses.push({timetable:timetable, startTime:course['Mtg Start'], endTime:course['Mtg End'], title:(course.Subject+course.Catalog)})
+          return finalCourses;
+          //console.log(course)
+        })
+
+      })
+      console.log(finalCourses)
+     
+
+      //console.log(userCourses);
+
+
+    })
+    return null;
+  },
+
   /**
    * Login with provider => p is provider "email", "facebook", "github", "google", or "twitter"
    * Uses Popup therefore provider must be an OAuth provider. EmailAuthProvider will throw an error

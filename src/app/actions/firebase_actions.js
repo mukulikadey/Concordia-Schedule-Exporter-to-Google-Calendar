@@ -11,6 +11,7 @@ import {
   GET_USER_COURSES,
   GET_SECTIONS,
   ADD_USER_SECTION,
+  GET_EVENTS
 } from './types';
 
 
@@ -20,6 +21,14 @@ export function loginWithProvider(provider) {
         type: LOGIN_WITH_PROVIDER_FIREBASE,
         payload: request,
     };
+}
+
+export function getEvents(){
+    const request = FireBaseTools.getUserEvents();
+    return {
+        type: GET_EVENTS,
+        payload:request
+    }
 }
 
 export function getUserCourses() {
