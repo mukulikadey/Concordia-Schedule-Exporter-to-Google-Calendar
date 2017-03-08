@@ -155,10 +155,7 @@ const FireBaseTools = {
       // push the timetable to the appropriate Firebase path
       FireBaseTools.addTimetableToFirebase(timetable, courseSectionPath);
     });
-
     return null;
-    // TODO update the error message
-    // TODO add more error checking
   },
 
   addTimetableToFirebase :  (timetable, courseSectionPath) => {
@@ -180,9 +177,6 @@ const FireBaseTools = {
   },
 
   getTimetable :  (sectionPath) => {
-    // Get the course node and add Timetable if it doesn't already exist
-
-
     // create empty timeTable object
     let timetable = {};
     return coursesRef.child(sectionPath).once('value').then(function(snap){
@@ -191,63 +185,98 @@ const FireBaseTools = {
       let startDate = new Date(snap.child('Start Date').val());
       const endDate = new Date(snap.child('End Date').val());
 
+      // Get the array of dates on which courses shouldn't be added (ex: march break and holidays)
+      // Remember date objects count months from 0 - 11, so Jan = 0, Feb = 1, etc.
+      let noClassThisDay = [];
+
+      // Winter Semester Reading Week
+      // Monday, February 20 to Sunday February 26
+      noClassThisDay.push( new Date(2017,1,20));
+      noClassThisDay.push( new Date(2017,1,21));
+      noClassThisDay.push( new Date(2017,1,22));
+      noClassThisDay.push( new Date(2017,1,23));
+      noClassThisDay.push( new Date(2017,1,24));
+      noClassThisDay.push( new Date(2017,1,25));
+      noClassThisDay.push( new Date(2017,1,26));
+
+      // Easter Weekend and end of semester
+      // Friday, April 14 to Sunday April 17
+      noClassThisDay.push( new Date(2017,3,14));
+      noClassThisDay.push( new Date(2017,3,15));
+      noClassThisDay.push( new Date(2017,3,16));
+      noClassThisDay.push( new Date(2017,3,17));
+
       // Get the days of the weeks where the course is given
       const givenWeekDay = [snap.val().Sun, snap.val().Mon, snap.val().Tues, snap.val().Wed, snap.val().Thurs, snap.val().Fri, snap.val().Sat];
       // Iterate through every date between day 1 and the last day to see if there's a class
       while (startDate < endDate) {
-        // Format the month and date so that it is always a two digit number. i.e. Prepend a '0' when 1-digit number
-        const monthNumber = startDate.getMonth() < 9 ? '0' + (startDate.getMonth() + 1) : (startDate.getMonth() + 1);
-        const dateNumber = startDate.getDate() < 10 ? '0' + (startDate.getDate()) : (startDate.getDate());
-        // Create the key for the new DateObject in the form "YEAR-MONTH-DATE"
-        const newDateObject = startDate.getFullYear() + '-' + monthNumber + '-' + dateNumber;
-        // Add the JSON date key
-        switch (startDate.getDay()) {
 
-          case 0: // Sunday
-            if(givenWeekDay[0] === 'Y') {
-              timetable[newDateObject] = { description : 'No Description' };
-            }
-            break;
+        // Verify if classes are given on this day or not
+        let classesGivenOnThisDay = true;
+        for(let i = 0; i < noClassThisDay.length; i++) {
+          if(noClassThisDay[i].getFullYear() === startDate.getFullYear() && noClassThisDay[i].getMonth() === startDate.getMonth() && noClassThisDay[i].getDate() === startDate.getDate()){
+            // If the current date is included in the list of dates when there are no classes,
+            // then don't update the timetable
+            classesGivenOnThisDay = false;
+          }
+        }
 
-          case 1: // Monday
-            if(givenWeekDay[1] === 'Y') {
-              timetable[newDateObject] = { description : 'No Description' };
-            }
-            break;
+        // only update timetable in this iteration if classes are actually given on this date
+        if (classesGivenOnThisDay) {
+          // Format the month and date so that it is always a two digit number. i.e. Prepend a '0' when 1-digit number
+          const monthNumber = startDate.getMonth() < 9 ? '0' + (startDate.getMonth() + 1) : (startDate.getMonth() + 1);
+          const dateNumber = startDate.getDate() < 10 ? '0' + (startDate.getDate()) : (startDate.getDate());
+          // Create the key for the new DateObject in the form "YEAR-MONTH-DATE"
+          const newDateObject = startDate.getFullYear() + '-' + monthNumber + '-' + dateNumber;
+          // Add the JSON date key
+          switch (startDate.getDay()) {
 
-          case 2: // Tuesday
-            if(givenWeekDay[2] === 'Y') {
-              timetable[newDateObject] = { description : 'No Description' };
-            }
-            break;
+            case 0: // Sunday
+              if (givenWeekDay[0] === 'Y') {
+                timetable[newDateObject] = {description: 'No Description'};
+              }
+              break;
 
-          case 3: // Wednesday
-            if(givenWeekDay[3] === 'Y') {
-              timetable[newDateObject] = { description : 'No Description' };
-            }
-            break;
+            case 1: // Monday
+              if (givenWeekDay[1] === 'Y') {
+                timetable[newDateObject] = {description: 'No Description'};
+              }
+              break;
 
-          case 4: // Thursday
-            if(givenWeekDay[4] === 'Y') {
-              timetable[newDateObject] = { description : 'No Description' };
-            }
-            break;
+            case 2: // Tuesday
+              if (givenWeekDay[2] === 'Y') {
+                timetable[newDateObject] = {description: 'No Description'};
+              }
+              break;
 
-          case 5: // Friday
-            if(givenWeekDay[5] === 'Y') {
-              timetable[newDateObject] = { description : 'No Description' };
-            }
-            break;
+            case 3: // Wednesday
+              if (givenWeekDay[3] === 'Y') {
+                timetable[newDateObject] = {description: 'No Description'};
+              }
+              break;
 
-          case 6: // Saturday
-            if(givenWeekDay[6] === 'Y') {
-              timetable[newDateObject] = { description : 'No Description' };
-            }
-            break;
+            case 4: // Thursday
+              if (givenWeekDay[4] === 'Y') {
+                timetable[newDateObject] = {description: 'No Description'};
+              }
+              break;
 
-          default:
-            console.log('There was an error in retrieving the day of the week');
-          //TODO add a proper error check?
+            case 5: // Friday
+              if (givenWeekDay[5] === 'Y') {
+                timetable[newDateObject] = {description: 'No Description'};
+              }
+              break;
+
+            case 6: // Saturday
+              if (givenWeekDay[6] === 'Y') {
+                timetable[newDateObject] = {description: 'No Description'};
+              }
+              break;
+
+            default:
+              console.log('There was an error in retrieving the day of the week');
+            //TODO add a proper error check?
+          }
         }
 
         // check next date (startDate acts as our iterator in this loop so it takes the value of the next day)
