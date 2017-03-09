@@ -7,7 +7,7 @@ import  '../user/react-big-calendar.css';
 import moment from 'moment';
 import localizer from 'react-big-calendar/lib/localizers/moment';
 import events from '../user/events';
-import { fetchUser, updateUser } from '../../actions/firebase_actions';
+import { fetchUser, updateUser,getEvents } from '../../actions/firebase_actions';
 import Loading from '../helpers/loading';
 import ChangePassword from './change_password';
 
@@ -20,11 +20,15 @@ class ScheduleGen extends Component {
   constructor(props) {
     super(props);
     this.props.fetchUser();
+    this.props.getEvents();
+
+  
     this.state = {
       message: '',
     };
     this.onFormSubmit = this.onFormSubmit.bind(this);
   }
+
 
   onFormSubmit(event) {
     event.preventDefault();
@@ -60,9 +64,12 @@ class ScheduleGen extends Component {
   }
 
   render() {
-    if (!this.props.currentUser) {
+    
+    if (!this.props.currentUser && !this.props.userEvents) {
+      this.props.getEvents()
       return <Loading />;
     }
+    //console.log(this.props.userEvents)
     return (
       <div className="trans-sc">
           <BigCalendar
@@ -85,11 +92,11 @@ class ScheduleGen extends Component {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ fetchUser, updateUser }, dispatch);
+    return bindActionCreators({ fetchUser, updateUser,getEvents }, dispatch);
 }
 
 function mapStateToProps(state) {
-    return { currentUser: state.currentUser };
+    return { currentUser: state.currentUser, userEvents: state.userEvents };
 }
 
 
