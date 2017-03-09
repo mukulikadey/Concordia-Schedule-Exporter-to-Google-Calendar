@@ -429,6 +429,7 @@ button.rbc-input::-moz-focus-inner {
   line-height: 1;
   height: 100%;
   min-height: 1em;
+  font-size: 13px;
 }
 .rbc-day-slot .rbc-time-slot {
   border-top: 1px solid #f7f7f7;

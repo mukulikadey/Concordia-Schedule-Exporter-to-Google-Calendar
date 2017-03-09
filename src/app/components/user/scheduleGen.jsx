@@ -6,7 +6,6 @@ import BigCalendar from 'react-big-calendar';
 import  '../user/react-big-calendar.css';
 import moment from 'moment';
 import localizer from 'react-big-calendar/lib/localizers/moment';
-import events from '../user/events';
 import { fetchUser, updateUser,getEvents } from '../../actions/firebase_actions';
 import Loading from '../helpers/loading';
 import ChangePassword from './change_password';
@@ -22,7 +21,7 @@ class ScheduleGen extends Component {
     this.props.fetchUser();
     this.props.getEvents();
 
-  
+
     this.state = {
       message: '',
     };
@@ -64,22 +63,22 @@ class ScheduleGen extends Component {
   }
 
   render() {
-    
+
     if (!this.props.currentUser && !this.props.userEvents) {
       this.props.getEvents()
       return <Loading />;
     }
-    //console.log(this.props.userEvents)
+    console.log(this.props.userEvents)
     return (
       <div className="trans-sc">
           <BigCalendar
             {...this.props}
-            events={events}
+            events={this.props.userEvents}
             min={new Date(2017,1,1,8,0,0)}
             max ={new Date(2017,1,1,23,30,0)}
             step={15}
             timeslots={2}
-            defaultView="week"
+            defaultView="day"
             style={{height: 800}}
 
             onSelectEvent={event => alert(event.desc)}

@@ -339,9 +339,9 @@ const FireBaseTools = {
             Object.keys(timetable).map(function(key, index) {
                   time.push({start :new Date(key), end: new Date(key), title:""})
               });
-              
+
           }
-        
+
          if(course.Timetable) {
            timetable=time;
            var time = course['Mtg Start']
@@ -370,11 +370,9 @@ const FireBaseTools = {
            date['start'].setMinutes(sMinutes);
            date['end'].setMinutes(eMinutes);
            date['title']=subject
-           return date;
+           finalCourses.push(date)
           })
         }
-         
-          finalCourses.push({timetable:timetable})
           //return finalCourses;
           //console.log(course)
         })
@@ -387,7 +385,7 @@ const FireBaseTools = {
       errorCode: error.code,
       errorMessage: error.message,
     }));
-    
+
   },
 
   /**
