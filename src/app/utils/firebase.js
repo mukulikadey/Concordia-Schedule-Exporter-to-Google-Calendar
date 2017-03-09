@@ -100,8 +100,9 @@ const FireBaseTools = {
 
     // Adding the user to the subscriber list of the course
     const updateSubs = {};
-    updateSubs['/Subscribers/' + id.toString()] = firebaseAuth.currentUser.displayName;
     /* eslint-disable */
+    updateSubs['/Subscribers/' + id.toString()] = firebaseAuth.currentUser.displayName;
+    
     const courseSectionPath = section.component === 'LAB' ? courseNumber + section.section + 1 : courseNumber + section.section;
     /* eslint-enable */
     coursesRef.child(courseSectionPath).update(updateSubs);
