@@ -33,24 +33,26 @@ class ChangePassword extends Component {
 
     render() {
       return (
+
       <form id="ChangePassword" role="form" onSubmit={this.onFormSubmit}>
         <h4> Change Password </h4>
         <h5> {this.state.message} </h5>
         <div className="form-group">
           <label htmlFor="password"> New Password: </label>
           <input type="password" className="form-control"
-            name="password" ref="password" id="password" 
+            name="password" ref="password" id="password"
           />
         </div>
         <div className="form-group">
           <label htmlFor="repeatPassword"> Repeat Password: </label>
           <input type="password" className="form-control"
-            name="repeatPassword" ref="repeatPassword" id="repeatPassword" 
+            name="repeatPassword" ref="repeatPassword" id="repeatPassword"
           />
 
         </div>
         <button type="submit" className="btn btn-primary">Change Password</button>
       </form>
+
     );
   }
 

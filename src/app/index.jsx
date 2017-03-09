@@ -17,8 +17,9 @@ import './bundle.scss';
 const createStoreWithMiddleware = applyMiddleware(ReduxPromise,thunk)(createStore);
 
 
-ReactDOM.render(
+React.render(
     <Provider store={createStoreWithMiddleware(reducers)}>
         <Router history={browserHistory} routes={routes} />
     </Provider>
   , document.querySelector('.react-root'));
+

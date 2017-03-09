@@ -10,6 +10,8 @@ import {
   LOGOUT_FIREBASE_USER,
   GET_USER_COURSES,
   GET_SECTIONS,
+  ADD_USER_SECTION,
+  GET_EVENTS,
 } from './types';
 
 
@@ -21,12 +23,29 @@ export function loginWithProvider(provider) {
     };
 }
 
+export function getEvents() {
+    const request = FireBaseTools.getUserEvents();
+
+    return {
+        type: GET_EVENTS,
+        payload: request,
+    };
+}
+
 export function getUserCourses() {
        // Using the redux-thunk library, we can dispatch functions
        // instead of returning a static value once, we dispatch every time
        // a change event is called by Firebase's .on() function
     return (dispatch) => {
         FireBaseTools.getUserCourses(dispatch, GET_USER_COURSES);
+    };
+}
+
+export function addUserSection(courseArray, courseNumber, section) {
+    const request = FireBaseTools.addUserSection(courseArray, courseNumber, section);
+    return {
+        type: ADD_USER_SECTION,
+        payload: request,
     };
 }
 
