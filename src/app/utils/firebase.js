@@ -369,7 +369,6 @@ const FireBaseTools = {
           if(AMPM == "AM" && hours==12) hours = hours-12;
           var eHours = hours.toString();
           var eMinutes = minutes.toString();
-         // console.log(sHours, sMinutes, eHours,eMinutes)
 
           timetable.map((date)=>{
            date['start'].setHours(sHours);
@@ -380,13 +379,8 @@ const FireBaseTools = {
            finalCourses.push(date)
           })
         }
-          //return finalCourses;
-          //console.log(course)
         })
-        //console.log(finalCourses)
-        //return finalCourses
       })
-      //console.log(finalCourses)
      return finalCourses;
     }).catch(error => ({
       errorCode: error.code,
