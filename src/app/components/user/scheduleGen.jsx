@@ -46,7 +46,7 @@ class ScheduleGen extends Component {
   }
 
   eventStyleGetter(event,title) {
-    console.log(event);
+  
     var backgroundColor = '#' + event.hexColor;
     var style = {
       backgroundColor: backgroundColor,
@@ -68,7 +68,15 @@ class ScheduleGen extends Component {
       this.props.getEvents()
       return <Loading />;
     }
-    console.log(this.props.userEvents)
+    if(!this.props.userEvents){
+      return <Loading/>
+    }
+
+    if(this.props.userEvents.value==0)
+    {
+      return <div>Nothing to show</div>
+    }
+    
     return (
       <div className="trans-sc">
           <BigCalendar

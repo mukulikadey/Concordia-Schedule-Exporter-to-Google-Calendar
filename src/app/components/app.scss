@@ -92,3 +92,11 @@ div.trans-sc{
   padding: 1%;
 }
 
+.hiding{
+  display:none;
+}
+
+.parent:hover .hiding {
+  display:inline;
+}
+

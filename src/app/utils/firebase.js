@@ -319,9 +319,11 @@ const FireBaseTools = {
     let userCourses = null;
     const stringCourses = [];
     const id = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
+    if(!id) return null;
     /* eslint-disable */
     return usersRef.child(id.toString()).once('value').then(function(snap) {
       userCourses=snap.val()['coursearray'];
+      if(!userCourses) {return {value:0}}
      // console.log(userCourses)
         for (var i = 0; i<userCourses.length; i+=1) {
           userCourses[i].section ? stringCourses.push(userCourses[i].coursename + userCourses[i].section ):null

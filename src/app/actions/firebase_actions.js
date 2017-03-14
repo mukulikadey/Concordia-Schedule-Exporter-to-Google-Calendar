@@ -12,6 +12,7 @@ import {
   GET_SECTIONS,
   ADD_USER_SECTION,
   GET_EVENTS,
+  DELETE_COURSE,
 } from './types';
 
 

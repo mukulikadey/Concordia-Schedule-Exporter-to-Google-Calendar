@@ -21,8 +21,12 @@ class Index_home extends Component{
     this.handleForm = this.handleForm.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.onkeyPress=this.onkeyPress.bind(this);
+    this.remove=this.remove.bind(this)
   }
 
+  remove(course){
+    
+  }
 
   getCourses()
   {
@@ -35,7 +39,7 @@ class Index_home extends Component{
 
     if(this.props.userCourses&& this.props.userCourses.loaded && this.props.userCourses.courses && this.props.userCourses.courses[0]!='No Courses')
     return this.props.userCourses.courses.map((course)=>{
-      return <p key={course.coursename}>{course.coursenumber}</p>
+      return <p className="parent" key={course.coursename}>{course.coursenumber} <span onClick={this.remove.bind(this,course)} className="hiding fa fa-times-circle"></span></p>
     })
 
     else if(!this.props.userCourses.courses)
