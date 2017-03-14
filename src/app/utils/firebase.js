@@ -89,6 +89,23 @@ const FireBaseTools = {
     course.tutorialsection? usersections.push(course.coursenumber+ course.tutorialsection) : null
     course.labsection? usersections.push(course.coursenumber+ course.labsection+ "1") : null
     
+    usersections.map((section)=>{
+      sections.push(coursesRef.child(section).once('value').then(function(snap){
+          return snap.val();
+        }))
+    })
+    Promise.all(sections).then(function(resolvedSub){
+
+      resolvedSub.map((sec,i)=>{
+        var path=usersections[i]
+        obj=sec.Subscribers;
+        delete obj[id];
+        
+        coursesRef.child(path).child('Subscribers').set(obj)
+        
+      })
+
+    })
     usersRef.child(id.toString()).child('coursearray').set(coursearray);
 
     return null;
