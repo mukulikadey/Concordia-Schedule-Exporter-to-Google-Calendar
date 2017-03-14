@@ -33,6 +33,15 @@ export function getEvents() {
     };
 }
 
+export function deleteCourse(coursearray,course) {
+    const request = FireBaseTools.deleteCourse(coursearray,course);
+
+    return {
+        type: DELETE_COURSE,
+        payload: request,
+    };
+}
+
 export function getUserCourses() {
        // Using the redux-thunk library, we can dispatch functions
        // instead of returning a static value once, we dispatch every time

@@ -67,6 +67,35 @@ const FireBaseTools = {
     /* eslint-enable */
   },
 
+  deleteCourse:(coursearray,course)=> {
+      var obj=[], usersections=[], sections=[];
+    const id = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
+    var index=-1;
+    for(var i=0; i<coursearray.length; i=i+1)
+    {
+      if(coursearray[i]==course)
+      {
+        index=i
+      }
+    }
+    
+
+    if(index>-1)
+    {
+      coursearray.splice(index,1)
+    }
+    
+    course.section? usersections.push(course.coursenumber +course.section) : null
+    course.tutorialsection? usersections.push(course.coursenumber+ course.tutorialsection) : null
+    course.labsection? usersections.push(course.coursenumber+ course.labsection+ "1") : null
+    
+    usersRef.child(id.toString()).child('coursearray').set(coursearray);
+
+    return null;
+
+  },
+
+
   addUserSection: (courseArray, courseNumber, section) => {
     // Variable to keep track of course index
     let courseIndex = -1;

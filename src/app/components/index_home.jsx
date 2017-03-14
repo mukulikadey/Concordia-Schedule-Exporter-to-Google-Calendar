@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { browserHistory, Link } from 'react-router';
-import { fetchUser, getUserCourses, getSections, addUserSection } from '../actions/firebase_actions';
+import { fetchUser, getUserCourses, getSections, addUserSection,deleteCourse } from '../actions/firebase_actions';
 import Loading from './helpers/loading';
 
 
@@ -25,7 +25,7 @@ class Index_home extends Component{
   }
 
   remove(course){
-    
+    this.props.deleteCourse(this.props.userCourses.courses,course)
   }
 
   getCourses()
@@ -179,7 +179,7 @@ class Index_home extends Component{
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ fetchUser, getUserCourses, getSections, addUserSection}, dispatch);
+  return bindActionCreators({ fetchUser, getUserCourses, getSections, addUserSection,deleteCourse}, dispatch);
 }
 
 
