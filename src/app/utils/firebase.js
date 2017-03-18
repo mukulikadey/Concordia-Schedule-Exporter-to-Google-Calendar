@@ -68,7 +68,7 @@ const FireBaseTools = {
   },
 
   deleteCourse:(coursearray,course)=> {
-      var obj=[], usersections=[], sections=[];
+    var obj=[], usersections=[], sections=[];
     const id = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
     var index=-1;
     for(var i=0; i<coursearray.length; i=i+1)
@@ -78,21 +78,21 @@ const FireBaseTools = {
         index=i
       }
     }
-    
+
 
     if(index>-1)
     {
       coursearray.splice(index,1)
     }
-    
+
     course.section? usersections.push(course.coursenumber +course.section) : null
     course.tutorialsection? usersections.push(course.coursenumber+ course.tutorialsection) : null
     course.labsection? usersections.push(course.coursenumber+ course.labsection+ "1") : null
-    
+
     usersections.map((section)=>{
       sections.push(coursesRef.child(section).once('value').then(function(snap){
-          return snap.val();
-        }))
+        return snap.val();
+      }))
     })
     Promise.all(sections).then(function(resolvedSub){
 
@@ -100,9 +100,9 @@ const FireBaseTools = {
         var path=usersections[i]
         obj=sec.Subscribers;
         delete obj[id];
-        
+
         coursesRef.child(path).child('Subscribers').set(obj)
-        
+
       })
 
     })
@@ -115,7 +115,7 @@ const FireBaseTools = {
 
   addUserSection: (courseArray, courseNumber, section) => {
     // Variable to keep track of course index
-    let courseIndex = -1;
+    let courseIndex = -1; var sections=[];
     // current user's UID
     const id = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
 
@@ -125,6 +125,45 @@ const FireBaseTools = {
       if (courseArray[i].coursenumber === courseNumber) {
         courseIndex = i; // contains index number of course in user's courseArray
       }
+    }
+
+    if(courseIndex>=0) {
+
+      // Get the course sections current subscribers list if the user already had the section
+      if(section.component == 'LAB' && courseArray[courseIndex].labsection) {
+
+        sections.push(coursesRef.child(courseArray[courseIndex].coursenumber + courseArray[courseIndex].labsection + 1).once('value').then(function(snap){
+          return snap.val();
+        }))
+      }
+
+      if(section.component == 'TUT' && courseArray[courseIndex].tutorialsection) {
+
+          sections.push(coursesRef.child(courseArray[courseIndex].coursenumber+courseArray[courseIndex].tutorialsection).once('value').then(function(snap){
+            return snap.val();
+          }))
+      }
+
+      if(section.component == 'LEC' && courseArray[courseIndex].section){
+
+        sections.push(coursesRef.child(courseArray[courseIndex].coursenumber + courseArray[courseIndex.section]).once('value').then(function(snap){
+          return snap.val();
+        }))
+      }
+
+      // update the subscribers list of all the affected course sections on Firebase
+      Promise.all(sections).then(function(resolvedSub){
+
+        resolvedSub.map((sec,i)=>{
+          var path=sec.Subject+ sec.Catalog+sec.Section
+          if(sec.Component=='LAB') {path=path+1}
+          var obj=sec.Subscribers;
+          delete obj[id];
+
+          coursesRef.child(path).child('Subscribers').set(obj)
+        })
+
+      })
     }
 
     if (courseIndex < 0) {
@@ -148,7 +187,7 @@ const FireBaseTools = {
     const updateSubs = {};
     /* eslint-disable */
     updateSubs['/Subscribers/' + id.toString()] = firebaseAuth.currentUser.displayName;
-    
+
     const courseSectionPath = section.component === 'LAB' ? courseNumber + section.section + 1 : courseNumber + section.section;
     /* eslint-enable */
     coursesRef.child(courseSectionPath).update(updateSubs);
@@ -361,7 +400,7 @@ const FireBaseTools = {
     /* eslint-enable */
   },
 
-   getUserEvents: () => {
+  getUserEvents: () => {
     let userCourses = null;
     const stringCourses = [];
     const id = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
@@ -370,12 +409,12 @@ const FireBaseTools = {
     return usersRef.child(id.toString()).once('value').then(function(snap) {
       userCourses=snap.val()['coursearray'];
       if(!userCourses) {return {value:0}}
-     // console.log(userCourses)
-        for (var i = 0; i<userCourses.length; i+=1) {
-          userCourses[i].section ? stringCourses.push(userCourses[i].coursename + userCourses[i].section ):null
-         userCourses[i].tutorialsection ? stringCourses.push(userCourses[i].coursename + userCourses[i].tutorialsection): null
-          userCourses[i].labsection ? stringCourses.push(userCourses[i].coursename + (userCourses[i].labsection + "1")):null
-        }
+      // console.log(userCourses)
+      for (var i = 0; i<userCourses.length; i+=1) {
+        userCourses[i].section ? stringCourses.push(userCourses[i].coursename + userCourses[i].section ):null
+        userCourses[i].tutorialsection ? stringCourses.push(userCourses[i].coursename + userCourses[i].tutorialsection): null
+        userCourses[i].labsection ? stringCourses.push(userCourses[i].coursename + (userCourses[i].labsection + "1")):null
+      }
 
       var coursePromises = [];
       stringCourses.map((section) => {
@@ -387,49 +426,51 @@ const FireBaseTools = {
       var finalCourses=[], timetable=null, time=[]
       Promise.all(coursePromises).then(function(resolvedarray){
         resolvedarray.map((course)=>{
+          // console.log(course.Timetable)
           var timetable = course.Timetable? course.Timetable : null, subject=(course.Subject+course.Catalog);
           time=[];
           if(timetable)
           {
             Object.keys(timetable).map(function(key, index) {
-                  time.push({start :new Date(key), end: new Date(key), title:""})
-              });
+              time.push({start :new Date(key), end: new Date(key), title:""})
+            });
 
           }
 
-         if(course.Timetable) {
-           timetable=time;
-           var time = course['Mtg Start']
-          var hours = Number(time.match(/^(\d+)/)[1]);
-          var minutes = Number(time.match(/:(\d+)/)[1]);
-          var AMPM = time.match(/\s(.*)$/)[1];
-          if(AMPM == "PM" && hours<12) hours = hours+12;
-          if(AMPM == "AM" && hours==12) hours = hours-12;
-          var sHours = hours.toString();
-          var sMinutes = minutes.toString();
+          if(course.Timetable) {
+            //console.log(course.Timetable)
+            timetable=time;
+            var time = course['Mtg Start']
+            var hours = Number(time.match(/^(\d+)/)[1]);
+            var minutes = Number(time.match(/:(\d+)/)[1]);
+            var AMPM = time.match(/\s(.*)$/)[1];
+            if(AMPM == "PM" && hours<12) hours = hours+12;
+            if(AMPM == "AM" && hours==12) hours = hours-12;
+            var sHours = hours.toString();
+            var sMinutes = minutes.toString();
 
-          //end
+            //end
             var time = course['Mtg End']
-          var hours = Number(time.match(/^(\d+)/)[1]);
-          var minutes = Number(time.match(/:(\d+)/)[1]);
-          var AMPM = time.match(/\s(.*)$/)[1];
-          if(AMPM == "PM" && hours<12) hours = hours+12;
-          if(AMPM == "AM" && hours==12) hours = hours-12;
-          var eHours = hours.toString();
-          var eMinutes = minutes.toString();
+            var hours = Number(time.match(/^(\d+)/)[1]);
+            var minutes = Number(time.match(/:(\d+)/)[1]);
+            var AMPM = time.match(/\s(.*)$/)[1];
+            if(AMPM == "PM" && hours<12) hours = hours+12;
+            if(AMPM == "AM" && hours==12) hours = hours-12;
+            var eHours = hours.toString();
+            var eMinutes = minutes.toString();
 
-          timetable.map((date)=>{
-           date['start'].setHours(sHours);
-           date['end'].setHours(eHours);
-           date['start'].setMinutes(sMinutes);
-           date['end'].setMinutes(eMinutes);
-           date['title']=subject
-           finalCourses.push(date)
-          })
-        }
+            timetable.map((date)=>{
+              date['start'].setHours(sHours);
+              date['end'].setHours(eHours);
+              date['start'].setMinutes(sMinutes);
+              date['end'].setMinutes(eMinutes);
+              date['title']=subject
+              finalCourses.push(date)
+            })
+          }
         })
       })
-     return finalCourses;
+      return finalCourses;
     }).catch(error => ({
       errorCode: error.code,
       errorMessage: error.message,
