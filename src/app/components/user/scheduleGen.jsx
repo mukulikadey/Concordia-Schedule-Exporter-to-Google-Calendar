@@ -62,39 +62,14 @@ class ScheduleGen extends Component {
 
   }
 
-  exportEvents(signInStatus){
-    let gapi = getGapi();
-    console.log("OI " + signInStatus);
-    if(signInStatus == "Signed In"){
-      let batch = gapi.client.newBatch();
-      let events = this.props.userEvents;
-      let calendarList = gapi.client.calendar.calendarList.list();
-      for(let i = 0; i < calendarList.length; i++){
-        console.log(calendarList[i]);
-      }
-
-
-    }
-  }
-
-  renderGoogle(){
-   let signInStatus = updateSigninStatus();
-    return (
-      <div>
-        <button className="btn-google" onClick={this.exportEvents(signInStatus)}>Export to Calendar</button>
-        <text>{signInStatus}</text>
-      </div>
-    )
-  }
-
   render() {
+
     if (!this.props.currentUser && !this.props.userEvents) {
       this.props.getEvents()
       return <Loading />;
     }
+    console.log(this.props.userEvents)
     return (
-      <div>
-        <div>{this.renderGoogle()}</div>
       <div className="trans-sc">
           <BigCalendar
             {...this.props}
@@ -110,7 +85,7 @@ class ScheduleGen extends Component {
             eventPropGetter={this.eventStyleGetter}
             views={["month", "week", "day",]}/>
       </div>
-      </div>
+
     );
   }
 }
