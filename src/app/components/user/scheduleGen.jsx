@@ -62,14 +62,80 @@ class ScheduleGen extends Component {
 
   }
 
-  render() {
+  exportEvents(signInStatus){
+    if(signInStatus == "Signed In"){
+      let gapi = getGapi();
+      let batch = gapi.client.newBatch(); //For batch requests
+      let events = this.props.userEvents; //Get course events of the user
 
+      console.log(events);
+      //Checking if a CUSE calendar exists. If it does, remove it. Then, create a new calendar from scratch
+      let listRequest = gapi.client.calendar.calendarList.list();
+      listRequest.execute(function(resp){
+        var calendars = resp.items;
+        for(let i = 0; i < calendars.length; i++){
+          if(calendars[i].summary == "CUSE"){
+            //Execute remove request for CUSE calendar
+            gapi.client.calendar.calendars.delete({
+              'calendarId' : calendars[i].id
+            }).execute();
+          }
+        }
+      });
+
+      //Insert new secondary calendar and get its id
+      gapi.client.calendar.calendars.insert({
+        'summary' : "CUSE"
+      }).execute(function(resp) {
+        let calendarId = resp.id;
+
+        for(let i = 0; i < events.length; i++){
+          //Create a course event for every entry in userEvents
+          let event = {
+            'summary' : events[i].title,
+            'start' : {
+              'dateTime': events[i].start.toISOString(),
+              'timeZone': 'America/Montreal'
+            },
+            'end' : {
+              'dateTime' : events[i].end.toISOString(),
+              'timeZone' : 'America/Montreal'
+            }
+          }
+          //Creating a request to insert the event
+          let insertRequest = gapi.client.calendar.events.insert({
+            'calendarId' : calendarId,
+            'resource' : event
+          })
+          //Adding previous request to batch to send all at once
+          batch.add(insertRequest);
+        }
+        //Sending the batch request
+        batch.execute();
+
+      });
+
+    }
+  }
+
+  renderGoogle(){
+   let signInStatus = updateSigninStatus();
+    return (
+      <div>
+        <button className="btn-google" onClick={this.exportEvents.bind(this,signInStatus)}>Export to Calendar</button>
+        <text>{signInStatus}</text>
+      </div>
+    )
+  }
+
+  render() {
     if (!this.props.currentUser && !this.props.userEvents) {
       this.props.getEvents()
       return <Loading />;
     }
-    console.log(this.props.userEvents)
     return (
+      <div>
+        <div>{this.renderGoogle()}</div>
       <div className="trans-sc">
           <BigCalendar
             {...this.props}
@@ -85,7 +151,7 @@ class ScheduleGen extends Component {
             eventPropGetter={this.eventStyleGetter}
             views={["month", "week", "day",]}/>
       </div>
-
+      </div>
     );
   }
 }
