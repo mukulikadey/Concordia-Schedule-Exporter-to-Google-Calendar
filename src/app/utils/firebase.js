@@ -102,7 +102,7 @@ const FireBaseTools = {
     const updateSubs = {};
     /* eslint-disable */
     updateSubs['/Subscribers/' + id.toString()] = firebaseAuth.currentUser.displayName;
-    
+
     const courseSectionPath = section.component === 'LAB' ? courseNumber + section.section + 1 : courseNumber + section.section;
     /* eslint-enable */
     coursesRef.child(courseSectionPath).update(updateSubs);
@@ -339,13 +339,16 @@ const FireBaseTools = {
       var finalCourses=[], timetable=null, time=[]
       Promise.all(coursePromises).then(function(resolvedarray){
         resolvedarray.map((course)=>{
-          var timetable = course.Timetable? course.Timetable : null, subject=(course.Subject+course.Catalog);
+          var timetable = course.Timetable? course.Timetable : null, subject=(course.Subject+course.Catalog), teacher=(course['First Name']+" "+course.Last), room=(course['Room Nbr']),
+            courseTime=(course['Mtg Start']+" - "+course['Mtg End']);
+
           time=[];
           if(timetable)
           {
             Object.keys(timetable).map(function(key, index) {
-                  time.push({start :new Date(key), end: new Date(key), title:""})
-              });
+                  time.push({start :new Date(key), end: new Date(key), title:"", teacher:"", room:"", courseTime:""})
+
+            });
 
           }
 
@@ -375,8 +378,17 @@ const FireBaseTools = {
            date['end'].setHours(eHours);
            date['start'].setMinutes(sMinutes);
            date['end'].setMinutes(eMinutes);
-           date['title']=subject
-           finalCourses.push(date)
+           date['title']=subject;
+            date['teacher'] = teacher;
+            if (date['room'] == "") {
+              date['room'] = "TBA"
+            }
+            else {
+              date['room'] = room
+            };
+            date['courseTime']=courseTime
+
+            finalCourses.push(date)
           })
         }
         })

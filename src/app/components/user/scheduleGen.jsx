@@ -9,6 +9,8 @@ import localizer from 'react-big-calendar/lib/localizers/moment';
 import { fetchUser, updateUser,getEvents } from '../../actions/firebase_actions';
 import Loading from '../helpers/loading';
 import ChangePassword from './change_password';
+import 'sweetalert';
+import '../user/sweetalert.css';
 
 BigCalendar.momentLocalizer(moment);
 localizer(moment);
@@ -46,16 +48,27 @@ class ScheduleGen extends Component {
   }
 
   eventStyleGetter(event,title) {
-    console.log(event);
-    var backgroundColor = '#' + event.hexColor;
+    var stringToColour = function(str) {
+      var hash = 0;
+      for (var i = 0; i < str.length; i++) {
+        hash = str.charCodeAt(i) + ((hash << 5) - hash);
+      }
+      var colour = '#';
+      for (var i = 0; i < 3; i++) {
+        var value = (hash >> (i * 18)) & 0xFF;
+        colour += ('00' + value.toString(16)).substr(-1);
+      }
+      return colour;
+    }
     var style = {
-      backgroundColor: backgroundColor,
+      backgroundColor: stringToColour(event.title),
       borderRadius: '0px',
       color: 'black',
       border: '0px',
       display: 'block',
       width: '100px'
     };
+
     return {
       style: style
     };
@@ -71,20 +84,42 @@ class ScheduleGen extends Component {
     console.log(this.props.userEvents)
     return (
       <div className="trans-sc">
-          <BigCalendar
-            {...this.props}
-            events={this.props.userEvents}
-            min={new Date(2017,1,1,8,0,0)}
-            max ={new Date(2017,1,1,23,30,0)}
-            step={15}
-            timeslots={2}
-            defaultView="day"
-            style={{height: 800}}
+        <BigCalendar
+          {...this.props}
+          events={this.props.userEvents}
+          min={new Date(2017,1,1,8,0,0)}
+          max ={new Date(2017,1,1,23,30,0)}
+          step={15}
+          timeslots={2}
+          defaultView="day"
+          style={{height: 800}}
+          //sweet alert
+          onSelectEvent={event =>swal({
+              title: event.title,
+              text: "Teacher: "+event.teacher+"\nRoom: "+event.room+"\nTime: "+event.courseTime,
+              /*"Here's a custom message."*/
+              /**text: "Class Details:",
+               type: "input",
+               showCancelButton: true,
+               closeOnConfirm: false,
+               animation: "slide-from-top",
+               inputPlaceholder: "Write something"**/
+            }
+            /** function(inputValue){
+                if (inputValue === false) return false;
 
-            onSelectEvent={event => alert(event.desc)}
-            eventPropGetter={this.eventStyleGetter}
-            views={["month", "week", "day",]}/>
+                if (inputValue === "") {
+                  swal.showInputError("You need to write something!");
+                  return false
+                }
+
+                swal("Nice!", "You wrote: " + inputValue, "success");
+              }**/
+          )}
+          eventPropGetter={this.eventStyleGetter}
+          views={["month", "week", "day",]} />
       </div>
+
 
     );
   }
