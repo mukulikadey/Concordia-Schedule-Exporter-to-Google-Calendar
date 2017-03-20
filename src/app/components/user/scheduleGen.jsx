@@ -25,7 +25,7 @@ class ScheduleGen extends Component {
 
 
     this.state = {
-      message: '',
+      events: this.props.userEvents,
     };
     this.onFormSubmit = this.onFormSubmit.bind(this);
   }
@@ -86,17 +86,17 @@ class ScheduleGen extends Component {
       <div className="trans-sc">
         <BigCalendar
           {...this.props}
-          events={this.props.userEvents}
+          events={this.state.events}
           min={new Date(2017,1,1,8,0,0)}
           max ={new Date(2017,1,1,23,30,0)}
           step={15}
           timeslots={2}
           defaultView="day"
-          style={{height: 800}}
+          style={{height: 600}}
           //sweet alert
           onSelectEvent={event =>swal({
               title: event.title,
-              text: "Teacher: "+event.teacher+"\nRoom: "+event.room+"\nTime: "+event.courseTime,
+              text: "Teacher: "+event.teacher+"\nRoom: "+event.room+"\nTime: "+event.courseTime+"\nDescription: "+event.desc,
               /*"Here's a custom message."*/
               /**text: "Class Details:",
                type: "input",

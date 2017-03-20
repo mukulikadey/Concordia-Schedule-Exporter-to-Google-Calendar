@@ -339,14 +339,16 @@ const FireBaseTools = {
       var finalCourses=[], timetable=null, time=[]
       Promise.all(coursePromises).then(function(resolvedarray){
         resolvedarray.map((course)=>{
-          var timetable = course.Timetable? course.Timetable : null, subject=(course.Subject+course.Catalog), teacher=(course['First Name']+" "+course.Last), room=(course['Room Nbr']),
-            courseTime=(course['Mtg Start']+" - "+course['Mtg End']);
+          var timetable = course.Timetable? course.Timetable : null, subject=(course.Subject+course.Catalog), teacher=(course['First Name']+" "+course.Last),
+            room=(course['Room Nbr']), courseTime=(course['Mtg Start']+" - "+course['Mtg End']);
 
           time=[];
           if(timetable)
           {
             Object.keys(timetable).map(function(key, index) {
-                  time.push({start :new Date(key), end: new Date(key), title:"", teacher:"", room:"", courseTime:""})
+              var year=new Date(key).getUTCFullYear(), month= new Date(key).getUTCMonth(), day= new Date(key).getUTCDate()+1;
+              time.push({start :new Date(Date.UTC(year,month,day)), end: new Date(Date.UTC(year,month,day)), title:"", teacher:"", room:"", courseTime:"",
+              desc:timetable[key]['description']})
 
             });
 
@@ -379,14 +381,12 @@ const FireBaseTools = {
            date['start'].setMinutes(sMinutes);
            date['end'].setMinutes(eMinutes);
            date['title']=subject;
-            date['teacher'] = teacher;
-            if (date['room'] == "") {
-              date['room'] = "TBA"
-            }
-            else {
-              date['room'] = room
-            };
-            date['courseTime']=courseTime
+           date['teacher'] = teacher;
+           date['room'] = room;
+           if (date['room'] == "") {
+            date['room'] = "TBA";
+           }
+           date['courseTime']=courseTime
 
             finalCourses.push(date)
           })

@@ -81,7 +81,7 @@ class UserLogin extends Component {
                 </div>
                 <UserRegister/>
             </div><br />
-            <div className="alert alert-info" role="alert">
+            <div className="alert alert alert-info" role="alert">
               Note: You will not be able to synchronize with your Google Calendar if you do not use your gmail account.
             </div>
           </div>

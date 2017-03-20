@@ -42,6 +42,13 @@ body {
   margin-left:25%;
 }
 
+alert{
+  margin-left:300px;
+  margin-right: 70px;
+  width: 550px;
+  font-size: 0.875em;
+}
+
 .welcomeHome {
   text-align: center;
   text-transform: uppercase;
@@ -85,10 +92,9 @@ div.transBox p {
 div.trans-sc{
   background-color: #ffffff;
   border: 1px solid black;
-  opacity: 0.6;
+  opacity: 1;/*0.6*/
   filter: alpha(opacity=20);
   margin-left: auto;
   margin-right: auto;
   padding: 1%;
 }
-
