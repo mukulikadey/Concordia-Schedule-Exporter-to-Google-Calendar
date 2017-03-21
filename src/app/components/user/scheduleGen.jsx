@@ -63,8 +63,9 @@ class ScheduleGen extends Component {
   }
 
   exportEvents(signInStatus){
+    let gapi = getGapi();
+    gapi.auth2.getAuthInstance().signIn();
     if(signInStatus == "Signed In"){
-      let gapi = getGapi();
       let batch = gapi.client.newBatch(); //For batch requests
       let events = this.props.userEvents; //Get course events of the user
 
