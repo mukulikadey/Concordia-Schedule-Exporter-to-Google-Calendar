@@ -32,6 +32,7 @@ const FireBaseTools = {
     let userCur = null;
     const id = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
     /* eslint-disable */
+    if(!id) return null
     usersRef.child(id.toString()).on('value', function(snap) {
 
       // Before modifying the course array, check if the user node

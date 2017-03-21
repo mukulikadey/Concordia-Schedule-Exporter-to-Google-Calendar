@@ -11,6 +11,7 @@ class Index_home extends Component{
   constructor(props) {
     super(props);
     this.props.fetchUser();
+    this.props.getUserCourses()
     this.state = {
       message: '',
       searching: false,
@@ -23,6 +24,12 @@ class Index_home extends Component{
     this.onkeyPress=this.onkeyPress.bind(this);
     this.remove=this.remove.bind(this)
   }
+  
+  componentDidUpdate(){
+    if(!this.props.currentUser) {
+      this.props.getUserCourses()
+    }
+  }
 
   remove(course){
     this.props.deleteCourse(this.props.userCourses.courses,course)
@@ -30,7 +37,6 @@ class Index_home extends Component{
 
   getCourses()
   {
-
     if(this.props.currentUser && !this.props.userCourses.courses)
     {
       this.props.getUserCourses()
