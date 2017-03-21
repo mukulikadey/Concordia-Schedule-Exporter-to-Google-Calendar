@@ -396,7 +396,15 @@ const FireBaseTools = {
               }
            date['teacher'] = teacher;
            date['popupType'] = popupType;
-            if (date['popupType'] == "LAB") {
+            if (date['popupType'] == "LEC") {
+              date['popupType'] = "Lecture";
+            }
+            else
+            if (date['popupType'] == "TUT") {
+              date['popupType'] = "Tutorial";
+            }
+            else {
+              (date['popupType'] == "LAB")
               date['popupType'] = "Lab";
             }
            date['room'] = room;
