@@ -340,14 +340,14 @@ const FireBaseTools = {
       Promise.all(coursePromises).then(function(resolvedarray){
         resolvedarray.map((course)=>{
           var timetable = course.Timetable? course.Timetable : null, subject=(course.Subject+course.Catalog), section=(" - "+course.Section),
-            type=course.Component, teacher=(course['First Name']+" "+course.Last), room=(course['Room Nbr']), courseTime=(course['Mtg Start']+" - "+course['Mtg End']);
+            type=course.Component, popupType=course.Component, teacher=(course['First Name']+" "+course.Last), room=(course['Room Nbr']), courseTime=(course['Mtg Start']+" - "+course['Mtg End']);
 
           time=[];
           if(timetable)
           {
             Object.keys(timetable).map(function(key, index) {
               var year=new Date(key).getUTCFullYear(), month= new Date(key).getUTCMonth(), day= new Date(key).getUTCDate()+1;
-              time.push({start :new Date(Date.UTC(year,month,day)), end: new Date(Date.UTC(year,month,day)), title:"", section:"", type:"", teacher:"", room:"", courseTime:"",
+              time.push({start :new Date(Date.UTC(year,month,day)), end: new Date(Date.UTC(year,month,day)), title:"", section:"", type:"", popupType:"", teacher:"", room:"", courseTime:"",
               desc:timetable[key]['description']})
 
             });
@@ -383,7 +383,22 @@ const FireBaseTools = {
            date['title']= subject;
            date['section']= section;
            date['type']= type;
+            if (date['type'] == "LEC") {
+              date['type'] = "Lecture";
+            }
+            else
+              if (date['type'] == "TUT") {
+                date['type'] = "Tutorial";
+              }
+              else {
+                (date['type'] == "LAB")
+                  date['type'] = "Laboratory";
+              }
            date['teacher'] = teacher;
+           date['popupType'] = popupType;
+            if (date['popupType'] == "LAB") {
+              date['popupType'] = "Lab";
+            }
            date['room'] = room;
            if (date['room'] == "") {
             date['room'] = "TBA";

@@ -74,6 +74,16 @@ class ScheduleGen extends Component {
     };
 
   }
+  titleSect({event}) {
+    return (
+      <span>
+      <div>
+      { event.section && (event.title + event.section)}
+      </div>
+        { event.type && (  event.type  )}
+    </span>
+    )
+  }
 
   render() {
 
@@ -92,10 +102,11 @@ class ScheduleGen extends Component {
           step={15}
           timeslots={4}
           defaultView="week"
+          components={{event: this.titleSect}}
           style={{height: 710}}
           //sweet alert
           onSelectEvent={event =>swal({
-              title: event.title+event.section+" ("+event.type+")",
+              title: event.title+event.section+" ("+event.popupType+")",
               text: "Teacher: "+event.teacher+"\nRoom: "+event.room+"\nTime: "+event.courseTime+"\nDescription: "+event.desc,
               /*"Here's a custom message."*/
               /**text: "Class Details:",
