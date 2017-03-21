@@ -32,6 +32,7 @@ const FireBaseTools = {
     let userCur = null;
     const id = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
     /* eslint-disable */
+    if(!id) return null
     usersRef.child(id.toString()).on('value', function(snap) {
 
       // Before modifying the course array, check if the user node
@@ -67,9 +68,55 @@ const FireBaseTools = {
     /* eslint-enable */
   },
 
+  deleteCourse:(coursearray,course)=> {
+      var obj=[], usersections=[], sections=[];
+    const id = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
+    var index=-1;
+    for(var i=0; i<coursearray.length; i=i+1)
+    {
+      if(coursearray[i]==course)
+      {
+        index=i
+      }
+    }
+    
+
+    if(index>-1)
+    {
+      coursearray.splice(index,1)
+    }
+    
+    course.section? usersections.push(course.coursenumber +course.section) : null
+    course.tutorialsection? usersections.push(course.coursenumber+ course.tutorialsection) : null
+    course.labsection? usersections.push(course.coursenumber+ course.labsection+ "1") : null
+    
+    usersections.map((section)=>{
+      sections.push(coursesRef.child(section).once('value').then(function(snap){
+          return snap.val();
+        }))
+    })
+    Promise.all(sections).then(function(resolvedSub){
+
+      resolvedSub.map((sec,i)=>{
+        var path=usersections[i]
+        obj=sec.Subscribers;
+        delete obj[id];
+        
+        coursesRef.child(path).child('Subscribers').set(obj)
+        
+      })
+
+    })
+    usersRef.child(id.toString()).child('coursearray').set(coursearray);
+
+    return null;
+
+  },
+
+
   addUserSection: (courseArray, courseNumber, section) => {
     // Variable to keep track of course index
-    let courseIndex = -1;
+    let courseIndex = -1; let path="";
     // current user's UID
     const id = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
 
@@ -79,6 +126,25 @@ const FireBaseTools = {
       if (courseArray[i].coursenumber === courseNumber) {
         courseIndex = i; // contains index number of course in user's courseArray
       }
+    }
+
+    if(courseIndex>=0) {
+
+      if(section.component== 'LAB' && courseArray[courseIndex].labsection) {
+        path=courseArray[courseIndex].coursenumber+courseArray[courseIndex].labsection+ 1;
+      }
+
+      if(section.component == 'TUT' && courseArray[courseIndex].tutorialsection) {
+        path=courseArray[courseIndex].coursenumber+courseArray[courseIndex].tutorialsection;
+      
+      }
+
+      if(section.component == 'LEC' && courseArray[courseIndex].section) {
+        path=courseArray[courseIndex].coursenumber + courseArray[courseIndex].section;
+      }
+
+        coursesRef.child(path).child('Subscribers').child(id).set(null);
+    
     }
 
     if (courseIndex < 0) {
@@ -319,11 +385,13 @@ const FireBaseTools = {
     let userCourses = null;
     const stringCourses = [];
     const id = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
+    if(!id) return null;
     /* eslint-disable */
     return usersRef.child(id.toString()).once('value').then(function(snap) {
       userCourses=snap.val()['coursearray'];
-     // console.log(userCourses)
-        for (var i = 0; i<userCourses.length; i+=1) {
+      if(!userCourses) {return {value:0}}
+      
+      for (var i = 0; i<userCourses.length; i+=1) {
           userCourses[i].section ? stringCourses.push(userCourses[i].coursename + userCourses[i].section ):null
          userCourses[i].tutorialsection ? stringCourses.push(userCourses[i].coursename + userCourses[i].tutorialsection): null
           userCourses[i].labsection ? stringCourses.push(userCourses[i].coursename + (userCourses[i].labsection + "1")):null

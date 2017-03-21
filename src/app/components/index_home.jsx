@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { browserHistory, Link } from 'react-router';
-import { fetchUser, getUserCourses, getSections, addUserSection } from '../actions/firebase_actions';
+import { fetchUser, getUserCourses, getSections, addUserSection,deleteCourse } from '../actions/firebase_actions';
 import Loading from './helpers/loading';
 
 
@@ -11,6 +11,7 @@ class Index_home extends Component{
   constructor(props) {
     super(props);
     this.props.fetchUser();
+    this.props.getUserCourses()
     this.state = {
       message: '',
       searching: false,
@@ -21,12 +22,21 @@ class Index_home extends Component{
     this.handleForm = this.handleForm.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.onkeyPress=this.onkeyPress.bind(this);
+    this.remove=this.remove.bind(this)
+  }
+  
+  componentDidUpdate(){
+    if(!this.props.currentUser) {
+      this.props.getUserCourses()
+    }
   }
 
+  remove(course){
+    this.props.deleteCourse(this.props.userCourses.courses,course)
+  }
 
   getCourses()
   {
-
     if(this.props.currentUser && !this.props.userCourses.courses)
     {
       this.props.getUserCourses()
@@ -35,7 +45,7 @@ class Index_home extends Component{
 
     if(this.props.userCourses&& this.props.userCourses.loaded && this.props.userCourses.courses && this.props.userCourses.courses[0]!='No Courses')
     return this.props.userCourses.courses.map((course)=>{
-      return <p key={course.coursename}>{course.coursenumber}</p>
+      return <p className="parent" key={course.coursename}>{course.coursenumber} <span onClick={this.remove.bind(this,course)} className="hiding fa fa-times-circle"></span></p>
     })
 
     else if(!this.props.userCourses.courses)
@@ -175,7 +185,7 @@ class Index_home extends Component{
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ fetchUser, getUserCourses, getSections, addUserSection}, dispatch);
+  return bindActionCreators({ fetchUser, getUserCourses, getSections, addUserSection,deleteCourse}, dispatch);
 }
 
 
