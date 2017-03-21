@@ -90,12 +90,12 @@ class ScheduleGen extends Component {
           min={new Date(2017,1,1,8,0,0)}
           max ={new Date(2017,1,1,23,30,0)}
           step={15}
-          timeslots={2}
-          defaultView="day"
-          style={{height: 600}}
+          timeslots={4}
+          defaultView="week"
+          style={{height: 710}}
           //sweet alert
           onSelectEvent={event =>swal({
-              title: event.title,
+              title: event.title+event.section+" ("+event.type+")",
               text: "Teacher: "+event.teacher+"\nRoom: "+event.room+"\nTime: "+event.courseTime+"\nDescription: "+event.desc,
               /*"Here's a custom message."*/
               /**text: "Class Details:",
