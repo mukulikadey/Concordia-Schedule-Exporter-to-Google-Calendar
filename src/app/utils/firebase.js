@@ -318,9 +318,10 @@ const FireBaseTools = {
    getUserEvents: () => {
     let userCourses = null;
     const stringCourses = [];
-    const id = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
+    const user = firebaseAuth.currentUser ? firebaseAuth.currentUser : null;
+    console.log(user);
     /* eslint-disable */
-    return usersRef.child(id.toString()).once('value').then(function(snap) {
+    return usersRef.child(user.uid.toString()).once('value').then(function(snap) {
       userCourses=snap.val()['coursearray'];
      // console.log(userCourses)
         for (var i = 0; i<userCourses.length; i+=1) {
@@ -382,6 +383,9 @@ const FireBaseTools = {
            date['end'].setMinutes(eMinutes);
            date['title']= subject;
            date['section']= section;
+           // Check if the current user is in the section's Whitelist of user's that can edit the class' description
+           // Ensure that you properly format the email string with escape chars since firebase keys don't have '.' characters
+           date['canEditDescription'] = course['Whitelist'] ? course['Whitelist'].hasOwnProperty(user.email.replace('.','%2E')) : false;
            date['type']= type;
             if (date['type'] == "LEC") {
               date['type'] = "Lecture";
