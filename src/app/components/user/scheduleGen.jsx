@@ -99,7 +99,6 @@ class ScheduleGen extends Component {
       this.props.getEvents()
       return <Loading />;
     }
-    console.log(this.props.userEvents)
     return (
       <div className="trans-sc">
         <BigCalendar
@@ -108,11 +107,11 @@ class ScheduleGen extends Component {
           min={new Date(2017,1,1,8,0,0)}
           max ={new Date(2017,1,1,23,30,0)}
           step={15}
-          timeslots={4}
+          timeslots={2}
           defaultView="week"
           components={{event: this.titleSect,
           month: {event: this.titleSectMonth}}}
-          style={{height: 710}}
+          style={{height: 900}}
           //sweet alert
           onSelectEvent={(event) =>{
             if(event.canEditDescription) {
@@ -127,12 +126,11 @@ class ScheduleGen extends Component {
                 },
                 function(inputValue){
                   if (inputValue === false) return false;
-                  
+
                   if (inputValue === "") {
                     swal.showInputError("You need to write something!");
                     return false
                   }
-                 console.log(event.sectionPath + event.datePath + inputValue);
                  if(event.canEditDescription) {
                   self.props.setDescription(event.sectionPath,event.datePath, inputValue);
                  }

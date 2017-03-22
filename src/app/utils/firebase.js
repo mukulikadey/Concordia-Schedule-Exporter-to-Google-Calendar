@@ -124,7 +124,6 @@ const FireBaseTools = {
       usersRef.child(id.toString()).child('coursearray').update(updates);
     }
     else {
-      console.log('an error occurred, this section has no component');
     }
     /* eslint-enable */
 
@@ -282,7 +281,6 @@ const FireBaseTools = {
               break;
 
             default:
-              console.log('There was an error in retrieving the day of the week');
             //TODO add a proper error check?
           }
         }
@@ -319,11 +317,9 @@ const FireBaseTools = {
     let userCourses = null;
     const stringCourses = [];
     const user = firebaseAuth.currentUser ? firebaseAuth.currentUser : null;
-    console.log(user);
     /* eslint-disable */
     return usersRef.child(user.uid.toString()).once('value').then(function(snap) {
       userCourses=snap.val()['coursearray'];
-     // console.log(userCourses)
         for (var i = 0; i<userCourses.length; i+=1) {
           userCourses[i].section ? stringCourses.push(userCourses[i].coursename + userCourses[i].section ):null
          userCourses[i].tutorialsection ? stringCourses.push(userCourses[i].coursename + userCourses[i].tutorialsection): null
