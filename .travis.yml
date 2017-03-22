@@ -6,5 +6,5 @@ node_js:
   - "5"
 addons:
 sauce_connect:
-  username: "soen341team1"
+  username: "Soen341Team1Testing"
   access_key: "96746d33-d6d1-41cf-8303-b8748e42d8ae"
