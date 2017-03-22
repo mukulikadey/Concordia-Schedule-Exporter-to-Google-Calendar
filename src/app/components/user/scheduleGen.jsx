@@ -6,7 +6,7 @@ import BigCalendar from 'react-big-calendar';
 import  '../user/react-big-calendar.css';
 import moment from 'moment';
 import localizer from 'react-big-calendar/lib/localizers/moment';
-import { fetchUser, updateUser,getEvents } from '../../actions/firebase_actions';
+import { fetchUser, updateUser,getEvents, setDescription } from '../../actions/firebase_actions';
 import Loading from '../helpers/loading';
 import ChangePassword from './change_password';
 import 'sweetalert';
@@ -22,7 +22,7 @@ class ScheduleGen extends Component {
     super(props);
     this.props.fetchUser();
     this.props.getEvents();
-
+    //this.props.setDescription(this,1,1,1);
 
     this.state = {
       events: this.props.userEvents,
@@ -117,24 +117,24 @@ class ScheduleGen extends Component {
           onSelectEvent={event =>swal({
               title: event.title+event.section+" ("+event.popupType+")",
               text: "Teacher: "+event.teacher+"\nRoom: "+event.room+"\nTime: "+event.courseTime+"\nDescription: "+event.desc,
-              /*"Here's a custom message."*/
-              /**text: "Class Details:",
                type: "input",
                showCancelButton: true,
                closeOnConfirm: false,
                animation: "slide-from-top",
-               inputPlaceholder: "Write something"**/
-            }
-            /** function(inputValue){
+               inputPlaceholder: "Write something"
+            },
+            function(inputValue){
                 if (inputValue === false) return false;
 
                 if (inputValue === "") {
                   swal.showInputError("You need to write something!");
                   return false
                 }
-
+              console.log(event.sectionPath + event.datePath + inputValue);
+                if(event.canEditDescription)
+                  this.props.setDescription(event.sectionPath,event.datePath, inputValue);
                 swal("Nice!", "You wrote: " + inputValue, "success");
-              }**/
+              }
           )}
           eventPropGetter={this.eventStyleGetter}
           views={["month", "week", "day",]} />
@@ -146,7 +146,7 @@ class ScheduleGen extends Component {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ fetchUser, updateUser,getEvents }, dispatch);
+    return bindActionCreators({ fetchUser, updateUser,getEvents,setDescription }, dispatch);
 }
 
 function mapStateToProps(state) {

@@ -4,6 +4,7 @@ import UserCourses from './getUserCourses';
 import Sections from './getSections';
 import SectionUpdatePromise from './addUserSection';
 import UserEvents from './getEvents';
+import SetDescription from './setDescription';
 
 const rootReducer = combineReducers({
     currentUser: FireBaseUserReducer,
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
     sections: Sections,
     sectionUpdatePromise: SectionUpdatePromise,
     userEvents: UserEvents,
+    setDescription: SetDescription,
 });
 
 export default rootReducer;

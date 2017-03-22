@@ -349,7 +349,7 @@ const FireBaseTools = {
             Object.keys(timetable).map(function(key, index) {
               var year=new Date(key).getUTCFullYear(), month= new Date(key).getUTCMonth(), day= new Date(key).getUTCDate()+1;
               time.push({start :new Date(Date.UTC(year,month,day)), end: new Date(Date.UTC(year,month,day)), title:"", section:"", type:"", popupType:"",  monthType:"", teacher:"", room:"", courseTime:"",
-              desc:timetable[key]['description']})
+              desc:timetable[key]['description'], datePath:key})
 
             });
 
@@ -386,7 +386,9 @@ const FireBaseTools = {
            // Check if the current user is in the section's Whitelist of user's that can edit the class' description
            // Ensure that you properly format the email string with escape chars since firebase keys don't have '.' characters
            date['canEditDescription'] = course['Whitelist'] ? course['Whitelist'].hasOwnProperty(user.email.replace('.','%2E')) : false;
-           date['type']= type;
+           // Store the path to the courseSection in each class event
+            date['sectionPath'] = course.Component == "Lab" ? course.Subject + course.Catalog + 1 : course.Subject + course.Catalog;
+            date['type']= type;
             if (date['type'] == "LEC") {
               date['type'] = "Lecture";
             }
@@ -429,6 +431,12 @@ const FireBaseTools = {
       errorMessage: error.message,
     }));
     /* eslint-enable */
+  },
+
+  setDescription: (sectionPath, datePath, description) => {
+    // Change the description of the specific class on Firebase
+    coursesRef.child(sectionPath).child('Timetable').child(datePath.toString()).update(description);
+    return null;
   },
 
   /**
