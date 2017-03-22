@@ -28,23 +28,22 @@ const FireBaseTools = {
     }
   },
 
+  /* eslint-disable */
   getUserCourses: (dispatch, TYPE) => {
     let userCur = null;
     const id = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
-    /* eslint-disable */
-    usersRef.child(id.toString()).on('value', function(snap) {
+    if (!id) return null
+    usersRef.child(id.toString()).on('value', function (snap) {
 
       // Before modifying the course array, check if the user node
       // has been initialized in Firebase, If not, their display name and email
       // must be added to our database
-      if (!snap.hasChild('displayname'))
-      {
+      if (!snap.hasChild('displayname')) {
         let updates = {};
         updates['displayname'] = firebaseAuth.currentUser.displayName;
         usersRef.child(id.toString()).update(updates);
       }
-      if (!snap.hasChild('email'))
-      {
+      if (!snap.hasChild('email')) {
         let updates = {};
         updates['email'] = firebaseAuth.currentUser.email;
         usersRef.child(id.toString()).update(updates);
@@ -55,7 +54,7 @@ const FireBaseTools = {
       if (snap.val()) {
         userCur = (snap.val().coursearray);
       }
-      if (id && !userCur) { userCur = ['No Courses'];}
+      if (id && !userCur) { userCur = ['No Courses']; }
 
       // By not returning anything and dispatching from here,
       // the action will be dispatched every time the coursearray changes
@@ -67,9 +66,49 @@ const FireBaseTools = {
     /* eslint-enable */
   },
 
+  deleteCourse: (coursearray, course) => {
+    let obj = [];
+    const userSections = [];
+    const sections = [];
+    const id = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
+    let index = -1;
+    for (let i = 0; i < coursearray.length; i += 1) {
+      if (coursearray[i] === course) {
+        index = i;
+      }
+    }
+    if (index > -1) {
+      coursearray.splice(index, 1);
+    }
+    /* eslint-disable */
+    course.section ? userSections.push(course.coursenumber + course.section) : null;
+    course.tutorialsection ? userSections.push(course.coursenumber + course.tutorialsection) : null;
+    course.labsection ? userSections.push(course.coursenumber + course.labsection + '1') : null;
+
+    userSections.map((section) => {
+      sections.push(coursesRef.child(section).once('value').then(function (snap) {
+        return snap.val();
+      }))
+    })
+
+    Promise.all(sections).then(function (resolvedSub) {
+      resolvedSub.map((sec, i) => {
+        let path = userSections[i];
+        obj = sec.Subscribers;
+        delete obj[id];
+        coursesRef.child(path).child('Subscribers').set(obj);
+      });
+    });
+    /* eslint-enable */
+    usersRef.child(id.toString()).child('coursearray').set(coursearray);
+    return null;
+  },
+
+
   addUserSection: (courseArray, courseNumber, section) => {
     // Variable to keep track of course index
     let courseIndex = -1;
+    let path = '';
     // current user's UID
     const id = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
 
@@ -79,6 +118,19 @@ const FireBaseTools = {
       if (courseArray[i].coursenumber === courseNumber) {
         courseIndex = i; // contains index number of course in user's courseArray
       }
+    }
+
+    if (courseIndex >= 0) {
+      if (section.component === 'LAB' && courseArray[courseIndex].labsection) {
+        path = courseArray[courseIndex].coursenumber + courseArray[courseIndex].labsection + 1;
+      }
+      if (section.component === 'TUT' && courseArray[courseIndex].tutorialsection) {
+        path = courseArray[courseIndex].coursenumber + courseArray[courseIndex].tutorialsection;
+      }
+      if (section.component === 'LEC' && courseArray[courseIndex].section) {
+        path = courseArray[courseIndex].coursenumber + courseArray[courseIndex].section;
+      }
+      coursesRef.child(path).child('Subscribers').child(id).set(null);
     }
 
     if (courseIndex < 0) {
@@ -102,7 +154,7 @@ const FireBaseTools = {
     const updateSubs = {};
     /* eslint-disable */
     updateSubs['/Subscribers/' + id.toString()] = firebaseAuth.currentUser.displayName;
-    
+
     const courseSectionPath = section.component === 'LAB' ? courseNumber + section.section + 1 : courseNumber + section.section;
     /* eslint-enable */
     coursesRef.child(courseSectionPath).update(updateSubs);
@@ -150,11 +202,11 @@ const FireBaseTools = {
     // If any of the objects didn't resolve, then it probably means that the section already contained a timetable
     // in that case, we don't need to do anything, otherwise we update firebase with the newly created timetable
     /* eslint-disable */
-    Promise.all(timetablePromises).then(function(promArray) {
+    Promise.all(timetablePromises).then(function (promArray) {
 
       // For each promise, list of dateObjects to the timetable object
       let timetable = {};
-      promArray.map(function(dateObject) { timetable = Object.assign(timetable, dateObject); });
+      promArray.map(function (dateObject) { timetable = Object.assign(timetable, dateObject); });
 
       // push the timetable to the appropriate Firebase path
       FireBaseTools.addTimetableToFirebase(timetable, courseSectionPath);
@@ -166,7 +218,7 @@ const FireBaseTools = {
   addTimetableToFirebase: (timetable, courseSectionPath) => {
     /* eslint-disable */
     // pushes a newly created timetable the appropriate course section path, assuming it doesn't already have one
-    coursesRef.child(courseSectionPath).once('value').then(function(snap) {
+    coursesRef.child(courseSectionPath).once('value').then(function (snap) {
       // Check if course section already contains timetable. if it does then don't push to firebase
       if (!snap.hasChild('Timetable')) {
         // If it doesn't already have a timetable then add the new timetable
@@ -187,7 +239,7 @@ const FireBaseTools = {
     // create empty timeTable object
     const timetable = {};
     /* eslint-disable */
-    return coursesRef.child(sectionPath).once('value').then(function(snap) {
+    return coursesRef.child(sectionPath).once('value').then(function (snap) {
 
       // Get start and end dates of the semester
       let startDate = new Date(snap.child('Start Date').val());
@@ -221,7 +273,7 @@ const FireBaseTools = {
 
         // Verify if classes are given on this day or not
         let classesGivenOnThisDay = true;
-        for (let i = 0; i < noClassThisDay.length; i+= 1) {
+        for (let i = 0; i < noClassThisDay.length; i += 1) {
           if (noClassThisDay[i].getFullYear() === startDate.getFullYear() && noClassThisDay[i].getMonth() === startDate.getMonth() && noClassThisDay[i].getDate() === startDate.getDate()) {
             // If the current date is included in the list of dates when there are no classes,
             // then don't update the timetable
@@ -303,9 +355,9 @@ const FireBaseTools = {
   getSections: (courseName) => {
     const sections = [];
     /* eslint-disable */
-    return sectionsRef.child(courseName).once('value').then(function(snap) {
-      snap.forEach(function(childSnap) {
-        sections.push({section:childSnap.key, maxPat:childSnap.child('MaxPat').val(), component:childSnap.child('Component').val()})
+    return sectionsRef.child(courseName).once('value').then(function (snap) {
+      snap.forEach(function (childSnap) {
+        sections.push({ section: childSnap.key, maxPat: childSnap.child('MaxPat').val(), component: childSnap.child('Component').val() })
       });
       return sections;
     }).catch(error => ({
@@ -315,73 +367,74 @@ const FireBaseTools = {
     /* eslint-enable */
   },
 
-   getUserEvents: () => {
+  getUserEvents: () => {
     let userCourses = null;
     const stringCourses = [];
     const id = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
+    if (!id) return null;
     /* eslint-disable */
-    return usersRef.child(id.toString()).once('value').then(function(snap) {
-      userCourses=snap.val()['coursearray'];
-     // console.log(userCourses)
-        for (var i = 0; i<userCourses.length; i+=1) {
-          userCourses[i].section ? stringCourses.push(userCourses[i].coursename + userCourses[i].section ):null
-         userCourses[i].tutorialsection ? stringCourses.push(userCourses[i].coursename + userCourses[i].tutorialsection): null
-          userCourses[i].labsection ? stringCourses.push(userCourses[i].coursename + (userCourses[i].labsection + "1")):null
-        }
+    return usersRef.child(id.toString()).once('value').then(function (snap) {
+      userCourses = snap.val()['coursearray'];
+      if (!userCourses) { return { value: 0 } }
+
+      for (var i = 0; i < userCourses.length; i += 1) {
+        userCourses[i].section ? stringCourses.push(userCourses[i].coursename + userCourses[i].section) : null
+        userCourses[i].tutorialsection ? stringCourses.push(userCourses[i].coursename + userCourses[i].tutorialsection) : null
+        userCourses[i].labsection ? stringCourses.push(userCourses[i].coursename + (userCourses[i].labsection + "1")) : null
+      }
 
       var coursePromises = [];
       stringCourses.map((section) => {
-        coursePromises.push(coursesRef.child(section).once('value').then(function(snap){
+        coursePromises.push(coursesRef.child(section).once('value').then(function (snap) {
           return snap.val();
         }))
 
       })
-      var finalCourses=[], timetable=null, time=[]
-      Promise.all(coursePromises).then(function(resolvedarray){
-        resolvedarray.map((course)=>{
-          var timetable = course.Timetable? course.Timetable : null, subject=(course.Subject+course.Catalog);
-          time=[];
-          if(timetable)
-          {
-            Object.keys(timetable).map(function(key, index) {
-                  time.push({start :new Date(key), end: new Date(key), title:""})
-              });
+      var finalCourses = [], timetable = null, time = []
+      Promise.all(coursePromises).then(function (resolvedarray) {
+        resolvedarray.map((course) => {
+          var timetable = course.Timetable ? course.Timetable : null, subject = (course.Subject + course.Catalog);
+          time = [];
+          if (timetable) {
+            Object.keys(timetable).map(function (key, index) {
+              time.push({ start: new Date(key), end: new Date(key), title: "" })
+            });
 
           }
 
-         if(course.Timetable) {
-           timetable=time;
-           var time = course['Mtg Start']
-          var hours = Number(time.match(/^(\d+)/)[1]);
-          var minutes = Number(time.match(/:(\d+)/)[1]);
-          var AMPM = time.match(/\s(.*)$/)[1];
-          if(AMPM == "PM" && hours<12) hours = hours+12;
-          if(AMPM == "AM" && hours==12) hours = hours-12;
-          var sHours = hours.toString();
-          var sMinutes = minutes.toString();
+          if (course.Timetable) {
+            timetable = time;
+            var time = course['Mtg Start']
+            var hours = Number(time.match(/^(\d+)/)[1]);
+            var minutes = Number(time.match(/:(\d+)/)[1]);
+            var AMPM = time.match(/\s(.*)$/)[1];
+            if (AMPM == "PM" && hours < 12) hours = hours + 12;
+            if (AMPM == "AM" && hours == 12) hours = hours - 12;
+            var sHours = hours.toString();
+            var sMinutes = minutes.toString();
 
-          //end
+            //end
             var time = course['Mtg End']
-          var hours = Number(time.match(/^(\d+)/)[1]);
-          var minutes = Number(time.match(/:(\d+)/)[1]);
-          var AMPM = time.match(/\s(.*)$/)[1];
-          if(AMPM == "PM" && hours<12) hours = hours+12;
-          if(AMPM == "AM" && hours==12) hours = hours-12;
-          var eHours = hours.toString();
-          var eMinutes = minutes.toString();
+            var hours = Number(time.match(/^(\d+)/)[1]);
+            var minutes = Number(time.match(/:(\d+)/)[1]);
+            var AMPM = time.match(/\s(.*)$/)[1];
+            if (AMPM == "PM" && hours < 12) hours = hours + 12;
+            if (AMPM == "AM" && hours == 12) hours = hours - 12;
+            var eHours = hours.toString();
+            var eMinutes = minutes.toString();
 
-          timetable.map((date)=>{
-           date['start'].setHours(sHours);
-           date['end'].setHours(eHours);
-           date['start'].setMinutes(sMinutes);
-           date['end'].setMinutes(eMinutes);
-           date['title']=subject
-           finalCourses.push(date)
-          })
-        }
+            timetable.map((date) => {
+              date['start'].setHours(sHours);
+              date['end'].setHours(eHours);
+              date['start'].setMinutes(sMinutes);
+              date['end'].setMinutes(eMinutes);
+              date['title'] = subject
+              finalCourses.push(date)
+            })
+          }
         })
       })
-     return finalCourses;
+      return finalCourses;
     }).catch(error => ({
       errorCode: error.code,
       errorMessage: error.message,

@@ -12,6 +12,7 @@ import {
   GET_SECTIONS,
   ADD_USER_SECTION,
   GET_EVENTS,
+  DELETE_COURSE,
 } from './types';
 
 
@@ -28,6 +29,15 @@ export function getEvents() {
 
     return {
         type: GET_EVENTS,
+        payload: request,
+    };
+}
+
+export function deleteCourse(coursearray, course) {
+    const request = FireBaseTools.deleteCourse(coursearray, course);
+
+    return {
+        type: DELETE_COURSE,
         payload: request,
     };
 }
