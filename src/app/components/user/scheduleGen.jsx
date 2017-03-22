@@ -85,6 +85,14 @@ class ScheduleGen extends Component {
     )
   }
 
+  titleSectMonth({event}) {
+    return (
+      <span>
+      { event.section && (event.title + " (" + event.monthType + ")")}
+      </span>
+    )
+  }
+
   render() {
 
     if (!this.props.currentUser && !this.props.userEvents) {
@@ -102,7 +110,8 @@ class ScheduleGen extends Component {
           step={15}
           timeslots={4}
           defaultView="week"
-          components={{event: this.titleSect}}
+          components={{event: this.titleSect,
+          month: {event: this.titleSectMonth}}}
           style={{height: 710}}
           //sweet alert
           onSelectEvent={event =>swal({
