@@ -24,8 +24,11 @@ class ScheduleGen extends Component {
 
     this.state = {
       message: '',
+      signedStatus: "Signed Out"
     };
     this.onFormSubmit = this.onFormSubmit.bind(this);
+    this.exportEvents = this.exportEvents.bind(this);
+    this.updateSigninStatus = this.updateSigninStatus.bind(this);
   }
 
 
@@ -62,10 +65,11 @@ class ScheduleGen extends Component {
 
   }
 
-  exportEvents(signInStatus){
+  exportEvents(){
     let gapi = getGapi();
     gapi.auth2.getAuthInstance().signIn();
-    if(signInStatus == "Signed In"){
+
+    if(this.state.signedStatus == "Signed In"){
       let batch = gapi.client.newBatch(); //For batch requests
       let events = this.props.userEvents; //Get course events of the user
 
@@ -119,12 +123,23 @@ class ScheduleGen extends Component {
     }
   }
 
+  updateSigninStatus() {
+    let gapi = getGapi();
+  if(gapi.auth2.getAuthInstance().isSignedIn.get()){
+    this.setState({signedStatus: "Signed In"});
+  }
+  else{
+    this.setState({signedStatus: "Signed Out"});
+  }
+}
+
   renderGoogle(){
-   let signInStatus = updateSigninStatus();
+    let gapi = getGapi();
+    gapi.auth2.getAuthInstance().isSignedIn.listen(this.updateSigninStatus);
     return (
       <div>
-        <button className="btn-google" onClick={this.exportEvents.bind(this,signInStatus)}>Export to Calendar</button>
-        <text>{signInStatus}</text>
+        <button className="btn-google" onClick={this.exportEvents}>Export to Calendar</button>
+        <text>{this.state.signedStatus}</text>
       </div>
     )
   }

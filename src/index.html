@@ -48,23 +48,9 @@
       clientId: CLIENT_ID,
       scope: SCOPES
     }).then(function () {
-      // Listen for sign-in state changes.
-      gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
     });
   }
 
-  /**
-   *  Called when the signed in status changes, to update the UI
-   *  appropriately. After a sign-in, the API is called.
-   */
-  function updateSigninStatus() {
-    if(gapi.auth2.getAuthInstance().isSignedIn.get()){
-        return "Signed In";
-    }
-    else{
-        return "Signed Out";
-    }
-  }
   function getGapi(){
       return gapi;
   }
