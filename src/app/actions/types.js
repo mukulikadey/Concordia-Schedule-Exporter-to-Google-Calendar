@@ -13,4 +13,4 @@ export const GET_USER_COURSES = 'GET_USER_COURSES';
 export const GET_SECTIONS = 'GET_SECTIONS';
 export const ADD_USER_SECTION = 'ADD_USER_SECTION';
 export const GET_EVENTS = 'GET_EVENTS';
-export const DELETE_COURSE = 'DELETE_COURSE'
+export const DELETE_COURSE = 'DELETE_COURSE';

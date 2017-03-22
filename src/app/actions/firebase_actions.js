@@ -33,8 +33,8 @@ export function getEvents() {
     };
 }
 
-export function deleteCourse(coursearray,course) {
-    const request = FireBaseTools.deleteCourse(coursearray,course);
+export function deleteCourse(coursearray, course) {
+    const request = FireBaseTools.deleteCourse(coursearray, course);
 
     return {
         type: DELETE_COURSE,

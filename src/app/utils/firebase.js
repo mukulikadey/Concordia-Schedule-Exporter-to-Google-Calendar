@@ -16,8 +16,8 @@ const FireBaseTools = {
    * @param provider
    * @returns {firebase.auth.AuthProvider}
    */
-  getProvider: (provider) => {
-    switch (provider) {
+    getProvider: (provider) => {
+      switch (provider) {
 
       case 'email':
         return new firebase.auth.EmailAuthProvider();
@@ -28,10 +28,10 @@ const FireBaseTools = {
     }
   },
 
+/* eslint-disable */
   getUserCourses: (dispatch, TYPE) => {
     let userCur = null;
     const id = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
-    /* eslint-disable */
     if(!id) return null
     usersRef.child(id.toString()).on('value', function(snap) {
 
@@ -68,49 +68,43 @@ const FireBaseTools = {
     /* eslint-enable */
   },
 
-  deleteCourse:(coursearray,course)=> {
-      var obj=[], usersections=[], sections=[];
+  deleteCourse : (coursearray, course) => {
+    let obj = [];
+    let usersections = [];
+    let sections = [];
     const id = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
-    var index=-1;
-    for(var i=0; i<coursearray.length; i=i+1)
-    {
-      if(coursearray[i]==course)
-      {
-        index=i
+    let index = -1;
+    for (let i = 0; i < coursearray.length; i += 1) {
+      if (coursearray[i] == course) {
+        index = i;
       }
     }
     
-
-    if(index>-1)
-    {
-      coursearray.splice(index,1)
+    if (index > -1) {
+      coursearray.splice(index, 1);
     }
     
-    course.section? usersections.push(course.coursenumber +course.section) : null
-    course.tutorialsection? usersections.push(course.coursenumber+ course.tutorialsection) : null
-    course.labsection? usersections.push(course.coursenumber+ course.labsection+ "1") : null
+    course.section ? usersections.push(course.coursenumber + course.section) : null;
+    course.tutorialsection ? usersections.push(course.coursenumber + course.tutorialsection) : null;
+    course.labsection ? usersections.push(course.coursenumber + course.labsection + "1") : null;
     
-    usersections.map((section)=>{
-      sections.push(coursesRef.child(section).once('value').then(function(snap){
+    /* eslint-disable */
+    usersections.map((section) => {
+      sections.push(coursesRef.child(section).once('value').then(function(snap) {
           return snap.val();
         }))
     })
-    Promise.all(sections).then(function(resolvedSub){
-
-      resolvedSub.map((sec,i)=>{
-        var path=usersections[i]
-        obj=sec.Subscribers;
+    /* eslint-enable */
+    Promise.all(sections).then(function(resolvedSub) {
+      resolvedSub.map((sec,i) => {
+        var path = usersections[i];
+        obj = sec.Subscribers;
         delete obj[id];
-        
-        coursesRef.child(path).child('Subscribers').set(obj)
-        
-      })
-
-    })
+        coursesRef.child(path).child('Subscribers').set(obj);
+      });
+    });
     usersRef.child(id.toString()).child('coursearray').set(coursearray);
-
     return null;
-
   },
 
 
@@ -128,23 +122,18 @@ const FireBaseTools = {
       }
     }
 
-    if(courseIndex>=0) {
-
-      if(section.component== 'LAB' && courseArray[courseIndex].labsection) {
-        path=courseArray[courseIndex].coursenumber+courseArray[courseIndex].labsection+ 1;
+    if (courseIndex >= 0) {
+      if (section.component === 'LAB' && courseArray[courseIndex].labsection) {
+        path = courseArray[courseIndex].coursenumber+courseArray[courseIndex].labsection + 1;
       }
-
-      if(section.component == 'TUT' && courseArray[courseIndex].tutorialsection) {
-        path=courseArray[courseIndex].coursenumber+courseArray[courseIndex].tutorialsection;
+      if (section.component === 'TUT' && courseArray[courseIndex].tutorialsection) {
+        path = courseArray[courseIndex].coursenumber+courseArray[courseIndex].tutorialsection;
       
       }
-
-      if(section.component == 'LEC' && courseArray[courseIndex].section) {
-        path=courseArray[courseIndex].coursenumber + courseArray[courseIndex].section;
+      if (section.component === 'LEC' && courseArray[courseIndex].section) {
+        path = courseArray[courseIndex].coursenumber + courseArray[courseIndex].section;
       }
-
-        coursesRef.child(path).child('Subscribers').child(id).set(null);
-    
+      coursesRef.child(path).child('Subscribers').child(id).set(null);
     }
 
     if (courseIndex < 0) {
