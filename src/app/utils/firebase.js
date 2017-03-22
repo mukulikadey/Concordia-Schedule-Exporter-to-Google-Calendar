@@ -430,13 +430,13 @@ const FireBaseTools = {
       errorCode: error.code,
       errorMessage: error.message,
     }));
-    /* eslint-enable */
   },
 
   setDescription: (sectionPath, datePath, description) => {
     // Change the description of the specific class on Firebase
     const updateDescription = {};
     updateDescription['description'] = description;
+    /* eslint-enable */
     coursesRef.child(sectionPath).child('Timetable').child(datePath.toString()).update(updateDescription);
     return null;
   },
