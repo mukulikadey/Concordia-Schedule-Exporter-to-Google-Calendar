@@ -49,7 +49,7 @@ class ScheduleGen extends Component {
   }
 
   eventStyleGetter(event,title) {
-    console.log(event);
+  
     var backgroundColor = '#' + event.hexColor;
     var style = {
       backgroundColor: backgroundColor,
@@ -145,9 +145,9 @@ class ScheduleGen extends Component {
   }
 
   render() {
-    if (!this.props.currentUser && !this.props.userEvents) {
-      this.props.getEvents()
-      return <Loading />;
+    if(this.props.userEvents.value==0)
+    {
+      return <div>Nothing to show</div>
     }
     return (
       <div>
