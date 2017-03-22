@@ -94,7 +94,7 @@ class ScheduleGen extends Component {
   }
 
   render() {
-
+    let self = this;
     if (!this.props.currentUser && !this.props.userEvents) {
       this.props.getEvents()
       return <Loading />;
@@ -132,8 +132,9 @@ class ScheduleGen extends Component {
                 }
               console.log(event.sectionPath + event.datePath + inputValue);
                 if(event.canEditDescription)
-                  this.props.setDescription(event.sectionPath,event.datePath, inputValue);
+                  self.props.setDescription(event.sectionPath,event.datePath, inputValue);
                 swal("Nice!", "You wrote: " + inputValue, "success");
+                event.desc = inputValue;
               }
           )}
           eventPropGetter={this.eventStyleGetter}

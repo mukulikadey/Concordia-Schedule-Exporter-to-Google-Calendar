@@ -387,7 +387,7 @@ const FireBaseTools = {
            // Ensure that you properly format the email string with escape chars since firebase keys don't have '.' characters
            date['canEditDescription'] = course['Whitelist'] ? course['Whitelist'].hasOwnProperty(user.email.replace('.','%2E')) : false;
            // Store the path to the courseSection in each class event
-            date['sectionPath'] = course.Component == "Lab" ? course.Subject + course.Catalog + 1 : course.Subject + course.Catalog;
+            date['sectionPath'] = course.Component == "Lab" ? course.Subject + course.Catalog + course.Section + 1 : course.Subject + course.Catalog + course.Section ;
             date['type']= type;
             if (date['type'] == "LEC") {
               date['type'] = "Lecture";
@@ -435,7 +435,9 @@ const FireBaseTools = {
 
   setDescription: (sectionPath, datePath, description) => {
     // Change the description of the specific class on Firebase
-    coursesRef.child(sectionPath).child('Timetable').child(datePath.toString()).update(description);
+    const updateDescription = {};
+    updateDescription['description'] = description;
+    coursesRef.child(sectionPath).child('Timetable').child(datePath.toString()).update(updateDescription);
     return null;
   },
 
