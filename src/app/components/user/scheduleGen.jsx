@@ -114,29 +114,40 @@ class ScheduleGen extends Component {
           month: {event: this.titleSectMonth}}}
           style={{height: 710}}
           //sweet alert
-          onSelectEvent={event =>swal({
-              title: event.title+event.section+" ("+event.popupType+")",
-              text: "Teacher: "+event.teacher+"\nRoom: "+event.room+"\nTime: "+event.courseTime+"\nDescription: "+event.desc,
-               type: "input",
-               showCancelButton: true,
-               closeOnConfirm: false,
-               animation: "slide-from-top",
-               inputPlaceholder: "Write something"
-            },
-            function(inputValue){
-                if (inputValue === false) return false;
-
-                if (inputValue === "") {
-                  swal.showInputError("You need to write something!");
-                  return false
-                }
-              console.log(event.sectionPath + event.datePath + inputValue);
-                if(event.canEditDescription)
+          onSelectEvent={(event) =>{
+            if(event.canEditDescription) {
+              swal({
+                title: event.title+event.section+" ("+event.popupType+")",
+                text: "Teacher: "+event.teacher+"\nRoom: "+event.room+"\nTime: "+event.courseTime+"\nDescription: "+event.desc,
+                type: "input",
+                showCancelButton: true,
+                closeOnConfirm: false,
+                animation: "slide-from-top",
+                inputPlaceholder: "Write something"
+                },
+                function(inputValue){
+                  if (inputValue === false) return false;
+                  
+                  if (inputValue === "") {
+                    swal.showInputError("You need to write something!");
+                    return false
+                  }
+                 console.log(event.sectionPath + event.datePath + inputValue);
+                 if(event.canEditDescription) {
                   self.props.setDescription(event.sectionPath,event.datePath, inputValue);
+                 }
                 swal("Nice!", "You wrote: " + inputValue, "success");
                 event.desc = inputValue;
               }
           )}
+          else {
+            swal({
+              title: event.title+event.section+" ("+event.popupType+")",
+              text: "Teacher: "+event.teacher+"\nRoom: "+event.room+"\nTime: "+event.courseTime+"\nDescription: "+event.desc,
+            })
+            }
+          }
+          }
           eventPropGetter={this.eventStyleGetter}
           views={["month", "week", "day",]} />
       </div>
