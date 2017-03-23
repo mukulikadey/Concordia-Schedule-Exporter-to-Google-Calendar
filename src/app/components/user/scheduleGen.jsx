@@ -21,16 +21,21 @@ class ScheduleGen extends Component {
     this.props.fetchUser();
     this.props.getEvents();
 
-
     this.state = {
       message: '',
       signedStatus: "Signed Out"
     };
     this.onFormSubmit = this.onFormSubmit.bind(this);
     this.exportEvents = this.exportEvents.bind(this);
-    this.updateSigninStatus = this.updateSigninStatus.bind(this);
+    this.updateSignInStatus = this.updateSignInStatus.bind(this);
+    this.googleSignIn = this.googleSignIn.bind(this);
   }
 
+  componentWillMount(){
+    //Handling initial stage
+    let gapi = getGapi();
+    this.updateSignInStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+  }
 
   onFormSubmit(event) {
     event.preventDefault();
@@ -49,7 +54,7 @@ class ScheduleGen extends Component {
   }
 
   eventStyleGetter(event,title) {
-  
+
     var backgroundColor = '#' + event.hexColor;
     var style = {
       backgroundColor: backgroundColor,
@@ -65,15 +70,19 @@ class ScheduleGen extends Component {
 
   }
 
-  exportEvents(){
-    let gapi = getGapi();
-    gapi.auth2.getAuthInstance().signIn();
+  googleSignIn(){
+    if(this.state.signedStatus == "Signed Out"){
+      let gapi = getGapi();
+      gapi.auth2.getAuthInstance().signIn().then(this.exportEvents);
+    }
+    else{
+      this.exportEvents();
+    }
+  }
 
-    if(this.state.signedStatus == "Signed In"){
+  exportEvents(){
       let batch = gapi.client.newBatch(); //For batch requests
       let events = this.props.userEvents; //Get course events of the user
-
-      console.log(events);
       //Checking if a CUSE calendar exists. If it does, remove it. Then, create a new calendar from scratch
       let listRequest = gapi.client.calendar.calendarList.list();
       listRequest.execute(function(resp){
@@ -119,13 +128,10 @@ class ScheduleGen extends Component {
         batch.execute();
 
       });
-
-    }
   }
 
-  updateSigninStatus() {
-    let gapi = getGapi();
-  if(gapi.auth2.getAuthInstance().isSignedIn.get()){
+  updateSignInStatus(isSignedIn) {
+  if(isSignedIn){
     this.setState({signedStatus: "Signed In"});
   }
   else{
@@ -135,10 +141,10 @@ class ScheduleGen extends Component {
 
   renderGoogle(){
     let gapi = getGapi();
-    gapi.auth2.getAuthInstance().isSignedIn.listen(this.updateSigninStatus);
+    gapi.auth2.getAuthInstance().isSignedIn.listen(this.updateSignInStatus);
     return (
       <div>
-        <button className="btn-google" onClick={this.exportEvents}>Export to Calendar</button>
+        <button className="btn-google" onClick={this.googleSignIn}>Export to Calendar</button>
         <text>{this.state.signedStatus}</text>
       </div>
     )
