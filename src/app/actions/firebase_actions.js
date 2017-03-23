@@ -35,10 +35,10 @@ export function getEvents() {
 }
 
 export function setDescription(sectionPath, datePath, description) {
-  const request = FireBaseTools.setDescription(sectionPath, datePath, description);
-  return {
-    type: SET_DESCRIPTION,
-    payload: request,
+    const request = FireBaseTools.setDescription(sectionPath, datePath, description);
+    return {
+      type: SET_DESCRIPTION,
+      payload: request,
   };
 }
 
