@@ -74,9 +74,9 @@ const FireBaseTools = {
         let index = -1;
         for (let i = 0; i < coursearray.length; i += 1) {
             if (coursearray[i] === course) {
-              index = i;
+                index = i;
+            }
         }
-      }
         if (index > -1) {
             coursearray.splice(index, 1);
         }
@@ -116,32 +116,32 @@ const FireBaseTools = {
         for (let i = 0; i < courseArray.length; i += 1) {
         // If the course is already in the course array, then overwrite the section
             if (courseArray[i].coursenumber === courseNumber) {
-              courseIndex = i; // contains index number of course in user's courseArray
-          }
+                courseIndex = i; // contains index number of course in user's courseArray
+            }
         }
 
         if (courseIndex >= 0) {
             if (section.component === 'LAB' && courseArray[courseIndex].labsection) {
-              path = courseArray[courseIndex].coursenumber + courseArray[courseIndex].labsection + 1;
-          }
+                path = courseArray[courseIndex].coursenumber + courseArray[courseIndex].labsection + 1;
+            }
             if (section.component === 'TUT' && courseArray[courseIndex].tutorialsection) {
-              path = courseArray[courseIndex].coursenumber + courseArray[courseIndex].tutorialsection;
-          }
+                path = courseArray[courseIndex].coursenumber + courseArray[courseIndex].tutorialsection;
+            }
             if (section.component === 'LEC' && courseArray[courseIndex].section) {
-              path = courseArray[courseIndex].coursenumber + courseArray[courseIndex].section;
-          }
+                path = courseArray[courseIndex].coursenumber + courseArray[courseIndex].section;
+            }
             if (path) {
-              coursesRef.child(path).child('Subscribers').child(id).set(null);
-          }
+                coursesRef.child(path).child('Subscribers').child(id).set(null);
+            }
         }
 
         if (courseIndex < 0) {
           // A new course is added to the courseArray if the student was not previously subscribed to it
             const newCourse =
-              {
-                  coursename: courseNumber,
-                  coursenumber: courseNumber,
-              };
+                {
+                    coursename: courseNumber,
+                    coursenumber: courseNumber,
+                };
 
           // Set course index to the next available index value or to 0 if courseArray doesn't exist yet
             courseIndex = courseArray ? courseArray.length : 0;
@@ -563,9 +563,9 @@ const FireBaseTools = {
    * @returns {!firebase.Promise.<*>|firebase.Thenable<any>|firebase.Promise<any>|!firebase.Thenable.<*>}
    */
     updateUserProfile: u => firebaseAuth.currentUser.updateProfile(u).then(() => firebaseAuth.currentUser, error => ({
-       errorCode: error.code,
-       errorMessage: error.message,
-   })),
+        errorCode: error.code,
+        errorMessage: error.message,
+    })),
 
    /**
     * Reset the password given the specified email
@@ -576,9 +576,9 @@ const FireBaseTools = {
     resetPasswordEmail: email => firebaseAuth.sendPasswordResetEmail(email).then(() => ({
         message: 'Email sent',
     }), error => ({
-       errorCode: error.code,
-       errorMessage: error.message,
-   })),
+        errorCode: error.code,
+        errorMessage: error.message,
+    })),
 
    /**
      * Update the user's password with the given password
@@ -599,9 +599,9 @@ const FireBaseTools = {
     sendEmailVerification: () => firebaseAuth.currentUser.sendEmailVerification().then(() => ({
         message: 'Email sent',
     }), error => ({
-      errorCode: error.code,
-      errorMessage: error.message,
-  })),
+        errorCode: error.code,
+        errorMessage: error.message,
+    })),
 
   /**
    * Get the firebase database reference.
