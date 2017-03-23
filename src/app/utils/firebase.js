@@ -370,7 +370,9 @@ const FireBaseTools = {
     const stringCourses = [];
 
     const user = firebaseAuth.currentUser ? firebaseAuth.currentUser : null;
-    if(!user) {return null}
+    if (!user) {
+      return null;
+    }
     /* eslint-disable */
     return usersRef.child(user.uid.toString()).once('value').then(function(snap) {
       userCourses=snap.val()['coursearray'];
