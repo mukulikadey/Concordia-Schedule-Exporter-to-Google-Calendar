@@ -76,6 +76,7 @@
     "react-router": "^2.0.0-rc5",
     "redux": "^3.0.4",
     "redux-promise": "^0.5.3",
-    "redux-thunk": "^2.1.0"
+    "redux-thunk": "^2.1.0",
+    "sweetalert": "^1.1.3"
   }
 }

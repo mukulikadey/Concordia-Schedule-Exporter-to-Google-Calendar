@@ -12,6 +12,7 @@ import {
   GET_SECTIONS,
   ADD_USER_SECTION,
   GET_EVENTS,
+  SET_DESCRIPTION,
   DELETE_COURSE,
 } from './types';
 
@@ -33,6 +34,17 @@ export function getEvents() {
     };
 }
 
+export function setDescription(sectionPath, datePath, description) {
+  const request = FireBaseTools.setDescription(sectionPath, datePath, description);
+  return {
+    type: SET_DESCRIPTION,
+    payload: request,
+  };
+}
+
+// Using the redux-thunk library, we can dispatch functions
+// instead of returning a static value once, we dispatch every time
+// a change event is called by Firebase's .on() function
 export function deleteCourse(coursearray, course) {
     const request = FireBaseTools.deleteCourse(coursearray, course);
 
@@ -43,9 +55,6 @@ export function deleteCourse(coursearray, course) {
 }
 
 export function getUserCourses() {
-       // Using the redux-thunk library, we can dispatch functions
-       // instead of returning a static value once, we dispatch every time
-       // a change event is called by Firebase's .on() function
     return (dispatch) => {
         FireBaseTools.getUserCourses(dispatch, GET_USER_COURSES);
     };

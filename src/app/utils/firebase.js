@@ -176,7 +176,6 @@ const FireBaseTools = {
       usersRef.child(id.toString()).child('coursearray').update(updates);
     }
     else {
-      console.log('an error occurred, this section has no component');
     }
     /* eslint-enable */
 
@@ -334,7 +333,6 @@ const FireBaseTools = {
               break;
 
             default:
-              console.log('There was an error in retrieving the day of the week');
             //TODO add a proper error check?
           }
         }
@@ -370,18 +368,20 @@ const FireBaseTools = {
   getUserEvents: () => {
     let userCourses = null;
     const stringCourses = [];
-    const id = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
-    if (!id) return null;
-    /* eslint-disable */
-    return usersRef.child(id.toString()).once('value').then(function (snap) {
-      userCourses = snap.val()['coursearray'];
-      if (!userCourses) { return { value: 0 } }
 
-      for (var i = 0; i < userCourses.length; i += 1) {
-        userCourses[i].section ? stringCourses.push(userCourses[i].coursename + userCourses[i].section) : null
-        userCourses[i].tutorialsection ? stringCourses.push(userCourses[i].coursename + userCourses[i].tutorialsection) : null
-        userCourses[i].labsection ? stringCourses.push(userCourses[i].coursename + (userCourses[i].labsection + "1")) : null
-      }
+    const user = firebaseAuth.currentUser ? firebaseAuth.currentUser : null;
+    if (!user) {
+      return null;
+    }
+    /* eslint-disable */
+    return usersRef.child(user.uid.toString()).once('value').then(function(snap) {
+      userCourses=snap.val()['coursearray'];
+      if(!userCourses) {return {value: 0}}
+        for (var i = 0; i<userCourses.length; i+=1) {
+          userCourses[i].section ? stringCourses.push(userCourses[i].coursename + userCourses[i].section ):null
+         userCourses[i].tutorialsection ? stringCourses.push(userCourses[i].coursename + userCourses[i].tutorialsection): null
+          userCourses[i].labsection ? stringCourses.push(userCourses[i].coursename + (userCourses[i].labsection + "1")):null
+        }
 
       var coursePromises = [];
       stringCourses.map((section) => {
@@ -390,14 +390,19 @@ const FireBaseTools = {
         }))
 
       })
-      var finalCourses = [], timetable = null, time = []
-      Promise.all(coursePromises).then(function (resolvedarray) {
-        resolvedarray.map((course) => {
-          var timetable = course.Timetable ? course.Timetable : null, subject = (course.Subject + course.Catalog);
-          time = [];
-          if (timetable) {
-            Object.keys(timetable).map(function (key, index) {
-              time.push({ start: new Date(key), end: new Date(key), title: "" })
+      var finalCourses=[], timetable=null, time=[]
+      Promise.all(coursePromises).then(function(resolvedarray){
+        resolvedarray.map((course)=>{
+          var timetable = course.Timetable? course.Timetable : null, subject=(course.Subject+course.Catalog), section=(" - "+course.Section),
+            type=course.Component, popupType=course.Component, monthType=course.Component,  teacher=(course['First Name']+" "+course.Last), room=(course['Room Nbr']), courseTime=(course['Mtg Start']+" - "+course['Mtg End']);
+
+          time=[];
+          if(timetable)
+          {
+            Object.keys(timetable).map(function(key, index) {
+              var year=new Date(key).getUTCFullYear(), month= new Date(key).getUTCMonth(), day= new Date(key).getUTCDate()+1;
+              time.push({start :new Date(Date.UTC(year,month,day)), end: new Date(Date.UTC(year,month,day)), title:"", section:"", type:"", popupType:"",  monthType:"", teacher:"", room:"", courseTime:"",
+              desc:timetable[key]['description'], datePath:key})
             });
 
           }
@@ -415,23 +420,61 @@ const FireBaseTools = {
 
             //end
             var time = course['Mtg End']
-            var hours = Number(time.match(/^(\d+)/)[1]);
-            var minutes = Number(time.match(/:(\d+)/)[1]);
-            var AMPM = time.match(/\s(.*)$/)[1];
-            if (AMPM == "PM" && hours < 12) hours = hours + 12;
-            if (AMPM == "AM" && hours == 12) hours = hours - 12;
-            var eHours = hours.toString();
-            var eMinutes = minutes.toString();
+          var hours = Number(time.match(/^(\d+)/)[1]);
+          var minutes = Number(time.match(/:(\d+)/)[1]);
+          var AMPM = time.match(/\s(.*)$/)[1];
+          if(AMPM == "PM" && hours<12) hours = hours+12;
+          if(AMPM == "AM" && hours==12) hours = hours-12;
+          var eHours = hours.toString();
+          var eMinutes = minutes.toString();
 
-            timetable.map((date) => {
-              date['start'].setHours(sHours);
-              date['end'].setHours(eHours);
-              date['start'].setMinutes(sMinutes);
-              date['end'].setMinutes(eMinutes);
-              date['title'] = subject
-              finalCourses.push(date)
-            })
-          }
+          timetable.map((date)=>{
+           date['start'].setHours(sHours);
+           date['end'].setHours(eHours);
+           date['start'].setMinutes(sMinutes);
+           date['end'].setMinutes(eMinutes);
+           date['title']= subject;
+           date['section']= section;
+           // Check if the current user is in the section's Whitelist of user's that can edit the class' description
+           // Ensure that you properly format the email string with escape chars since firebase keys don't have '.' characters
+           date['canEditDescription'] = course['Whitelist'] ? course['Whitelist'].hasOwnProperty(user.email.replace('.','%2E')) : false;
+           // Store the path to the courseSection in each class event
+            date['sectionPath'] = course.Component == "Lab" ? course.Subject + course.Catalog + course.Section + 1 : course.Subject + course.Catalog + course.Section ;
+            date['type']= type;
+            if (date['type'] == "LEC") {
+              date['type'] = "Lecture";
+            }
+            else
+              if (date['type'] == "TUT") {
+                date['type'] = "Tutorial";
+              }
+              else {
+                (date['type'] == "LAB")
+                  date['type'] = "Laboratory";
+              }
+           date['teacher'] = teacher;
+           date['popupType'] = popupType;
+            if (date['popupType'] == "LEC") {
+              date['popupType'] = "Lecture";
+            }
+            else
+            if (date['popupType'] == "TUT") {
+              date['popupType'] = "Tutorial";
+            }
+            else {
+              (date['popupType'] == "LAB")
+              date['popupType'] = "Lab";
+            }
+            date['monthType'] = monthType;
+           date['room'] = room;
+           if (date['room'] == "") {
+            date['room'] = "TBA";
+           }
+           date['courseTime']=courseTime;
+
+            finalCourses.push(date)
+          })
+        }
         })
       })
       return finalCourses;
@@ -439,7 +482,15 @@ const FireBaseTools = {
       errorCode: error.code,
       errorMessage: error.message,
     }));
+  },
+
+  setDescription: (sectionPath, datePath, description) => {
+    // Change the description of the specific class on Firebase
+    const updateDescription = {};
+    updateDescription['description'] = description;
     /* eslint-enable */
+    coursesRef.child(sectionPath).child('Timetable').child(datePath.toString()).update(updateDescription);
+    return null;
   },
 
   /**
