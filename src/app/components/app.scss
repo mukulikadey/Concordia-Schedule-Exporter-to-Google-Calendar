@@ -87,7 +87,6 @@ div.transBox p {
   font-weight: bold;
   color: #000000;
 }
-
 //Transparent box for schedule page
 div.trans-sc{
   background-color: #ffffff;
@@ -98,3 +97,10 @@ div.trans-sc{
   margin-right: auto;
   padding: 1%;
 }
+.hiding{
+  display:none;
+}
+.parent:hover .hiding {
+  display:inline;
+}
+

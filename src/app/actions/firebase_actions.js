@@ -13,6 +13,7 @@ import {
   ADD_USER_SECTION,
   GET_EVENTS,
   SET_DESCRIPTION,
+  DELETE_COURSE,
 } from './types';
 
 
@@ -44,6 +45,15 @@ export function setDescription(sectionPath, datePath, description) {
 // Using the redux-thunk library, we can dispatch functions
 // instead of returning a static value once, we dispatch every time
 // a change event is called by Firebase's .on() function
+export function deleteCourse(coursearray, course) {
+    const request = FireBaseTools.deleteCourse(coursearray, course);
+
+    return {
+        type: DELETE_COURSE,
+        payload: request,
+    };
+}
+
 export function getUserCourses() {
     return (dispatch) => {
         FireBaseTools.getUserCourses(dispatch, GET_USER_COURSES);

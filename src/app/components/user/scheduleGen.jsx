@@ -26,8 +26,13 @@ class ScheduleGen extends Component {
 
     this.state = {
       events: this.props.userEvents,
+      message: '',
+      signedStatus: "Signed Out"
+
     };
     this.onFormSubmit = this.onFormSubmit.bind(this);
+    this.exportEvents = this.exportEvents.bind(this);
+    this.updateSigninStatus = this.updateSigninStatus.bind(this);
   }
 
 
@@ -60,6 +65,8 @@ class ScheduleGen extends Component {
       }
       return colour;
     }
+
+    var backgroundColor = '#' + event.hexColor;
     var style = {
       backgroundColor: stringToColour(event.title),
       borderRadius: '0px',
@@ -93,74 +100,158 @@ class ScheduleGen extends Component {
     )
   }
 
+  exportEvents(){
+    let gapi = getGapi();
+    gapi.auth2.getAuthInstance().signIn();
+
+    if(this.state.signedStatus == "Signed In"){
+      let batch = gapi.client.newBatch(); //For batch requests
+      let events = this.props.userEvents; //Get course events of the user
+
+      console.log(events);
+      //Checking if a CUSE calendar exists. If it does, remove it. Then, create a new calendar from scratch
+      let listRequest = gapi.client.calendar.calendarList.list();
+      listRequest.execute(function(resp){
+        var calendars = resp.items;
+        for(let i = 0; i < calendars.length; i++){
+          if(calendars[i].summary == "CUSE"){
+            //Execute remove request for CUSE calendar
+            gapi.client.calendar.calendars.delete({
+              'calendarId' : calendars[i].id
+            }).execute();
+          }
+        }
+      });
+
+      //Insert new secondary calendar and get its id
+      gapi.client.calendar.calendars.insert({
+        'summary' : "CUSE"
+      }).execute(function(resp) {
+        let calendarId = resp.id;
+
+        for(let i = 0; i < events.length; i++){
+          //Create a course event for every entry in userEvents
+          let event = {
+            'summary' : events[i].title,
+            'start' : {
+              'dateTime': events[i].start.toISOString(),
+              'timeZone': 'America/Montreal'
+            },
+            'end' : {
+              'dateTime' : events[i].end.toISOString(),
+              'timeZone' : 'America/Montreal'
+            }
+          }
+          //Creating a request to insert the event
+          let insertRequest = gapi.client.calendar.events.insert({
+            'calendarId' : calendarId,
+            'resource' : event
+          })
+          //Adding previous request to batch to send all at once
+          batch.add(insertRequest);
+        }
+        //Sending the batch request
+        batch.execute();
+
+      });
+
+    }
+  }
+
+  updateSigninStatus() {
+    let gapi = getGapi();
+    if(gapi.auth2.getAuthInstance().isSignedIn.get()){
+      this.setState({signedStatus: "Signed In"});
+    }
+    else{
+      this.setState({signedStatus: "Signed Out"});
+    }
+  }
+
+  renderGoogle(){
+    let gapi = getGapi();
+    gapi.auth2.getAuthInstance().isSignedIn.listen(this.updateSigninStatus);
+    return (
+      <div>
+        <button className="btn-google" onClick={this.exportEvents}>Export to Calendar</button>
+        <text>{this.state.signedStatus}</text>
+      </div>
+    )
+  }
+
   render() {
     let self = this;
     if (!this.props.currentUser && !this.props.userEvents) {
       this.props.getEvents()
       return <Loading />;
     }
+    if(this.props.userEvents.value==0)
+    {
+      return <div>Nothing to show</div>
+    }
     return (
-      <div className="trans-sc">
-        <BigCalendar
-          {...this.props}
-          events={this.state.events}
-          min={new Date(2017,1,1,8,0,0)}
-          max ={new Date(2017,1,1,23,30,0)}
-          step={15}
-          timeslots={2}
-          defaultView="week"
-          components={{event: this.titleSect,
-          month: {event: this.titleSectMonth}}}
-          style={{height: 900}}
-          //sweet alert
-          onSelectEvent={(event) =>{
-            if(event.canEditDescription) {
-              swal({
-                title: event.title+event.section+" ("+event.popupType+")",
-                text: "Teacher: "+event.teacher+"\nRoom: "+event.room+"\nTime: "+event.courseTime+"\nDescription: "+event.desc,
-                type: "input",
-                showCancelButton: true,
-                closeOnConfirm: false,
-                animation: "slide-from-top",
-                inputPlaceholder: "Write something"
-                },
-                function(inputValue){
-                  if (inputValue === false) return false;
+      <div>
+        <div>{this.renderGoogle()}</div>
+        <div className="trans-sc">
+          <BigCalendar
+            {...this.props}
+            events={this.state.events}
+            min={new Date(2017,1,1,8,0,0)}
+            max ={new Date(2017,1,1,23,30,0)}
+            step={15}
+            timeslots={2}
+            defaultView="week"
+            components={{event: this.titleSect,
+              month: {event: this.titleSectMonth}}}
+            style={{height: 900}}
+            //sweet alert
+            onSelectEvent={(event) =>{
+              if(event.canEditDescription) {
+                swal({
+                    title: event.title+event.section+" ("+event.popupType+")",
+                    text: "Teacher: "+event.teacher+"\nRoom: "+event.room+"\nTime: "+event.courseTime+"\nDescription: "+event.desc,
+                    type: "input",
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    animation: "slide-from-top",
+                    inputPlaceholder: "Write something"
+                  },
+                  function(inputValue){
+                    if (inputValue === false) return false;
 
-                  if (inputValue === "") {
-                    swal.showInputError("You need to write something!");
-                    return false
+                    if (inputValue === "") {
+                      swal.showInputError("You need to write something!");
+                      return false
+                    }
+                    if(event.canEditDescription) {
+                      self.props.setDescription(event.sectionPath,event.datePath, inputValue);
+                    }
+                    swal("Nice!", "You wrote: " + inputValue, "success");
+                    event.desc = inputValue;
                   }
-                 if(event.canEditDescription) {
-                  self.props.setDescription(event.sectionPath,event.datePath, inputValue);
-                 }
-                swal("Nice!", "You wrote: " + inputValue, "success");
-                event.desc = inputValue;
+                )}
+              else {
+                swal({
+                  title: event.title+event.section+" ("+event.popupType+")",
+                  text: "Teacher: "+event.teacher+"\nRoom: "+event.room+"\nTime: "+event.courseTime+"\nDescription: "+event.desc,
+                })
               }
-          )}
-          else {
-            swal({
-              title: event.title+event.section+" ("+event.popupType+")",
-              text: "Teacher: "+event.teacher+"\nRoom: "+event.room+"\nTime: "+event.courseTime+"\nDescription: "+event.desc,
-            })
             }
-          }
-          }
-          eventPropGetter={this.eventStyleGetter}
-          views={["month", "week", "day",]} />
+            }
+            eventPropGetter={this.eventStyleGetter}
+            views={["month", "week", "day",]} />
+        </div>
       </div>
-
-
     );
   }
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ fetchUser, updateUser,getEvents,setDescription }, dispatch);
+  return bindActionCreators({ fetchUser, updateUser,getEvents,setDescription }, dispatch);
 }
 
 function mapStateToProps(state) {
-    return { currentUser: state.currentUser, userEvents: state.userEvents };
+  return { currentUser: state.currentUser, userEvents: state.userEvents };
 }
 
 
