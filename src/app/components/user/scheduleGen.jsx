@@ -81,11 +81,8 @@ class ScheduleGen extends Component {
   }
 
   exportEvents(){
-    console.log(this.state.signedStatus);
       let batch = gapi.client.newBatch(); //For batch requests
       let events = this.props.userEvents; //Get course events of the user
-
-      console.log(events);
       //Checking if a CUSE calendar exists. If it does, remove it. Then, create a new calendar from scratch
       let listRequest = gapi.client.calendar.calendarList.list();
       listRequest.execute(function(resp){
