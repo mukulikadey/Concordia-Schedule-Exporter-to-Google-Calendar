@@ -164,7 +164,7 @@ class ScheduleGen extends Component {
       });
   }
 
-  updateSigninStatus() {
+  updateSignInStatus() {
     let gapi = getGapi();
     if(gapi.auth2.getAuthInstance().isSignedIn.get()){
       this.setState({signedStatus: "Signed In"});
