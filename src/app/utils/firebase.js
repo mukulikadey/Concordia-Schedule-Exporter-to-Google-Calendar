@@ -19,13 +19,13 @@ const FireBaseTools = {
     getProvider: (provider) => {
         switch (provider) {
 
-      case 'email':
-          return new firebase.auth.EmailAuthProvider();
-      case 'google':
-          return new firebase.auth.GoogleAuthProvider();
-      default:
-          throw new Error('Provider is not supported!!!');
-      }
+        case 'email':
+            return new firebase.auth.EmailAuthProvider();
+        case 'google':
+            return new firebase.auth.GoogleAuthProvider();
+        default:
+            throw new Error('Provider is not supported!!!');
+        }
     },
 
   /* eslint-disable */
@@ -73,13 +73,13 @@ const FireBaseTools = {
         const id = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
         let index = -1;
         for (let i = 0; i < coursearray.length; i += 1) {
-          if (coursearray[i] === course) {
-            index = i;
+            if (coursearray[i] === course) {
+              index = i;
         }
       }
         if (index > -1) {
-          coursearray.splice(index, 1);
-      }
+            coursearray.splice(index, 1);
+        }
        /* eslint-disable */
        course.section ? userSections.push(course.coursenumber + course.section) : null;
        course.tutorialsection ? userSections.push(course.coursenumber + course.tutorialsection) : null;
@@ -115,42 +115,42 @@ const FireBaseTools = {
         // Check if the user has already subscribed to one section of the course
         for (let i = 0; i < courseArray.length; i += 1) {
         // If the course is already in the course array, then overwrite the section
-          if (courseArray[i].coursenumber === courseNumber) {
-            courseIndex = i; // contains index number of course in user's courseArray
+            if (courseArray[i].coursenumber === courseNumber) {
+              courseIndex = i; // contains index number of course in user's courseArray
+          }
         }
-      }
 
         if (courseIndex >= 0) {
-          if (section.component === 'LAB' && courseArray[courseIndex].labsection) {
-            path = courseArray[courseIndex].coursenumber + courseArray[courseIndex].labsection + 1;
+            if (section.component === 'LAB' && courseArray[courseIndex].labsection) {
+              path = courseArray[courseIndex].coursenumber + courseArray[courseIndex].labsection + 1;
+          }
+            if (section.component === 'TUT' && courseArray[courseIndex].tutorialsection) {
+              path = courseArray[courseIndex].coursenumber + courseArray[courseIndex].tutorialsection;
+          }
+            if (section.component === 'LEC' && courseArray[courseIndex].section) {
+              path = courseArray[courseIndex].coursenumber + courseArray[courseIndex].section;
+          }
+            if (path) {
+              coursesRef.child(path).child('Subscribers').child(id).set(null);
+          }
         }
-          if (section.component === 'TUT' && courseArray[courseIndex].tutorialsection) {
-            path = courseArray[courseIndex].coursenumber + courseArray[courseIndex].tutorialsection;
-        }
-          if (section.component === 'LEC' && courseArray[courseIndex].section) {
-            path = courseArray[courseIndex].coursenumber + courseArray[courseIndex].section;
-        }
-          if (path) {
-            coursesRef.child(path).child('Subscribers').child(id).set(null);
-        }
-      }
 
         if (courseIndex < 0) {
           // A new course is added to the courseArray if the student was not previously subscribed to it
-          const newCourse =
-            {
-                coursename: courseNumber,
-                coursenumber: courseNumber,
-            };
+            const newCourse =
+              {
+                  coursename: courseNumber,
+                  coursenumber: courseNumber,
+              };
 
           // Set course index to the next available index value or to 0 if courseArray doesn't exist yet
-          courseIndex = courseArray ? courseArray.length : 0;
+            courseIndex = courseArray ? courseArray.length : 0;
 
           // Create new firebase path with the course details
-          const updates = {};
-          updates[courseIndex] = newCourse;
-          usersRef.child(id.toString()).child('coursearray').update(updates);
-      }
+            const updates = {};
+            updates[courseIndex] = newCourse;
+            usersRef.child(id.toString()).child('coursearray').update(updates);
+        }
 
         // Adding the user to the subscriber list of the course
         const updateSubs = {};
@@ -196,8 +196,8 @@ const FireBaseTools = {
 
           // We add a promise to the array for every path we're
           // fetching data from (will be more than one if it's a lab section)
-          timetablePromises.push(FireBaseTools.getTimetable(newSectionPath));
-      }
+            timetablePromises.push(FireBaseTools.getTimetable(newSectionPath));
+        }
 
     // The .then() function is ONLY triggered if and when ALL of the promises in the given array are resolved.
     // The resolved objects (collection of class date objects)
@@ -374,8 +374,8 @@ const FireBaseTools = {
 
         const user = firebaseAuth.currentUser ? firebaseAuth.currentUser : null;
         if (!user) {
-          return null;
-      }
+            return null;
+        }
       /* eslint-disable */
       return usersRef.child(user.uid.toString()).once('value').then(function(snap) {
           userCourses=snap.val()['coursearray'];
@@ -502,9 +502,9 @@ const FireBaseTools = {
     loginWithProvider: (p) => {
         const provider = FireBaseTools.getProvider(p);
         return firebaseAuth.signInWithPopup(provider).then(firebaseAuth.currentUser).catch(error => ({
-          errorCode: error.code,
-          errorMessage: error.message,
-      }));
+            errorCode: error.code,
+            errorMessage: error.message,
+        }));
     },
 
   /**
@@ -536,11 +536,11 @@ const FireBaseTools = {
    */
     fetchUser: () => new Promise((resolve, reject) => {
         const unsub = firebaseAuth.onAuthStateChanged((user) => {
-          unsub();
-          resolve(user);
-      }, (error) => {
-          reject(error);
-      });
+            unsub();
+            resolve(user);
+        }, (error) => {
+            reject(error);
+        });
     }),
 
     /**
@@ -554,7 +554,7 @@ const FireBaseTools = {
     .catch(error => ({
         errorCode: error.code,
         errorMessage: error.message,
-     })),
+    })),
 
   /**
    * Update a user's profile data
@@ -562,7 +562,7 @@ const FireBaseTools = {
    * @param u
    * @returns {!firebase.Promise.<*>|firebase.Thenable<any>|firebase.Promise<any>|!firebase.Thenable.<*>}
    */
-   updateUserProfile: u => firebaseAuth.currentUser.updateProfile(u).then(() => firebaseAuth.currentUser, error => ({
+    updateUserProfile: u => firebaseAuth.currentUser.updateProfile(u).then(() => firebaseAuth.currentUser, error => ({
        errorCode: error.code,
        errorMessage: error.message,
    })),
@@ -574,8 +574,8 @@ const FireBaseTools = {
     * @returns {!firebase.Promise.<*>|firebase.Thenable<any>|firebase.Promise<any>|!firebase.Thenable.<*>}
     */
     resetPasswordEmail: email => firebaseAuth.sendPasswordResetEmail(email).then(() => ({
-       message: 'Email sent',
-   }), error => ({
+        message: 'Email sent',
+    }), error => ({
        errorCode: error.code,
        errorMessage: error.message,
    })),
@@ -587,9 +587,9 @@ const FireBaseTools = {
      * @returns {!firebase.Promise.<*>|firebase.Thenable<any>|firebase.Promise<any>|!firebase.Thenable.<*>}
      */
     changePassword: newPassword => firebaseAuth.currentUser.updatePassword(newPassword).then(user => user, error => ({
-      errorCode: error.code,
-      errorMessage: error.message,
-  })),
+        errorCode: error.code,
+        errorMessage: error.message,
+    })),
 
   /**
    * Send an account email verification message for the currently logged in user
@@ -597,8 +597,8 @@ const FireBaseTools = {
    * @returns {!firebase.Promise.<*>|firebase.Thenable<any>|firebase.Promise<any>|!firebase.Thenable.<*>}
    */
     sendEmailVerification: () => firebaseAuth.currentUser.sendEmailVerification().then(() => ({
-      message: 'Email sent',
-  }), error => ({
+        message: 'Email sent',
+    }), error => ({
       errorCode: error.code,
       errorMessage: error.message,
   })),
