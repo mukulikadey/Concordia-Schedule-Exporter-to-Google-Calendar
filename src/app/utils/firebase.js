@@ -130,7 +130,9 @@ const FireBaseTools = {
       if (section.component === 'LEC' && courseArray[courseIndex].section) {
         path = courseArray[courseIndex].coursenumber + courseArray[courseIndex].section;
       }
-      coursesRef.child(path).child('Subscribers').child(id).set(null);
+      if (path) {
+        coursesRef.child(path).child('Subscribers').child(id).set(null);
+      }
     }
 
     if (courseIndex < 0) {
