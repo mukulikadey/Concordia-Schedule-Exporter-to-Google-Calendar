@@ -37,9 +37,9 @@ export function getEvents() {
 export function setDescription(sectionPath, datePath, description) {
     const request = FireBaseTools.setDescription(sectionPath, datePath, description);
     return {
-      type: SET_DESCRIPTION,
-      payload: request,
-  };
+        type: SET_DESCRIPTION,
+        payload: request,
+    };
 }
 
 // Using the redux-thunk library, we can dispatch functions
