@@ -23,8 +23,9 @@ class Index_home extends Component{
     this.handleChange = this.handleChange.bind(this);
     this.onkeyPress=this.onkeyPress.bind(this);
     this.remove=this.remove.bind(this)
+    this.refresh=this.refresh.bind(this)
   }
-  
+
   componentDidUpdate(){
     if(!this.props.currentUser) {
       this.props.getUserCourses()
@@ -33,6 +34,7 @@ class Index_home extends Component{
 
   remove(course){
     this.props.deleteCourse(this.props.userCourses.courses,course)
+    this.refresh()
   }
 
   getCourses()
@@ -60,14 +62,14 @@ class Index_home extends Component{
   handleAdd()
   {
     this.setState({searching: !this.state.searching});
-    
+
     //if the state is not searching, don't show the previously populated section's array
     if(!this.state.searching){this.showSection=false}
   }
   handleChange() {
     //On enter we set the value of showing the sections to user to true
     this.showSection=true;
-    
+
     //Making sure that the course name is in capital letters just like in the database
     var search_input = this.refs.myInput.value.toUpperCase();
     if(search_input != ""){
@@ -94,9 +96,14 @@ class Index_home extends Component{
       let courseArray = this.props.userCourses.courses[0] == 'No Courses'? [] : this.props.userCourses.courses;
 
       // Update the Firebase database by adding the nwe section to the user's CourseArray
-      this.props.addUserSection(courseArray, this.state.course_name,newSection);
-    }
-  }
+      this.props.addUserSection(courseArray, this.state.course_name,newSection)
+      this.refresh()
+
+
+  }}
+
+  refresh() {
+    window.location.reload()}
 
   render() {
     if (!this.props.currentUser) {
@@ -118,7 +125,7 @@ class Index_home extends Component{
             <p>
               <Link to="/profile"><button type="button" className="home btn btn-info btn-lg"><span className="fa fa-user"></span>    Profile </button></Link>
               <Link to="/scheduleGen"><button type="button" className="home btn btn-success btn-lg"><span className="fa fa-calendar"></span>    Schedule </button></Link>
-              <a href="#"><button type="button" className="home btn btn-warning btn-lg"><span className="fa fa-comments"></span>    Forum </button></a>
+
             </p>
         </div>
       </div>
