@@ -69,7 +69,7 @@ class ScheduleGen extends Component {
       }
       return colour;
     }
-        
+
     var backgroundColor = '#' + event.hexColor;
     var style = {
       backgroundColor: stringToColour(event.title),
@@ -193,7 +193,14 @@ class ScheduleGen extends Component {
     }
     if(this.props.userEvents.value==0)
     {
-      return <div>Nothing to show</div>
+      return (
+          //The message is displayed in an alert box with a link that allows user to return to HomePage.
+          <div className= "alert alert-danger">
+            You are subscribed to 0 classes. Please add classes on your HomePage to generate your schedule.
+            <a href="/index_home" class="alert-link" ><strong>Click here to return to HomePage.</strong></a>
+          </div>
+      )
+
     }
     return (
       <div>

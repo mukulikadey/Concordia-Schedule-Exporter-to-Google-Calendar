@@ -177,6 +177,7 @@ class Index_home extends Component{
           for(let i = 0; i < sections_array.length; i++) {
             let sectionClick = this.addSection.bind(this,sections_array[i]);
             return_render.push(<button key={sections_array[i].section.toString()} onClick = {sectionClick} type="button" className="btn btn-default"><a href="#">{sections_array[i].section}</a></button>);
+
           }
           return <div>{return_render}</div>;
         }
