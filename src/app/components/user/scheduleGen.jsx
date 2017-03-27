@@ -179,8 +179,8 @@ class ScheduleGen extends Component {
     gapi.auth2.getAuthInstance().isSignedIn.listen(this.updateSignInStatus);
     return (
       <div>
-        <button className="btn-google" onClick={this.googleSignIn}>Export to Calendar</button>
-        <text>{this.state.signedStatus}</text>
+        <button className="btn btn-status btn-google" onClick={this.googleSignIn}> <span className="fa fa-calendar-plus-o"></span> Google Calendar </button>
+        {this.state.signedStatus == "Signed In" ? <span className=" green"> </span> : <span className=" red"> </span> }
       </div>
     )
   }
@@ -252,7 +252,7 @@ class ScheduleGen extends Component {
             }
             }
             eventPropGetter={this.eventStyleGetter}
-            views={["month", "week", "day",]} />
+            views={["month", "week", "day", "agenda"]} />
         </div>
       </div>
     );

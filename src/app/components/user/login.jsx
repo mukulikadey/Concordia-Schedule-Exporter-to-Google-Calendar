@@ -75,7 +75,7 @@ class UserLogin extends Component {
                       href="#" className="btn btn-block btn-social btn-google" onClick={() => {
                           this.loginWithProvider('google');
                       }} data-provider="google"
-                    ><span className="fa fa-google"></span>Sign in with Gmail</a>
+                    ><span className="fa fa-google"></span> Sign in with Gmail</a>
                 </form>
 
                 </div>

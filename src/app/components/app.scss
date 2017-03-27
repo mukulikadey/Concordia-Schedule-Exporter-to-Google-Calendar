@@ -107,3 +107,38 @@ div.trans-sc{
 .alert-link{
   text-decoration:none;
 }
+
+.green{
+  background: rgb(66, 183, 42);
+  border-radius: 50%;
+  display: inline-block;
+  height: 6px;
+  margin-left: 4px;
+  width: 6px;
+}
+
+.red{
+  background:  #B4131B;
+  border-radius: 50%;
+  display: inline-block;
+  height: 6px;
+  margin-left: 4px;
+  width: 6px;
+}
+
+.btn-status {
+  position: relative;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 2px;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  background-color: #357fb7;
+  margin-bottom: 10px;
+}
+
+.btn-status:hover{
+  background-color: #358fb7;
+}
