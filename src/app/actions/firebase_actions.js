@@ -25,8 +25,8 @@ export function loginWithProvider(provider) {
     };
 }
 
-export function getEvents() {
-    const request = FireBaseTools.getUserEvents();
+export function getEvents(usercourses) {
+    const request = FireBaseTools.getUserEvents(usercourses);
 
     return {
         type: GET_EVENTS,

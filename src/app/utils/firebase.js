@@ -368,22 +368,23 @@ const FireBaseTools = {
     /* eslint-enable */
     },
 
-    getUserEvents: () => {
-        let userCourses = null;
-        const stringCourses = [];
 
-        const user = firebaseAuth.currentUser ? firebaseAuth.currentUser : null;
-        if (!user) {
-            return null;
-        }
-      /* eslint-disable */
-      return usersRef.child(user.uid.toString()).once('value').then(function(snap) {
-          userCourses=snap.val()['coursearray'];
-          if(!userCourses) {return {value: 0}}
-            for (var i = 0; i<userCourses.length; i+=1) {
-              userCourses[i].section ? stringCourses.push(userCourses[i].coursename + userCourses[i].section ):null
-             userCourses[i].tutorialsection ? stringCourses.push(userCourses[i].coursename + userCourses[i].tutorialsection): null
-             userCourses[i].labsection ? stringCourses.push(userCourses[i].coursename + (userCourses[i].labsection + "1")):null
+  getUserEvents: (userCourses) => {
+    // let userCourses = null;
+    const stringCourses = [];
+
+    const user = firebaseAuth.currentUser ? firebaseAuth.currentUser : null;
+    if (!user) {
+      return null;
+    }
+    /* eslint-disable */
+
+      if(userCourses[0]== "No Courses") {return {value: 0}}
+        for (var i = 0; i<userCourses.length; i+=1) {
+          userCourses[i].section ? stringCourses.push(userCourses[i].coursename + userCourses[i].section ):null
+         userCourses[i].tutorialsection ? stringCourses.push(userCourses[i].coursename + userCourses[i].tutorialsection): null
+          userCourses[i].labsection ? stringCourses.push(userCourses[i].coursename + (userCourses[i].labsection + "1")):null
+
         }
 
       var coursePromises = [];
@@ -392,14 +393,17 @@ const FireBaseTools = {
           return snap.val();
         }))
       })
-      var finalCourses = [], timetable = null, time = []
-      Promise.all(coursePromises).then(function(resolvedarray) {
-        resolvedarray.map((course)=> {
-          var timetable = course.Timetable? course.Timetable : null, subject = (course.Subject + course.Catalog), section = (" - "+course.Section),
-            type = course.Component, popupType = course.Component, monthType = course.Component,  teacher = (course['First Name'] + " " + course.Last), room = (course['Room Nbr']), courseTime = (course['Mtg Start'] + " - " + course['Mtg End']);
 
-          time = [];
-          if (timetable) {
+      var finalCourses=[], timetable=null, time=[]
+      return Promise.all(coursePromises).then(function(resolvedarray){
+        resolvedarray.map((course)=>{
+          var timetable = course.Timetable? course.Timetable : null, subject=(course.Subject+course.Catalog), section=(" - "+course.Section),
+            type=course.Component, popupType=course.Component, monthType=course.Component,  teacher=(course['First Name']+" "+course.Last), room=(course['Room Nbr']), courseTime=(course['Mtg Start']+" - "+course['Mtg End']);
+
+          time=[];
+          if(timetable)
+          {
+
             Object.keys(timetable).map(function(key, index) {
               var year = new Date(key).getUTCFullYear(), month = new Date(key).getUTCMonth(), day= new Date(key).getUTCDate() + 1;
               time.push({start :new Date(Date.UTC(year,month,day)), end: new Date(Date.UTC(year,month,day)), title:'', section:'', type:'', popupType:'',  monthType:'', teacher:'', room:'', courseTime:'',
@@ -475,13 +479,11 @@ const FireBaseTools = {
             finalCourses.push(date)
           })
         }
-        })
       })
-      return finalCourses;
-    }).catch(error => ({
-      errorCode: error.code,
-      errorMessage: error.message,
-    }));
+       return finalCourses
+      }
+      )
+  
   },
 
     setDescription: (sectionPath, datePath, description) => {
