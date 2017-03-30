@@ -18,6 +18,7 @@ class App extends Component {
         this.props.logoutUser().then((data) => {
       // reload props from reducer
             this.props.fetchUser();
+            gapi.auth2.getAuthInstance().signOut();
         });
     }
 
