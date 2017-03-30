@@ -4,6 +4,8 @@ import { bindActionCreators } from 'redux';
 import { browserHistory, Link } from 'react-router';
 import { fetchUser, getUserCourses, getSections, addUserSection,deleteCourse } from '../actions/firebase_actions';
 import Loading from './helpers/loading';
+import 'sweetalert';
+import './user/sweetalert.css';
 
 
 class Index_home extends Component{
@@ -33,8 +35,20 @@ class Index_home extends Component{
   }
 
   remove(course){
-    this.props.deleteCourse(this.props.userCourses.courses,course)
-    this.refresh()
+    var self=this;
+    swal({
+           title:"",
+           text: "Are you sure you want to delete "+ course.coursename+"?",
+           type: "warning",
+           showCancelButton: true,
+           confirmButtonColor: "#DD6B55",
+           confirmButtonText: "Yes, delete it!",
+           closeOnConfirm: false
+    },
+    function(){      
+      swal("Deleted!", course.coursename+" has been deleted.", "success", );
+      self.props.deleteCourse(self.props.userCourses.courses,course)        
+    });    
   }
 
   getCourses()
