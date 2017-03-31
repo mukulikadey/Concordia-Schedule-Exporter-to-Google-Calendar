@@ -74,7 +74,7 @@ class ScheduleGen extends Component {
       }
       return colour;
     }
-        
+
     var backgroundColor = '#' + event.hexColor;
     var style = {
       backgroundColor: stringToColour(event.title),
@@ -184,8 +184,8 @@ class ScheduleGen extends Component {
     gapi.auth2.getAuthInstance().isSignedIn.listen(this.updateSignInStatus);
     return (
       <div>
-        <button className="btn-google" onClick={this.googleSignIn}>Export to Calendar</button>
-        <text>{this.state.signedStatus}</text>
+        <button className="btn btn-status" onClick={this.googleSignIn}> <span className="fa fa-calendar-plus-o"></span> Google Calendar </button>
+        {this.state.signedStatus == "Signed In" ? <span className=" green"> </span> : <span className=" red"> </span> }
       </div>
     )
   }
@@ -201,7 +201,14 @@ class ScheduleGen extends Component {
     }
     if(this.props.userEvents.value==0)
     {
-      return <div>Nothing to show</div>
+      return (
+          //The message is displayed in an alert box with a link that allows user to return to HomePage.
+          <div className= "alert alert-danger">
+            You are subscribed to 0 classes. Please add classes on your HomePage to generate your schedule.
+            <a href="/index_home" class="alert-link" ><strong>Click here to return to HomePage.</strong></a>
+          </div>
+      )
+
     }
     //console.log(this.props.userEvents)
    
@@ -255,7 +262,7 @@ class ScheduleGen extends Component {
             }
             }
             eventPropGetter={this.eventStyleGetter}
-            views={["month", "week", "day",]} />
+            views={["month", "week", "day", "agenda"]} />
         </div>
       </div>
     );

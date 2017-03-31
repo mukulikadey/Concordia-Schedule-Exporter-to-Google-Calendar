@@ -103,4 +103,51 @@ div.trans-sc{
 .parent:hover .hiding {
   display:inline;
 }
+//Styling for links in alert box - ScheduleGen Page
+.alert-link{
+  text-decoration:none;
+}
 
+.green{
+  background: rgb(66, 183, 42);
+  border-radius: 50%;
+  display: inline-block;
+  height: 8px;
+  margin-left: 4px;
+  width: 8px;
+  margin-bottom: 5px;
+}
+
+.red{
+  background:  #B4131B;
+  border-radius: 50%;
+  display: inline-block;
+  height: 8px;
+  margin-left: 4px;
+  width: 8px;
+  margin-bottom: 5px;
+}
+
+.btn-status {
+  position: relative;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 2px;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  background-color: #357fb7;
+  margin-bottom: 10px;
+}
+
+.btn-status:hover{
+  background-color: #358fb7;
+}
+
+.notCenter{
+  right: auto; 
+  left: 20px;
+  text-align: left;
+  padding:5px
+}

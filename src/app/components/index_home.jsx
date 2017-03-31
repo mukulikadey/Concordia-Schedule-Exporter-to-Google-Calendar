@@ -4,6 +4,8 @@ import { bindActionCreators } from 'redux';
 import { browserHistory, Link } from 'react-router';
 import { fetchUser, getUserCourses, getSections, addUserSection,deleteCourse } from '../actions/firebase_actions';
 import Loading from './helpers/loading';
+import 'sweetalert';
+import './user/sweetalert.css';
 
 
 class Index_home extends Component{
@@ -23,8 +25,9 @@ class Index_home extends Component{
     this.handleChange = this.handleChange.bind(this);
     this.onkeyPress=this.onkeyPress.bind(this);
     this.remove=this.remove.bind(this)
+    this.refresh=this.refresh.bind(this)
   }
-  
+
   componentDidUpdate(){
     if(!this.props.currentUser) {
       this.props.getUserCourses()
@@ -32,7 +35,20 @@ class Index_home extends Component{
   }
 
   remove(course){
-    this.props.deleteCourse(this.props.userCourses.courses,course)
+    var self=this;
+    swal({
+           title:"",
+           text: "Are you sure you want to delete "+ course.coursename+"?",
+           type: "warning",
+           showCancelButton: true,
+           confirmButtonColor: "#DD6B55",
+           confirmButtonText: "Yes, delete it!",
+           closeOnConfirm: false
+    },
+    function(){      
+      swal("Deleted!", course.coursename+" has been deleted.", "success", );
+      self.props.deleteCourse(self.props.userCourses.courses,course)        
+    });    
   }
 
   getCourses()
@@ -60,7 +76,7 @@ class Index_home extends Component{
   handleAdd()
   {
     this.setState({searching: !this.state.searching});
-    
+
     //if the state is not searching, don't show the previously populated section's array
     if(!this.state.searching){this.showSection=false}
   }
@@ -76,6 +92,7 @@ class Index_home extends Component{
         // reload props from reducer
         this.setState({display_sections: data});
       });
+      this.refs.myInput.value=""
     }
   }
   handleForm()
@@ -86,7 +103,7 @@ class Index_home extends Component{
         });
   }
 
-  addSection(newSection)
+  addSection(newSection,e)
   {
     if(this.props.userCourses && this.props.userCourses.loaded && this.props.userCourses.courses)
     {
@@ -95,8 +112,13 @@ class Index_home extends Component{
 
       // Update the Firebase database by adding the nwe section to the user's CourseArray
       this.props.addUserSection(courseArray, this.state.course_name,newSection);
+      document.getElementsByClassName(newSection.section)[0].classList.add("btn-default")
+      document.getElementsByClassName(newSection.section)[0].classList.add("btn-primary")
     }
   }
+
+  refresh() {
+    window.location.reload()}
 
   render() {
     if (!this.props.currentUser) {
@@ -118,7 +140,7 @@ class Index_home extends Component{
             <p>
               <Link to="/profile"><button type="button" className="home btn btn-info btn-lg"><span className="fa fa-user"></span>    Profile </button></Link>
               <Link to="/scheduleGen"><button type="button" className="home btn btn-success btn-lg"><span className="fa fa-calendar"></span>    Schedule </button></Link>
-              <a href="#"><button type="button" className="home btn btn-warning btn-lg"><span className="fa fa-comments"></span>    Forum </button></a>
+
             </p>
         </div>
       </div>
@@ -160,26 +182,60 @@ class Index_home extends Component{
       return <a href="#" onClick={this.handleAdd}><span className="fa fa-plus-circle"></span> Add Courses </a>
     }
   }
-  renderSectionResult()
+ renderSectionResult()
   {
     let sections_array = this.props.sections;
-    if(this.state.searching && sections_array != undefined && this.showSection) {
-      if(sections_array.length!=0){
-        {
-          let return_render = [];
-          for(let i = 0; i < sections_array.length; i++) {
-            let sectionClick = this.addSection.bind(this,sections_array[i]);
-            return_render.push(<button key={sections_array[i].section.toString()} onClick = {sectionClick} type="button" className="btn btn-default"><a href="#">{sections_array[i].section}</a></button>);
+        let lec=[], tut=[], lab=[]
+  
+    if (this.state.searching && sections_array != undefined && this.showSection) {
+      if (sections_array.length!=0) {
+        sections_array.map((sec)=> {
+          if (sec.component=='LEC') {
+            lec.push(sec)
           }
-          return <div>{return_render}</div>;
+          if (sec.component=='TUT') {
+            tut.push(sec)
+          }
+          if (sec.component=='LAB') {
+            lab.push(sec)
+          }
+        })
+        let return_render = [];
+        return_render.push(<button className="btn btn-info">{this.state.course_name}</button>)
+        return_render.push(<br/>)
+        return_render.push(<button>LEC</button>)
+        for(let i = 0; i < lec.length; i++) {
+          let sectionClick = this.addSection.bind(this,lec[i]);
+ 	        let classNames=lec[i].section + " btn btn-default";
+          return_render.push(<button key={lec[i].section.toString()} onClick = {sectionClick} type="button" className={classNames}>{lec[i].section}</button>);
+        }
+        if (tut.length!=0) {
+        return_render.push(<br/>)
+        return_render.push(<button>TUT</button>)
+        for(let i = 0; i < tut.length; i++) {
+          let sectionClick = this.addSection.bind(this,tut[i]);
+          let classNames=tut[i].section + " btn btn-default";
+          return_render.push(<button key={tut[i].section.toString()} onClick = {sectionClick} type="button" className={classNames}>{tut[i].section}</button>);
+        }
+        return_render.push(<br/>)
+      }
+      if (lab.length!=0) {
+      return_render.push(<button>LAB</button>)
+      for(let i = 0; i < lab.length; i++) {
+        let sectionClick = this.addSection.bind(this,lab[i]);
+        let classNames=lab[i].section + " btn btn-default";
+        return_render.push(<button key={lab[i].section.toString()} onClick = {sectionClick} type="button" className={classNames}>{lab[i].section}</button>);
         }
       }
+      return <div className="notCenter">{return_render}</div>;
+    }
     else{
-      return <div className= "alert alert-danger">The Course Does Not Exist.</div>
+      return <div className= "alert alert-danger">{this.state.course_name} Does Not Exist.</div>
     }
   }
   return <div></div>;
   }
+
 
 
 }
