@@ -439,9 +439,16 @@ const FireBaseTools = {
             date['end'].setMinutes(eMinutes);
             date['title']= subject;
             date['section']= section;
-            // Check if the current user is in the section's Whitelist of user's that can edit the class' description
+             // Check if the current user is the prof or in the section's Whitelist of user's that can edit the class' description
             // Ensure that you properly format the email string with escape chars since firebase keys don't have '.' characters
-            date['canEditDescription'] = course['Whitelist'] ? course['Whitelist'].hasOwnProperty(user.email.replace('.','%2E')) : false;
+             let edit=false;
+             if (course['Email']==user.email) {
+                edit=true;
+              }
+            else if (course['Whitelist'] && course['Whitelist'].hasOwnProperty(user.email.replace(/\./g,'%2E'))) { 
+               edit=true;
+            }
+            date['canEditDescription'] = edit;
             // Store the path to the courseSection in each class event
             date['sectionPath'] = course.Component == "Lab" ? course.Subject + course.Catalog + course.Section + 1 : course.Subject + course.Catalog + course.Section ;
             date['type']= type;
