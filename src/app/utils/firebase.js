@@ -7,7 +7,7 @@ export const firebaseDb = firebaseApp.database();
 export const usersRef = firebase.database().ref('users/');
 export const sectionsRef = firebase.database().ref('sections/');
 export const coursesRef = firebase.database().ref('course/');
-
+export const profRef = firebase.database().ref('professors/');
 const FireBaseTools = {
 
   /**
@@ -160,7 +160,8 @@ const FireBaseTools = {
         const courseSectionPath = section.component === 'LAB' ? courseNumber + section.section + 1 : courseNumber + section.section;
         /* eslint-enable */
         coursesRef.child(courseSectionPath).update(updateSubs);
-
+        // Add the section to the /professor/<prof email>/section:path node in case it hasn't been added yet
+        FireBaseTools.addProf(courseSectionPath);
         const updates = {};
 
         // Update appropriate section depending on whether it's a lab,tutorial or lecture
@@ -236,6 +237,24 @@ const FireBaseTools = {
       errorMessage: error.message,
     }));
     /* eslint-enable */
+    },
+
+   addProf: (courseSectionPath) => {
+      // This function adds the path to a course section that the professor teaches under the path professor/<prof Email>/
+      // This will later allow us to easily verify if a user is a professor by checking if the path professors/<user email> contains anything
+      coursesRef.child(courseSectionPath).child('Email').once('value').then(function (snap) {
+        console.log(snap.val());
+        const profEmail = snap.val().replace( /\./g, '%2E'); //Replace all the periods in the email with the escape
+        const updateProf = {};
+        updateProf[courseSectionPath] = courseSectionPath;
+        console.log(profEmail);
+        console.log(updateProf);
+        // Update the Professor's email in Firebase thereby adding the course section under the list of courses this prof teaches, if it wasn't already there
+        profRef.child(profEmail).update(updateProf);
+      }).catch(error => ({
+        errorCode: error.code,
+        errorMessage: error.message,
+      }));
     },
 
     getTimetable: (sectionPath) => {
