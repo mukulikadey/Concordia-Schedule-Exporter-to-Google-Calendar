@@ -271,9 +271,6 @@ const FireBaseTools = {
 
       FireBaseTools.fillNoClassThisDay(noClassThisDay);
 
-      // Get the days of the weeks where the course is given
-      const givenWeekDay = [snap.val().Sun, snap.val().Mon, snap.val().Tues, snap.val().Wed, snap.val().Thurs, snap.val().Fri, snap.val().Sat];
-
       return FireBaseTools.populate(startDate, endDate, noClassThisDay);
 
 
@@ -336,6 +333,27 @@ const FireBaseTools = {
         const dateNumber = startDate.getDate() < 10 ? '0' + (startDate.getDate()) : (startDate.getDate());
         // Create the key for the new DateObject in the form "YEAR-MONTH-DATE"
         const newDateObject = startDate.getFullYear() + '-' + monthNumber + '-' + dateNumber;
+      }
+      // Checks which day of the week the startDate represents.
+      FireBaseTools.checkWeekday(startDate, timetable, snap);
+      // check next date (startDate acts as our iterator in this loop so it takes the value of the next day)
+      const newDate = startDate.setDate(startDate.getDate() + 1);
+      startDate = new Date(newDate);
+    }
+    // return a promise of a timetable object with all the dates of a given course section path
+    return timetable;
+  },
+ 
+ /**
+  *  Updates the timetable according to what day of the week the startDate param represents
+  * @param startDate current Date to be verified this iteration
+  * @param timetable the actual timetable that contains every date object and every description
+  * @param snap the Firebase resolved promise from the /course/ path
+  */
+ checkWeekday : (startDate, timetable, snap) => {
+   // Get the days of the weeks where the course is given
+        const givenWeekDay = [snap.val().Sun, snap.val().Mon, snap.val().Tues, snap.val().Wed, snap.val().Thurs, snap.val().Fri, snap.val().Sat];
+        
         // Add the JSON date key
         switch (startDate.getDay()) {
 
@@ -382,17 +400,8 @@ const FireBaseTools = {
             break;
 
           default:
-          //TODO add a proper error check?
         }
-      }
-
-      // check next date (startDate acts as our iterator in this loop so it takes the value of the next day)
-      const newDate = startDate.setDate(startDate.getDate() + 1);
-      startDate = new Date(newDate);
-    }
-    // return a promise of a timetable object with all the dates of a given course section path
-    return timetable;
-  },
+ },
 
   getSections: (courseName) => {
     const sections = [];
@@ -435,17 +444,16 @@ const FireBaseTools = {
       }))
     })
 
-    var finalCourses=[], timetable=null, time=[]
+    let finalCourses=[];
     return Promise.all(coursePromises).then(function(resolvedarray){
         resolvedarray.map((course)=>{
-          var timetable = course.Timetable? course.Timetable : null, subject=(course.Subject+course.Catalog), section=(" - "+course.Section),
-            type=course.Component, popupType=course.Component, monthType=course.Component,  teacher=(course['First Name']+" "+course.Last), room=(course['Room Nbr']), courseTime=(course['Mtg Start']+" - "+course['Mtg End']);
+          var timetable = course.Timetable? course.Timetable : null, subject=(course.Subject+course.Catalog), section=(" - "+course.Section);
 
           time=[];
           if(timetable)
           {
 
-            Object.keys(timetable).map(function(key, index) {
+            Object.keys(timetable).map(function(key) {
               var year = new Date(key).getUTCFullYear(), month = new Date(key).getUTCMonth(), day= new Date(key).getUTCDate() + 1;
               time.push({start :new Date(Date.UTC(year,month,day)), end: new Date(Date.UTC(year,month,day)), title:'', section:'', type:'', popupType:'',  monthType:'', teacher:'', room:'', courseTime:'',
                 desc:timetable[key]['description'], datePath:key})
@@ -454,26 +462,26 @@ const FireBaseTools = {
 
           if (course.Timetable) {
             timetable = time;
-            var time = course['Mtg Start']
-            var hours = Number(time.match(/^(\d+)/)[1]);
-            var minutes = Number(time.match(/:(\d+)/)[1]);
-            var AMPM = time.match(/\s(.*)$/)[1];
+            let time = course['Mtg Start']
+            let hours = Number(time.match(/^(\d+)/)[1]);
+            let minutes = Number(time.match(/:(\d+)/)[1]);
+            let AMPM = time.match(/\s(.*)$/)[1];
             if (AMPM === 'PM' && hours < 12) hours = hours + 12;
             if (AMPM === 'AM' && hours == 12) hours = hours - 12;
-            var sHours = hours.toString();
-            var sMinutes = minutes.toString();
+            let sHours = hours.toString();
+            let sMinutes = minutes.toString();
 
             //end
-            var time = course['Mtg End']
-            var hours = Number(time.match(/^(\d+)/)[1]);
-            var minutes = Number(time.match(/:(\d+)/)[1]);
-            var AMPM = time.match(/\s(.*)$/)[1];
-            if(AMPM === 'PM' && hours<12) hours = hours+12;
-            if(AMPM === 'AM' && hours==12) hours = hours-12;
-            var eHours = hours.toString();
-            var eMinutes = minutes.toString();
+            time = course['Mtg End']
+            hours = Number(time.match(/^(\d+)/)[1]);
+            minutes = Number(time.match(/:(\d+)/)[1]);
+            AMPM = time.match(/\s(.*)$/)[1];
+            if (AMPM === 'PM' && hours<12) hours = hours+12;
+            if (AMPM === 'AM' && hours==12) hours = hours-12;
+            let eHours = hours.toString();
+            let eMinutes = minutes.toString();
 
-            timetable.map((date)=>{
+            timetable.map((date) => {
               date['start'].setHours(sHours);
               date['end'].setHours(eHours);
               date['start'].setMinutes(sMinutes);
@@ -482,8 +490,10 @@ const FireBaseTools = {
               date['section']= section;
               // Check if the current user is the prof or in the section's Whitelist of user's that can edit the class' description
               // Ensure that you properly format the email string with escape chars since firebase keys don't have '.' characters
-              let edit=false;
-              if (course['Email']==user.email) {
+
+
+              let edit = false;
+              if (course['Email'] === user.email) {
                 edit=true;
               }
               else if (course['Whitelist'] && course['Whitelist'].hasOwnProperty(user.email.replace(/\./g,'%2E'))) {
@@ -492,7 +502,29 @@ const FireBaseTools = {
               date['canEditDescription'] = edit;
               // Store the path to the courseSection in each class event
               date['sectionPath'] = course.Component == "Lab" ? course.Subject + course.Catalog + course.Section + 1 : course.Subject + course.Catalog + course.Section ;
-              date['type']= type;
+              
+              FireBaseTools.setDateEvents(course, date);
+
+              finalCourses.push(date)
+            })
+          }
+        })
+        return finalCourses
+      }
+    )
+
+  },
+
+/**
+  *  Populate the date event object with data from the Firebase Database
+  * @param course snapshot from Firebase of the retrieved course section
+  * @param date the date event array that will be pushed as a class event
+  */
+setDateEvents : (course, date) => {
+             let teacher = (course['First Name']+" "+course.Last);
+             let room=(course['Room Nbr']); 
+             let courseTime=(course['Mtg Start']+" - "+course['Mtg End']);
+  date['type']= course.Component;
               if (date['type'] == "LEC") {
                 date['type'] = "Lecture";
               }
@@ -505,7 +537,7 @@ const FireBaseTools = {
                 date['type'] = "Laboratory";
               }
               date['teacher'] = teacher;
-              date['popupType'] = popupType;
+              date['popupType'] = course.Component;
               if (date['popupType'] == "LEC") {
                 date['popupType'] = "Lecture";
               }
@@ -517,22 +549,13 @@ const FireBaseTools = {
                 (date['popupType'] == "LAB")
                 date['popupType'] = "Lab";
               }
-              date['monthType'] = monthType;
+              date['monthType'] = course.Component;
               date['room'] = room;
               if (date['room'] == "") {
                 date['room'] = "TBA";
               }
               date['courseTime']=courseTime;
-
-              finalCourses.push(date)
-            })
-          }
-        })
-        return finalCourses
-      }
-    )
-
-  },
+},
 
   setDescription: (sectionPath, datePath, description) => {
     // Change the description of the specific class on Firebase
