@@ -4,12 +4,12 @@
 <head profile="http://selenium-ide.openqa.org/profiles/test-case">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="selenium.base" href="http://localhost:3000/" />
-<title>Remove a course homepage</title>
+<title>Remove a Course</title>
 </head>
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">Remove a course homepage</td></tr>
+<tr><td rowspan="1" colspan="3">Remove a Course</td></tr>
 </thead><tbody>
 <tr>
 	<td>open</td>
@@ -33,18 +33,28 @@
 </tr>
 <tr>
 	<td>click</td>
-	<td>//p[3]/span[3]</td>
+	<td>//p[4]/span[3]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button.confirm</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button.confirm</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//div/a/span[2]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>verifyElementNotPresent</td>
 	<td></td>
 	<td>ENGR371</td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>//div/a/span[2]</td>
-	<td></td>
 </tr>
 <tr>
 	<td>type</td>
@@ -68,7 +78,17 @@
 </tr>
 <tr>
 	<td>click</td>
-	<td>//header[@id='top']/div/nav/ul/li/ul/li[7]/a/span[3]</td>
+	<td>xpath=(//button[@type='button'])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=a.dropdown-toggle &gt; span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=span.fa.fa-sign-out</td>
 	<td></td>
 </tr>
 
