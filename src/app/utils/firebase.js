@@ -271,8 +271,7 @@ const FireBaseTools = {
 
       FireBaseTools.fillNoClassThisDay(noClassThisDay);
 
-      return FireBaseTools.populate(startDate, endDate, noClassThisDay);
-
+      return FireBaseTools.populate(startDate, endDate, noClassThisDay, snap);
 
     }).catch(error => ({
       errorCode: error.code,
@@ -309,9 +308,10 @@ const FireBaseTools = {
    * @param startDate The date of the week on which the first class is given
    * @param endDate The date of the week on which the last class is given
    * @param noClassThisDay The array of dates on which NO classes are given
+   * @param snap Firebase snapshot of path /course/[Course Section] with all course details
    * @returns timetable
    */
-  populate : (startDate, endDate, noClassThisDay) => {
+  populate : (startDate, endDate, noClassThisDay, snap) => {
     // create empty timeTable object
     const timetable = {};
     // Iterate through every date between day 1 and the last day to see if there's a class
@@ -328,14 +328,9 @@ const FireBaseTools = {
 
       // only update timetable in this iteration if classes are actually given on this date
       if (classesGivenOnThisDay) {
-        // Format the month and date so that it is always a two digit number. i.e. Prepend a '0' when 1-digit number
-        const monthNumber = startDate.getMonth() < 9 ? '0' + (startDate.getMonth() + 1) : (startDate.getMonth() + 1);
-        const dateNumber = startDate.getDate() < 10 ? '0' + (startDate.getDate()) : (startDate.getDate());
-        // Create the key for the new DateObject in the form "YEAR-MONTH-DATE"
-        const newDateObject = startDate.getFullYear() + '-' + monthNumber + '-' + dateNumber;
+        FireBaseTools.checkWeekday(startDate, timetable, snap);
       }
-      // Checks which day of the week the startDate represents.
-      FireBaseTools.checkWeekday(startDate, timetable, snap);
+
       // check next date (startDate acts as our iterator in this loop so it takes the value of the next day)
       const newDate = startDate.setDate(startDate.getDate() + 1);
       startDate = new Date(newDate);
@@ -351,6 +346,12 @@ const FireBaseTools = {
   * @param snap the Firebase resolved promise from the /course/ path
   */
  checkWeekday : (startDate, timetable, snap) => {
+           // Format the month and date so that it is always a two digit number. i.e. Prepend a '0' when 1-digit number
+        const monthNumber = startDate.getMonth() < 9 ? '0' + (startDate.getMonth() + 1) : (startDate.getMonth() + 1);
+        const dateNumber = startDate.getDate() < 10 ? '0' + (startDate.getDate()) : (startDate.getDate());
+        // Create the key for the new DateObject in the form "YEAR-MONTH-DATE"
+        const newDateObject = startDate.getFullYear() + '-' + monthNumber + '-' + dateNumber;
+        // Checks which day of the week the startDate represents.
    // Get the days of the weeks where the course is given
         const givenWeekDay = [snap.val().Sun, snap.val().Mon, snap.val().Tues, snap.val().Wed, snap.val().Thurs, snap.val().Fri, snap.val().Sat];
         
