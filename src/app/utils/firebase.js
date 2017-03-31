@@ -243,12 +243,9 @@ const FireBaseTools = {
     // This function adds the path to a course section that the professor teaches under the path professor/<prof Email>/
     // This will later allow us to easily verify if a user is a professor by checking if the path professors/<user email> contains anything
     coursesRef.child(courseSectionPath).child('Email').once('value').then(function (snap) {
-      console.log(snap.val());
       const profEmail = snap.val().replace( /\./g, '%2E'); //Replace all the periods in the email with the escape
       const updateProf = {};
       updateProf[courseSectionPath] = courseSectionPath;
-      console.log(profEmail);
-      console.log(updateProf);
       // Update the Professor's email in Firebase thereby adding the course section under the list of courses this prof teaches, if it wasn't already there
       profRef.child(profEmail).update(updateProf);
     }).catch(error => ({
@@ -437,7 +434,6 @@ const FireBaseTools = {
       userCourses[i].labsection ? stringCourses.push(userCourses[i].coursename + (userCourses[i].labsection + "1")):null
 
     }
-
     var coursePromises = [];
     stringCourses.map((section) => {
       coursePromises.push(coursesRef.child(section).once('value').then(function (snap) {
@@ -448,22 +444,19 @@ const FireBaseTools = {
     let finalCourses=[];
     return Promise.all(coursePromises).then(function(resolvedarray){
         resolvedarray.map((course)=>{
-          var timetable = course.Timetable? course.Timetable : null, subject=(course.Subject+course.Catalog), section=(" - "+course.Section);
-
-          time=[];
-          if(timetable)
-          {
-
+          var timetable = course.Timetable? course.Timetable : null;
+          var subject=(course.Subject+course.Catalog)
+          var  section=(" - "+course.Section);
+          var time=[];
+      
             Object.keys(timetable).map(function(key) {
               var year = new Date(key).getUTCFullYear(), month = new Date(key).getUTCMonth(), day= new Date(key).getUTCDate() + 1;
               time.push({start :new Date(Date.UTC(year,month,day)), end: new Date(Date.UTC(year,month,day)), title:'', section:'', type:'', popupType:'',  monthType:'', teacher:'', room:'', courseTime:'',
                 desc:timetable[key]['description'], datePath:key})
             });
-          }
-
-          if (course.Timetable) {
-            timetable = time;
-            let time = course['Mtg Start']
+          
+            timetable=time 
+            time = course['Mtg Start']
             let hours = Number(time.match(/^(\d+)/)[1]);
             let minutes = Number(time.match(/:(\d+)/)[1]);
             let AMPM = time.match(/\s(.*)$/)[1];
@@ -471,7 +464,7 @@ const FireBaseTools = {
             if (AMPM === 'AM' && hours == 12) hours = hours - 12;
             let sHours = hours.toString();
             let sMinutes = minutes.toString();
-
+          
             //end
             time = course['Mtg End']
             hours = Number(time.match(/^(\d+)/)[1]);
@@ -481,7 +474,7 @@ const FireBaseTools = {
             if (AMPM === 'AM' && hours==12) hours = hours-12;
             let eHours = hours.toString();
             let eMinutes = minutes.toString();
-
+            
             timetable.map((date) => {
               date['start'].setHours(sHours);
               date['end'].setHours(eHours);
@@ -491,8 +484,6 @@ const FireBaseTools = {
               date['section']= section;
               // Check if the current user is the prof or in the section's Whitelist of user's that can edit the class' description
               // Ensure that you properly format the email string with escape chars since firebase keys don't have '.' characters
-
-
               let edit = false;
               if (course['Email'] === user.email) {
                 edit=true;
@@ -503,13 +494,15 @@ const FireBaseTools = {
               date['canEditDescription'] = edit;
               // Store the path to the courseSection in each class event
               date['sectionPath'] = course.Component == "Lab" ? course.Subject + course.Catalog + course.Section + 1 : course.Subject + course.Catalog + course.Section ;
-              
-              FireBaseTools.setDateEvents(course, date);
+            
+               FireBaseTools.setDateEvents(course, date);
 
               finalCourses.push(date)
+             
             })
-          }
+          
         })
+    
         return finalCourses
       }
     )
@@ -522,10 +515,11 @@ const FireBaseTools = {
   * @param date the date event array that will be pushed as a class event
   */
 setDateEvents : (course, date) => {
+  
              let teacher = (course['First Name']+" "+course.Last);
              let room=(course['Room Nbr']); 
              let courseTime=(course['Mtg Start']+" - "+course['Mtg End']);
-  date['type']= course.Component;
+             date['type']= course.Component;
               if (date['type'] == "LEC") {
                 date['type'] = "Lecture";
               }
@@ -556,6 +550,7 @@ setDateEvents : (course, date) => {
                 date['room'] = "TBA";
               }
               date['courseTime']=courseTime;
+              return date;
 },
 
   setDescription: (sectionPath, datePath, description) => {
