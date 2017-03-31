@@ -4,12 +4,12 @@
 <head profile="http://selenium-ide.openqa.org/profiles/test-case">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="selenium.base" href="http://localhost:3000/" />
-<title>Course Does Not Exist</title>
+<title>Register with Email/Password</title>
 </head>
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">Course Does Not Exist</td></tr>
+<tr><td rowspan="1" colspan="3">Register with Email/Password</td></tr>
 </thead><tbody>
 <tr>
 	<td>open</td>
@@ -18,38 +18,28 @@
 </tr>
 <tr>
 	<td>type</td>
-	<td>id=txtEmail</td>
+	<td>css=#frmRegister &gt; div.form-group &gt; #txtEmail</td>
 	<td>tester@hotmail.com</td>
 </tr>
 <tr>
 	<td>type</td>
-	<td>id=txtPass</td>
-	<td>testing123</td>
+	<td>css=#frmRegister &gt; div.form-group &gt; #txtPass</td>
+	<td>conustudent</td>
 </tr>
 <tr>
 	<td>click</td>
-	<td>//button[@type='submit']</td>
+	<td>css=#frmRegister &gt; button.btn.btn-default</td>
 	<td></td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>//div/a/span[2]</td>
-	<td></td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>css=input[type=&quot;search&quot;]</td>
-	<td>COMP123</td>
-</tr>
-<tr>
-	<td>sendKeys</td>
-	<td>css=input[type=&quot;search&quot;]</td>
-	<td>${KEY_ENTER}</td>
 </tr>
 <tr>
 	<td>assertTextPresent</td>
-	<td>Does Not Exist.</td>
 	<td></td>
+	<td>WELCOME</td>
+</tr>
+<tr>
+	<td>assertTextNotPresent</td>
+	<td></td>
+	<td>The email address is already in use by another account.</td>
 </tr>
 </tbody></table>
 </body>
