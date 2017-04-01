@@ -1,5 +1,5 @@
 //The background picture is now included in the body of the website, i.e. every page on the site
-body {
+body{
   background: url("/src/background-home.jpg");
   background-size: cover;
   position:relative;
@@ -16,7 +16,7 @@ body {
   margin-right: auto;
   margin-left: auto;
 }
-.btn-social {
+.btn-social{
   position: relative;
   padding-left: 44px;
   padding-bottom: 10px;
@@ -25,7 +25,7 @@ body {
   overflow: hidden;
 }
 
-.bottom {
+.bottom{
   text-align: center;
   margin-top: 5%;
  }
@@ -49,7 +49,7 @@ alert{
   font-size: 0.875em;
 }
 
-.welcomeHome {
+.welcomeHome{
   text-align: center;
   text-transform: uppercase;
   font-weight: bold;
@@ -93,7 +93,7 @@ div.transbox{
   margin-right: auto;
 }
 
-div.transBox p {
+div.transBox p{
   margin: 5%;
   font-weight: bold;
   color: #000000;
@@ -111,7 +111,7 @@ div.trans-sc{
 .hiding{
   display:none;
 }
-.parent:hover .hiding {
+.parent:hover .hiding{
   display:inline;
 }
 //Styling for links in alert box - ScheduleGen Page
@@ -139,7 +139,7 @@ div.trans-sc{
   margin-bottom: 5px;
 }
 
-.btn-status {
+.btn-status{
   position: relative;
   padding-left: 10px;
   padding-right: 10px;
@@ -163,71 +163,71 @@ div.trans-sc{
   padding:5px
 }
 
-.navbar-custom {
+.navbar-custom{
   background-color: #325277 !important;
   border-color: #325277 !important;
 }
-.navbar-custom .navbar-brand {
+.navbar-custom .navbar-brand{
   color: gold;
 }
 .navbar-custom .navbar-brand:hover,
-.navbar-custom .navbar-brand:focus {
+.navbar-custom .navbar-brand:focus{
   color: gold;
 }
-.navbar-custom .navbar-text {
+.navbar-custom .navbar-text{
   color: gold;
 }
-.navbar-custom .navbar-nav > li > a {
+.navbar-custom .navbar-nav > li > a{
   color: gold;
 }
 .navbar-custom .navbar-nav > li > a:hover,
-.navbar-custom .navbar-nav > li > a:focus {
+.navbar-custom .navbar-nav > li > a:focus{
   color: gold;
 }
 .navbar-custom .navbar-nav > .active > a,
 .navbar-custom .navbar-nav > .active > a:hover,
-.navbar-custom .navbar-nav > .active > a:focus {
+.navbar-custom .navbar-nav > .active > a:focus{
   color: gold;
   background-color: #9d081f;
 }
 .navbar-custom .navbar-nav > .open > a,
 .navbar-custom .navbar-nav > .open > a:hover,
-.navbar-custom .navbar-nav > .open > a:focus {
+.navbar-custom .navbar-nav > .open > a:focus{
   color: gold;
   background-color: #9d081f;
 }
-.navbar-custom .navbar-toggle {
+.navbar-custom .navbar-toggle{
   border-color: #9d081f;
 }
 .navbar-custom .navbar-toggle:hover,
-.navbar-custom .navbar-toggle:focus {
+.navbar-custom .navbar-toggle:focus{
   background-color: #9d081f;
 }
-.navbar-custom .navbar-toggle .icon-bar {
+.navbar-custom .navbar-toggle .icon-bar{
   background-color: gold;
 }
 .navbar-custom .navbar-collapse,
-.navbar-custom .navbar-form {
+.navbar-custom .navbar-form{
   border-color: gold;
 }
-.navbar-custom .navbar-link {
+.navbar-custom .navbar-link{
   color: gold;
 }
-.navbar-custom .navbar-link:hover {
+.navbar-custom .navbar-link:hover{
   color: gold;
 }
 
-@media (max-width: 767px) {
-  .navbar-custom .navbar-nav .open .dropdown-menu > li > a {
+@media (max-width: 767px){
+  .navbar-custom .navbar-nav .open .dropdown-menu > li > a{
     color: gold;
   }
   .navbar-custom .navbar-nav .open .dropdown-menu > li > a:hover,
-  .navbar-custom .navbar-nav .open .dropdown-menu > li > a:focus {
+  .navbar-custom .navbar-nav .open .dropdown-menu > li > a:focus{
     color: gold;
   }
   .navbar-custom .navbar-nav .open .dropdown-menu > .active > a,
   .navbar-custom .navbar-nav .open .dropdown-menu > .active > a:hover,
-  .navbar-custom .navbar-nav .open .dropdown-menu > .active > a:focus {
+  .navbar-custom .navbar-nav .open .dropdown-menu > .active > a:focus{
     color: gold;
     background-color: #9d081f;
   }
@@ -241,21 +241,21 @@ li a:visited{
   background-color: transparent !important;
   color: gold !important;
 }
-li a:hover {
+li a:hover{
   background-color: transparent !important;
   color: white !important;
 }
-li a:focus {
+li a:focus{
   background-color: transparent !important;
   color: white !important;
 }
 
-.img {
+.img{
   margin-top: -12px;
   margin-left: -40px;
 }
 
-.courseList {
+.courseList{
   font-size: 13px;
   color: #000000;
   display: block;
@@ -273,10 +273,11 @@ li a:focus {
 .logoutBox{
   top: 40px;
   position: relative;
-  left: 560px;
+  left: 45%;
 }
 .containerLogout{
   position: relative;
   top: 50px;
+  left: 90px;
   width: 1170px;
 }
