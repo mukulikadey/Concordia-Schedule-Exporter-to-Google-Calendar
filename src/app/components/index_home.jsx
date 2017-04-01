@@ -45,10 +45,10 @@ class Index_home extends Component{
            confirmButtonText: "Yes, delete it!",
            closeOnConfirm: false
     },
-    function(){      
+    function(){
       swal("Deleted!", course.coursename+" has been deleted.", "success", );
-      self.props.deleteCourse(self.props.userCourses.courses,course)        
-    });    
+      self.props.deleteCourse(self.props.userCourses.courses,course)
+    });
   }
 
   getCourses()
@@ -83,7 +83,7 @@ class Index_home extends Component{
   handleChange() {
     //On enter we set the value of showing the sections to user to true
     this.showSection=true;
-    
+
     //Making sure that the course name is in capital letters just like in the database
     var search_input = this.refs.myInput.value.toUpperCase();
     if(search_input != ""){
@@ -136,12 +136,6 @@ class Index_home extends Component{
 
               {this.renderSectionResult()}
             </div>
-
-            <p>
-              <Link to="/profile"><button type="button" className="home btn btn-info btn-lg"><span className="fa fa-user"></span>    Profile </button></Link>
-              <Link to="/scheduleGen"><button type="button" className="home btn btn-success btn-lg"><span className="fa fa-calendar"></span>    Schedule </button></Link>
-
-            </p>
         </div>
       </div>
 
@@ -186,7 +180,7 @@ class Index_home extends Component{
   {
     let sections_array = this.props.sections;
         let lec=[], tut=[], lab=[]
-  
+
     if (this.state.searching && sections_array != undefined && this.showSection) {
       if (sections_array.length!=0) {
         sections_array.map((sec)=> {
