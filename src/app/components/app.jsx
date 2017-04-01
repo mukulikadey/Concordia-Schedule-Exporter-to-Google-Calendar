@@ -56,7 +56,7 @@ class App extends Component {
     return<div>
       <img className="img logoutBox" src="/src/logo.png" height={45}/>
 
-      <div className="container">
+      <div className="containerLogout">
         {this.props.children}
       </div>
     </div>
