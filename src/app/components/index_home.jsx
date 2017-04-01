@@ -6,7 +6,11 @@ import { fetchUser, getUserCourses, getSections, addUserSection,deleteCourse } f
 import Loading from './helpers/loading';
 import 'sweetalert';
 import './user/sweetalert.css';
+import './user/animate.css'
 
+var ReactToastr = require("react-toastr-redux");
+var {ToastContainer} = ReactToastr; // This is a React Element.
+var ToastMessageFactory = React.createFactory(ReactToastr.ToastMessage.animation);
 
 class Index_home extends Component{
 
@@ -26,7 +30,10 @@ class Index_home extends Component{
     this.onkeyPress=this.onkeyPress.bind(this);
     this.remove=this.remove.bind(this)
     this.refresh=this.refresh.bind(this)
+    this.addAlert=this.addAlert.bind(this)
   }
+
+
 
   componentDidUpdate(){
     if(!this.props.currentUser) {
@@ -136,11 +143,28 @@ class Index_home extends Component{
 
               {this.renderSectionResult()}
             </div>
+          <div>
+            <ToastContainer ref="container"
+                            toastMessageFactory={ToastMessageFactory}
+                            className="toast-top-right" />
+            <button onClick={this.addAlert.bind(this)}>Notification</button>
+          </div>
         </div>
       </div>
 
     );
 
+  }
+  addAlert () {
+    this.refs.container.info("Time: 17:45-20:00" + "\n" + "Desc: Class will be extended", "COMP 346 NN", {
+      closeButton: true,
+      timeOut:-1,
+      extendedTimeOut:-1,
+      allowHTML: true,
+
+
+
+    });
   }
   renderName(currentUser)
   {
@@ -229,7 +253,6 @@ class Index_home extends Component{
   }
   return <div></div>;
   }
-
 
 
 }
