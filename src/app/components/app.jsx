@@ -63,7 +63,7 @@ class App extends Component {
 
     return (
       <div>
-        <header className="navbar navbar-custom"  role="banner">
+        <header className="navbar navbar-light"  role="banner">
           <div className="container">
             <div className="navbar-header">
               <Link to={homeLink} className="navbar-brand"><img className="img" src="/src/logo.png" height={45} /></Link>
