@@ -29,6 +29,7 @@ module.exports = (options) => {
         {test: /\.(woff|woff2)$/, loader: "url?prefix=font/&limit=5000"},
         {test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=application/octet-stream"},
         {test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=image/svg+xml"}
+
       ],
     },
     plugins: [
