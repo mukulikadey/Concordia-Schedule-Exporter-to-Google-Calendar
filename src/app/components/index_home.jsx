@@ -61,7 +61,20 @@ class Index_home extends Component{
 
     if(this.props.userCourses&& this.props.userCourses.loaded && this.props.userCourses.courses && this.props.userCourses.courses[0]!='No Courses')
     return this.props.userCourses.courses.map((course)=>{
-      return <p className="parent" key={course.coursename}>{course.coursenumber} <span onClick={this.remove.bind(this,course)} className="hiding fa fa-times-circle"></span></p>
+      if(course.labsection==null && course.tutorialsection==null)
+        return <p className="parent" key={course.coursename}>{course.coursenumber} <span onClick={this.remove.bind(this,course)} className="hiding fa fa-times-circle"></span><span className="courseList">{"("+course.section+")"}</span></p>;
+      else if(course.section==null && course.tutorialsection==null)
+        return <p className="parent" key={course.coursename}>{course.coursenumber} <span onClick={this.remove.bind(this,course)} className="hiding fa fa-times-circle"></span><span className="courseList">{"("+course.labsection+")"}</span></p>;
+      else if(course.section==null && course.labsection==null)
+        return <p className="parent" key={course.coursename}>{course.coursenumber} <span onClick={this.remove.bind(this,course)} className="hiding fa fa-times-circle"></span><span className="courseList">{"("+course.tutorialsection+")"}</span></p>;
+      else if(course.labsection==null)
+        return <p className="parent" key={course.coursename}>{course.coursenumber} <span onClick={this.remove.bind(this,course)} className="hiding fa fa-times-circle"></span><span className="courseList">{"("+course.section+"/"+course.tutorialsection+")"}</span></p>;
+      else if(course.tutorialsection==null)
+        return <p className="parent" key={course.coursename}>{course.coursenumber} <span onClick={this.remove.bind(this,course)} className="hiding fa fa-times-circle"></span><span className="courseList">{"("+course.section+"/"+course.labsection+")"}</span></p>;
+      else if(course.section==null)
+        return <p className="parent" key={course.coursename}>{course.coursenumber} <span onClick={this.remove.bind(this,course)} className="hiding fa fa-times-circle"></span><span className="courseList">{"("+course.tutorialsection+"/"+course.labsection+")"}</span></p>;
+      else
+        return <p className="parent" key={course.coursename}>{course.coursenumber} <span onClick={this.remove.bind(this,course)} className="hiding fa fa-times-circle"></span><span className="courseList">{"("+course.section+"/"+course.tutorialsection+"/"+course.labsection+")"}</span></p>
     })
 
     else if(!this.props.userCourses.courses)
@@ -173,7 +186,7 @@ class Index_home extends Component{
     }
     else
     {
-      return <a href="#" onClick={this.handleAdd}><span className="fa fa-plus-circle"></span> Add Courses </a>
+      return <a href="#" onClick={this.handleAdd}><span className="fa fa-plus-circle">&nbsp;</span>Add Courses</a>
     }
   }
  renderSectionResult()
