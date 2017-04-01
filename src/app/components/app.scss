@@ -1,6 +1,6 @@
 //The background picture is now included in the body of the website, i.e. every page on the site
 body {
-  background: url("/src/background-home.jpg");
+  background: url("http://www.asfa.ca/wp-content/uploads/2016/03/ASFA_Blur.jpg");
   background-size: cover;
   position:relative;
   font-size: 16px;
@@ -59,7 +59,7 @@ alert{
 div.trans{
   background-color: #ffffff;
   border: 1px solid black;
-  opacity: 0.75;
+  opacity: 0.6;
   filter: alpha(opacity=60);
   width: 80%;
   margin-left: auto;
@@ -76,7 +76,7 @@ div.transBox{
   margin: 30px;
   background-color: #ffffff;
   border: 1px solid black;
-  opacity: 0.75;
+  opacity: 0.6;
   filter: alpha(opacity=60);
   width: 50%;
   margin-left: auto;
@@ -86,7 +86,7 @@ div.transBox{
 div.transbox{
   margin: 20px;
   background-color: #ffffff;
-  opacity: 0.75;
+  opacity: 0.6;
   filter: alpha(opacity=60);
   width: 35%;
   margin-left: auto;
@@ -233,21 +233,10 @@ div.trans-sc{
   }
 }
 
-li a:active{
-  background-color: transparent !important;
-  color: white !important;
-}
-li a:visited{
-  background-color: transparent !important;
-  color: gold !important;
-}
+li a:active,
+li a:visited,
 li a:hover {
-  background-color: transparent !important;
-  color: white !important;
-}
-li a:focus {
-  background-color: transparent !important;
-  color: white !important;
+  background-color: #9d081f !important;
 }
 
 .img {
