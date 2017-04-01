@@ -52,44 +52,50 @@ class App extends Component {
     }
   }
 
-  render() {
-    var homeLink ;
+  logoutNav(){
+    return<div>
+      <img className="img logoutBox" src="/src/logo.png" height={45}/>
+
+      <div className="container">
+        {this.props.children}
+      </div>
+    </div>
+}
+
+  loginNav() {
     if (this.props.currentUser) {
-
-      homeLink = "/index_home";
-    }
-    else
-      homeLink = "/login";
-
-    return (
-      <div>
-        <header className="navbar navbar-light"  role="banner">
+      var homeLink = "/index_home";
+      return <div>
+        <header className="navbar navbar-light" role="banner">
           <div className="container">
             <div className="navbar-header">
-              <Link to={homeLink} className="navbar-brand"><img className="img" src="/src/logo.png" height={45} /></Link>
+              <Link to={homeLink} className="navbar-brand"><img className="img" src="/src/logo.png" height={45}/></Link>
             </div>
             <ul className="nav navbar-nav">
-              <li><Link to="/profile" ><span className="fa fa-user" aria-hidden="true"></span> Profile</Link></li>
-              <li><Link to="/scheduleGen"><span className="fa fa-calendar" aria-hidden="true"></span> Schedule</Link></li>
+              <li><Link to="/profile"><span className="fa fa-user" aria-hidden="true"></span> Profile</Link></li>
+              <li><Link to="/scheduleGen"><span className="fa fa-calendar" aria-hidden="true"></span> Schedule</Link>
+              </li>
             </ul>
             <ul className="nav navbar-nav navbar-right">
-              <li><Link to="/login" onClick={this.logOut}> <span className="fa fa-sign-out" aria-hidden="true"></span> Logout</Link></li>
-
-
+              <li><Link to="/login" onClick={this.logOut}> <span className="fa fa-sign-out" aria-hidden="true"></span>
+                Logout</Link></li>
             </ul>
 
           </div>
         </header>
-
         <div className="container">
           {this.props.children}
-
-
-
-
         </div>
       </div>
-    );
+    }
+  }
+
+  render() {
+    return(
+      <div>
+        {this.props.currentUser ? this.loginNav() : this.logoutNav()}
+      </div>
+    )
   }
 }
 
