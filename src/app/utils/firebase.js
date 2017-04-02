@@ -244,7 +244,7 @@ const FireBaseTools = {
     // This will later allow us to easily verify if a user is a professor by checking if the path professors/<user email> contains anything
     /* eslint-disable */
     coursesRef.child(courseSectionPath).child('Email').once('value').then(function (snap) {
-      /* eslint - enable */
+      /* eslint-enable */
       const profEmail = snap.val().replace(/\./g, '%2E'); // Replace all the periods in the email with the escape
       const updateProf = {};
       updateProf[courseSectionPath] = courseSectionPath;
