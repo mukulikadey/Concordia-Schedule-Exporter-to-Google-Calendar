@@ -35,38 +35,33 @@ class UserRegister extends Component {
 
     render() {
         return (
-          <div className="col-md-4 register-background">
-            <form id="frmRegister" role="form" onSubmit={this.onFormSubmit}>
-              <p>{this.state.message}</p>
-              <h2 className="align-center">Register</h2><br />
-              <div className="form-group">
-                <label htmlFor="txtRegEmail">Email address</label>
-                <div className="input-group">
-                  <div className="input-group-addon">
-                    <span className="fa fa-envelope fa" aria-hidden="true"></span>
-                  </div>
-                  <input
-                    type="email" className="form-control " ref="email" id="txtEmail" placeholder="example@live.ca"
-                    name="email"
-                  />
-                </div>
-              </div>
-              <div className="form-group">
-                <label htmlFor="txtRegPass">Password</label>
-                <div className="input-group">
-                  <div className="input-group-addon">
-                    <span className="fa fa-lock fa-lg" aria-hidden="true"></span>
-                  </div>
-                  <input
-                    type="password" className="form-control" ref="password" id="txtPass" placeholder="********"
-                    name="password"
-                  />
-                </div>
-              </div>
-              <button type="submit" className="btn btn-default btn-block">Register</button>
-              <br /> <br />
-            </form>
-          </div>
+            <div className="col-md-4 box ">
+              <div className='wave -one'></div>
+              <div className='wave -two'></div>
+              <div className='wave -three'></div>
+              <div className="clear">
+                <form id="frmRegister" role="form" onSubmit={this.onFormSubmit}>
+                  <p>{this.state.message}</p>
+                    <h2>Register</h2><br />
+                    <div className="form-group">
+                        <label htmlFor="txtRegEmail">Email address</label>
+                        <input
+                          type="email" className="form-control" ref="email" id="txtEmail" placeholder="Enter email"
+                          name="email"
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="txtRegPass">Password</label>
+                        <input
+                          type="password" className="form-control" ref="password" id="txtPass" placeholder="Password"
+                          name="password"
+                        />
+                    </div>
+                    <button type="submit" className="btn btn-default btn-block">Register</button>
+                    <br /> <br />
+                </form>
+            </div>
+            </div>
 
         );
     }
