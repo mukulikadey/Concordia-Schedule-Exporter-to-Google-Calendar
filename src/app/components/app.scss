@@ -9,6 +9,28 @@ body{
   width: 100%;
   height: 100%;
 }
+
+.bodySched{
+  background: url("/src/background-sched.jpg");
+  background-size: cover;
+  position:relative;
+  font-size: 16px;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+div.body2{
+  background: url("https://s-media-cache-ak0.pinimg.com/originals/7f/f7/fd/7ff7fdbe4fee65601e6484805129325d.jpg");
+  background-size: cover;
+  position:relative;
+  font-size: 16px;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
 .centercolumn{
   text-align: center;
   padding-right: 35%;
@@ -53,18 +75,20 @@ alert{
   text-align: center;
   text-transform: uppercase;
   font-weight: bold;
+  color: white;
 }
 
 //Transparent box for profile page
 div.trans{
   background-color: #ffffff;
-  border: 1px solid black;
-  opacity: 0.75;
+  //border: 1px solid black;
+  opacity: 0.85;
   filter: alpha(opacity=60);
-  width: 80%;
+  width: 50%;
   margin-left: auto;
   margin-right: auto;
-  padding: 1%;
+  padding: 1.5%;
+  border-radius: 5px;
 }
 div.trans h4,label{
   font-weight: bold;
@@ -75,12 +99,14 @@ div.trans h4,label{
 div.transBox{
   margin: 30px;
   background-color: #ffffff;
-  border: 1px solid black;
+  //border: 1px solid black;
   opacity: 0.75;
   filter: alpha(opacity=60);
   width: 50%;
   margin-left: auto;
   margin-right: auto;
+  border-radius: 5px;
+  padding: 1%;
 }
 
 div.transbox{
@@ -91,6 +117,7 @@ div.transbox{
   width: 35%;
   margin-left: auto;
   margin-right: auto;
+  border-radius: 5px;
 }
 
 div.transBox p{
@@ -101,12 +128,13 @@ div.transBox p{
 //Transparent box for schedule page
 div.trans-sc{
   background-color: #ffffff;
-  border: 1px solid black;
+  //border: 1px solid black;
   opacity: 1;/*0.6*/
   filter: alpha(opacity=20);
   margin-left: auto;
   margin-right: auto;
   padding: 1%;
+  border-radius: 5px;
 }
 .hiding{
   display:none;
@@ -148,12 +176,13 @@ div.trans-sc{
   white-space: nowrap;
   overflow: hidden;
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-  background-color: #357fb7;
+  background-color: #35b73f;
   margin-bottom: 10px;
+  color: #FFFFFF;
 }
 
 .btn-status:hover{
-  background-color: #358fb7;
+  background-color: #35b73f;
 }
 
 .notCenter{
@@ -253,6 +282,7 @@ li a:focus{
 .img{
   margin-top: -12px;
   margin-left: -40px;
+  margin-bottom: -40px
 }
 
 .courseList{
@@ -273,7 +303,7 @@ li a:focus{
 .logoutBox{
   top: 40px;
   position: relative;
-  left: 45%;
+  left: 41%;
 }
 .containerLogout{
   position: relative;
@@ -342,3 +372,20 @@ h5 > a{
   text-align: center;
 }
 
+.GoogleLoginWarning{
+  color: #000000;
+  font-size: 9.5px;
+}
+
+h2{
+  color: #FFFFFF;
+}
+
+hr {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  border-style: inset;
+  border-width: 1px;
+  color: black;
+}

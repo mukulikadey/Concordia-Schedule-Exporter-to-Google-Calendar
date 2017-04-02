@@ -54,7 +54,7 @@ class App extends Component {
 
   logoutNav(){
     return<div>
-      <img className="img logoutBox" src="/src/logo.png" height={45}/>
+      <img className="img logoutBox" src="/src/logo_gold.png" height={65}/>
 
       <div className="containerLogout">
         {this.props.children}
@@ -69,7 +69,7 @@ class App extends Component {
         <header className="navbar navbar-light" role="banner">
           <div className="container">
             <div className="navbar-header">
-              <Link to={homeLink} className="navbar-brand"><img className="img" src="/src/logo.png" height={45}/></Link>
+              <Link to={homeLink} className="navbar-brand"><img className="img" src="/src/logo_gold.png" height={45}/></Link>
             </div>
             <ul className="nav navbar-nav">
               <li><Link to="/profile"><span className="fa fa-user" aria-hidden="true"></span> Profile</Link></li>

@@ -13,8 +13,12 @@ class UserRegister extends Component {
         };
     }
 
-     mathLib(a) {
+    mathLib(a) {
         return a + 5;
+    }
+
+    componentDidMount(){
+        document.body.className = "";
     }
 
     onFormSubmit(event) {

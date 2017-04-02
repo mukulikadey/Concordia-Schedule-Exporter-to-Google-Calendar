@@ -42,7 +42,7 @@ class ScheduleGen extends Component {
 
   componentDidMount(){
     this.props.getEvents(this.props.userCourses.courses);
- 
+    document.body.className= "bodySched";
   }
 
   onFormSubmit(event) {
@@ -211,7 +211,7 @@ class ScheduleGen extends Component {
 
     }
     //console.log(this.props.userEvents)
-   
+
     return (
       <div>
         <div>{this.renderGoogle()}</div>

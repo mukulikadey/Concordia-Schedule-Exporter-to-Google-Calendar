@@ -17,6 +17,10 @@ class UserLogin extends Component {
         };
     }
 
+    componentDidMount(){
+        document.body.className = "";
+    }
+
     onFormSubmit(event) {
         event.preventDefault();
 
@@ -87,7 +91,7 @@ class UserLogin extends Component {
                     href="#" className="btn btn-block btn-social btn-google btn-login" onClick={() => {
                     this.loginWithProvider('google');
                   }} data-provider="google"
-                  ><span className="fa fa-google"></span> Sign in with Gmail</a>
+                  ><span className="fa fa-google"></span> Sign in with Gmail</a><span className="GoogleLoginWarning">Sign in with Gmail is required to export schedule to Google Calendar</span>
                 </form>
 
               </div>

@@ -19,7 +19,11 @@ class UserProfile extends Component {
         this.onFormSubmit = this.onFormSubmit.bind(this);
     }
 
-    onFormSubmit(event) {
+  componentDidMount(){
+        document.body.className = "";
+  }
+
+  onFormSubmit(event) {
         event.preventDefault();
         const email = this.refs.email.value;
         const displayName = this.refs.displayName.value;
@@ -45,7 +49,7 @@ class UserProfile extends Component {
 
               <div className="trans">
               <form id="frmProfile" role="form" onSubmit={this.onFormSubmit}>
-                    <h4>My Profile</h4>
+                    <center><h4>My Profile</h4></center>
                     <p>{this.state.message}</p>
 
                     <div className="form-group">
@@ -63,8 +67,8 @@ class UserProfile extends Component {
                           name="displayName"
                         />
                     </div>
-                    <button type="submit" className="btn btn-primary">Update</button>
-                </form>
+                    <center><button type="submit" className="btn btn-primary">Update</button></center>
+                </form><hr />
                 <ChangePassword />
               </div>
 

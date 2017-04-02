@@ -33,7 +33,9 @@ class Index_home extends Component{
     this.addAlert=this.addAlert.bind(this)
   }
 
-
+  componentDidMount(){
+      document.body.className = "";
+  }
 
   componentDidUpdate(){
     if(!this.props.currentUser) {

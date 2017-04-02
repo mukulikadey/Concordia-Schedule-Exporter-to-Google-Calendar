@@ -35,7 +35,7 @@ class ChangePassword extends Component {
       return (
 
       <form id="ChangePassword" role="form" onSubmit={this.onFormSubmit}>
-        <h4> Change Password </h4>
+        <center><h4>Change Password</h4></center>
         <h5> {this.state.message} </h5>
         <div className="form-group">
           <label htmlFor="password"> New Password: </label>
@@ -44,13 +44,13 @@ class ChangePassword extends Component {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="repeatPassword"> Repeat Password: </label>
+          <label htmlFor="repeatPassword"> Confirm Password: </label>
           <input type="password" className="form-control"
             name="repeatPassword" ref="repeatPassword" id="repeatPassword"
           />
 
         </div>
-        <button type="submit" className="btn btn-primary">Change Password</button>
+        <center><button type="submit" className="btn btn-primary">Change Password</button></center>
       </form>
 
     );
