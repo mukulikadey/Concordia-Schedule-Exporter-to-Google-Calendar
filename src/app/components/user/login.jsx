@@ -46,8 +46,10 @@ class UserLogin extends Component {
         return (
           <div>
             <div className="row center">
-                <div className='col-md-4'>
-
+                <div className='col-md-4 box'>
+                  <div className='wave -one'></div>
+                  <div className='wave -two'></div>
+                  <div className='wave -three'></div>
                 <form id="frmLogin" role="form" onSubmit={this.onFormSubmit}>
                     <p>
                         {this.state.message}

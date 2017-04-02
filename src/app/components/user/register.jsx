@@ -35,7 +35,11 @@ class UserRegister extends Component {
 
     render() {
         return (
-            <div className="col-md-4">
+            <div className="col-md-4 box ">
+              <div className='wave -one'></div>
+              <div className='wave -two'></div>
+              <div className='wave -three'></div>
+              <div className="clear">
                 <form id="frmRegister" role="form" onSubmit={this.onFormSubmit}>
                   <p>{this.state.message}</p>
                     <h2>Register</h2><br />
@@ -56,6 +60,7 @@ class UserRegister extends Component {
                     <button type="submit" className="btn btn-default btn-block">Register</button>
                     <br /> <br />
                 </form>
+            </div>
             </div>
 
         );
