@@ -352,9 +352,9 @@ const FireBaseTools = {
         /* eslint-disable */
         const monthNumber = startDate.getMonth() < 9 ? '0' + (startDate.getMonth() + 1) : (startDate.getMonth() + 1);
         const dateNumber = startDate.getDate() < 10 ? '0' + (startDate.getDate()) : (startDate.getDate());
-        /* eslint-enable */
         // Create the key for the new DateObject in the form "YEAR-MONTH-DATE"
         const newDateObject = startDate.getFullYear() + '-' + monthNumber + '-' + dateNumber;
+        /* eslint-enable */
         // Checks which day of the week the startDate represents.
         // Get the days of the weeks where the course is given
         const givenWeekDay = [snap.val().Sun, snap.val().Mon, snap.val().Tues, snap.val().Wed, snap.val().Thurs, snap.val().Fri, snap.val().Sat];
