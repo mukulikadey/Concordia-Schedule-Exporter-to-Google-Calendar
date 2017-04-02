@@ -215,7 +215,7 @@ class ScheduleGen extends Component {
     return (
       <div>
         <div>{this.renderGoogle()}</div>
-        <div className="trans-sc">
+        <div className="trans-sc fadeInHome">
           <BigCalendar
             {...this.props}
             events={this.props.userEvents}

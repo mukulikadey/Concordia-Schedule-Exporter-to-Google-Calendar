@@ -14,6 +14,7 @@ class App extends Component {
     this.props.fetchUser();
     //this.props.getEvents();
     this.logOut = this.logOut.bind(this);
+    this.spin = this.spin.bind(this)
   }
 
   logOut() {
@@ -52,9 +53,12 @@ class App extends Component {
     }
   }
 
+  spin(){
+    return <div className="spin"></div>
+  }
   logoutNav(){
     return<div>
-      <img className="img logoutBox" src="/src/logo_gold.png" height={65}/>
+      <img className="img logoutBox " src="/src/logo_gold.png" height={65} onLoad={this.spin}/>
 
       <div className="containerLogout">
         {this.props.children}

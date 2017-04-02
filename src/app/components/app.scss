@@ -79,27 +79,43 @@ alert{
 }
 
 //Transparent box for profile page
-div.trans{
-  width:50%;
+div.trans {
+  width: 50%;
   float: left;
-  background-color:white;
-  margin:25px 15px;
-  border-radius:5px;
+  background-color: white;
+  margin: 25px 15px;
+  border-radius: 5px;
   transform: translate3d(0, 0, 0);
   position: relative;
   opacity: 0.85;
   overflow: hidden;
   font-weight: bold;
   left: 25%;
-  -webkit-animation: fadein 2s; /* Safari, Chrome and Opera > 12.1 */
-  -moz-animation: fadein 2s; /* Firefox < 16 */
-  -ms-animation: fadein 2s; /* Internet Explorer */
+}
+
+.fadeIn{
+  -webkit-animation: fadein 1s; /* Safari, Chrome and Opera > 12.1 */
+  -moz-animation: fadein 1s; /* Firefox < 16 */
+  -ms-animation: fadein 1s; /* Internet Explorer */
+}
+
+.fadeInHome{
+  -webkit-animation: easein 1s; /* Safari, Chrome and Opera > 12.1 */
+  -moz-animation: easein 1s; /* Firefox < 16 */
+  -ms-animation: easein 1s; /* Internet Explorer */
 }
 
 @keyframes fadein {
   from { opacity: 0; }
   to   { opacity: 0.85; }
 }
+
+@keyframes easein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+
 
 div.trans h4,label{
   font-weight: bold;
@@ -147,6 +163,7 @@ div.trans-sc{
   padding: 1%;
   border-radius: 5px;
 }
+
 .hiding{
   display:none;
 }
@@ -316,6 +333,7 @@ li a:focus{
   position: relative;
   left: 41%;
 }
+
 .containerLogout{
   position: relative;
   top: 90px;

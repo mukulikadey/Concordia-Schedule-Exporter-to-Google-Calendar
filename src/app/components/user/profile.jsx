@@ -47,7 +47,7 @@ class UserProfile extends Component {
         return (
           <div>
 
-            <div className="trans">
+            <div className="trans fadeIn">
               <form id="frmProfile" role="form" onSubmit={this.onFormSubmit}>
                 <h4 className="align-center">My Profile</h4>
                 <p>{this.state.message}</p>
