@@ -244,14 +244,16 @@ const FireBaseTools = {
       // This will later allow us to easily verify if a user is a professor by checking if the path professors/<user email> contains anything
       coursesRef.child(courseSectionPath).child('Email').once('value').then(function (snap) {
         console.log(snap.val());
-        const profEmail = snap.val().replace( /\./g, '%2E'); //Replace all the periods in the email with the escape
+        //Replace all the periods in the email with the escape
+        const profEmail = snap.val().replace(/\./g,'%2E'); 
         const updateProf = {};
         updateProf[courseSectionPath] = courseSectionPath;
         console.log(profEmail);
         console.log(updateProf);
         // Update the Professor's email in Firebase thereby adding the course section under the list of courses this prof teaches, if it wasn't already there
         profRef.child(profEmail).update(updateProf);
-      }).catch(error => ({
+      })
+      .catch(error => ({
         errorCode: error.code,
         errorMessage: error.message,
       }));
