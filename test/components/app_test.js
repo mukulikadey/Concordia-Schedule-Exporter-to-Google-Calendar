@@ -1,9 +1,7 @@
 import {renderComponent, expect} from '../test_helper';
 import App from '../../src/app/components/app';
-import populate from '../../src/app/utils/firebase';
-/* eslint-disable */
-import { describe, it } from '../../chutzpah/Samples/Angular/libs/typings/jasmine/jasmine';
-/* eslint-enable */
+import FireBaseTools from '../../src/app/utils/firebase';
+
 
 describe('App', () => {
   let component;
@@ -18,12 +16,10 @@ describe('App', () => {
 });
 
 describe('fillNoClassThisDay', () => {
-  let noClassThisDay;
+  let noClassThisDay = new Array();
 
-  populate(noClassThisDay);
-  /* eslint-disable */
-  it('populate', () => {
-      expect(noClassThisDay).length.Chai.NumericComparison.greaterThan(0, 'Array must not be empty');
+  FireBaseTools.fillNoClassThisDay(noClassThisDay);
+  it('fill', () => {
+      expect(noClassThisDay.length).greaterThan(0);
   });
-  /* eslint-enable*/
 });
