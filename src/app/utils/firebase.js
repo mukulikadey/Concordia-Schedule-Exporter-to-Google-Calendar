@@ -688,4 +688,4 @@ setDateEvents : (course, date) => {
   getDatabaseReference: path => firebaseDb.ref(path),
 };
 
-export {FireBaseTools, populate};
+export default FireBaseTools;
