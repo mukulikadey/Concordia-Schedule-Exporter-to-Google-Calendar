@@ -168,14 +168,12 @@ class Index_home extends Component{
     );
 
   }
-  addAlert () {
-    this.refs.container.info("Time: 17:45-20:00" + "\n" + "Desc: Class will be extended", "COMP 346 NN", {
+  addAlert (){
+    this.refs.container.info("Time: 17:45-20:00" + "\n" + "Desc: Class will be extended", "COMP 346 - NN", {
       closeButton: true,
       timeOut:-1,
       extendedTimeOut:-1,
       allowHTML: true,
-
-
 
     });
   }
