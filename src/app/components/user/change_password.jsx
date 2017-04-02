@@ -34,24 +34,33 @@ class ChangePassword extends Component {
     render() {
       return (
 
-      <form id="ChangePassword" role="form" onSubmit={this.onFormSubmit}>
-        <center><h4>Change Password</h4></center>
-        <h5> {this.state.message} </h5>
-        <div className="form-group">
-          <label htmlFor="password"> New Password: </label>
-          <input type="password" className="form-control"
-            name="password" ref="password" id="password"
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="repeatPassword"> Confirm Password: </label>
-          <input type="password" className="form-control"
-            name="repeatPassword" ref="repeatPassword" id="repeatPassword"
-          />
-
-        </div>
-        <center><button type="submit" className="btn btn-primary">Change Password</button></center>
-      </form>
+        <form id="changePassword" role="form" onSubmit={this.onFormSubmit}>
+          <h4 className="align-center"> Change Password </h4>
+          <h5> {this.state.message} </h5>
+          <div className="form-group">
+            <label htmlFor="password"> New Password: </label>
+            <div className="input-group">
+              <div className="input-group-addon">
+                <span className="fa fa-lock fa-lg" aria-hidden="true"></span>
+              </div>
+              <input type="password" className="form-control"
+                     name="password" ref="password" id="password"
+              />
+            </div>
+          </div>
+          <div className="form-group">
+            <label htmlFor="repeatPassword"> Confirm Password: </label>
+            <div className="input-group">
+              <div className="input-group-addon">
+                <span className="fa fa-lock fa-lg" aria-hidden="true"></span>
+              </div>
+              <input type="password" className="form-control"
+                     name="repeatPassword" ref="repeatPassword" id="repeatPassword"
+              />
+            </div>
+          </div>
+          <button type="submit" className="btn btn-primary btn-round btn-center2"> Change Password</button>
+        </form>
 
     );
   }
