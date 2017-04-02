@@ -242,20 +242,23 @@ const FireBaseTools = {
   addProf: (courseSectionPath) => {
     // This function adds the path to a course section that the professor teaches under the path professor/<prof Email>/
     // This will later allow us to easily verify if a user is a professor by checking if the path professors/<user email> contains anything
+    /* eslint-disable */
     coursesRef.child(courseSectionPath).child('Email').once('value').then(function (snap) {
-      const profEmail = snap.val().replace( /\./g, '%2E'); //Replace all the periods in the email with the escape
+      /* eslint - enable */
+      const profEmail = snap.val().replace(/\./g, '%2E'); // Replace all the periods in the email with the escape
       const updateProf = {};
       updateProf[courseSectionPath] = courseSectionPath;
       // Update the Professor's email in Firebase thereby adding the course section under the list of courses this prof teaches, if it wasn't already there
       profRef.child(profEmail).update(updateProf);
-    }).catch(error => ({
+    })
+    .catch(error => ({
       errorCode: error.code,
       errorMessage: error.message,
     }));
   },
 
+/* eslint-disable */
   getTimetable: (sectionPath) => {
-    /* eslint-disable */
     return coursesRef.child(sectionPath).once('value').then(function (snap) {
 
       // Get start and end dates of the semester
@@ -281,7 +284,7 @@ const FireBaseTools = {
    * Populates the noclassThisDay array with the dates on which no classes are given
    * @param noClassThisDay The array of dates on which NO classes are given
    */
-  fillNoClassThisDay : (noClassThisDay) => {
+  fillNoClassThisDay: (noClassThisDay) => {
     // Winter Semester Reading Week
     // Monday, February 20 to Sunday February 26
     noClassThisDay.push(new Date(2017, 1, 20));
@@ -308,7 +311,7 @@ const FireBaseTools = {
    * @param snap Firebase snapshot of path /course/[Course Section] with all course details
    * @returns timetable
    */
-  populate : (startDate, endDate, noClassThisDay, snap) => {
+  populate: (startDate, endDate, noClassThisDay, snap) => {
     // create empty timeTable object
     const timetable = {};
     // Iterate through every date between day 1 and the last day to see if there's a class
@@ -330,31 +333,34 @@ const FireBaseTools = {
 
       // check next date (startDate acts as our iterator in this loop so it takes the value of the next day)
       const newDate = startDate.setDate(startDate.getDate() + 1);
+      /* eslint-disable */
       startDate = new Date(newDate);
+      /* eslint-enable */
     }
     // return a promise of a timetable object with all the dates of a given course section path
     return timetable;
   },
- 
+
  /**
   *  Updates the timetable according to what day of the week the startDate param represents
   * @param startDate current Date to be verified this iteration
   * @param timetable the actual timetable that contains every date object and every description
   * @param snap the Firebase resolved promise from the /course/ path
   */
- checkWeekday : (startDate, timetable, snap) => {
-           // Format the month and date so that it is always a two digit number. i.e. Prepend a '0' when 1-digit number
+ checkWeekday: (startDate, timetable, snap) => {
+        // Format the month and date so that it is always a two digit number. i.e. Prepend a '0' when 1-digit number
+        /* eslint-disable */
         const monthNumber = startDate.getMonth() < 9 ? '0' + (startDate.getMonth() + 1) : (startDate.getMonth() + 1);
         const dateNumber = startDate.getDate() < 10 ? '0' + (startDate.getDate()) : (startDate.getDate());
+        /* eslint-enable */
         // Create the key for the new DateObject in the form "YEAR-MONTH-DATE"
         const newDateObject = startDate.getFullYear() + '-' + monthNumber + '-' + dateNumber;
         // Checks which day of the week the startDate represents.
-   // Get the days of the weeks where the course is given
+        // Get the days of the weeks where the course is given
         const givenWeekDay = [snap.val().Sun, snap.val().Mon, snap.val().Tues, snap.val().Wed, snap.val().Thurs, snap.val().Fri, snap.val().Sat];
-        
         // Add the JSON date key
+        /* eslint-disable */
         switch (startDate.getDay()) {
-
           case 0: // Sunday
             if (givenWeekDay[0] === 'Y') {
               timetable[newDateObject] = { description: 'No Description' };
@@ -399,6 +405,7 @@ const FireBaseTools = {
 
           default:
         }
+        /* eslint-enable */
  },
 
   getSections: (courseName) => {
@@ -681,4 +688,4 @@ setDateEvents : (course, date) => {
   getDatabaseReference: path => firebaseDb.ref(path),
 };
 
-export default FireBaseTools;
+export {FireBaseTools, populate};
