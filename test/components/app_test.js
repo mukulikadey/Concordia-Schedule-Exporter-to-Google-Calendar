@@ -27,8 +27,8 @@ describe('fillNoClassThisDay', () => {
 });
 
 describe('populate', () => {
-  let startDate = '2017-01-09';
-  let endDate = '2017-04-13';
+  let startDate = new Date(2017, 1, 09);
+  let endDate = new Date(2017, 4, 13);
   let noClassThisDay = new Array();
   FireBaseTools.fillNoClassThisDay(noClassThisDay);
   let snap = {};
