@@ -33,7 +33,8 @@ describe('populate', () => {
   FireBaseTools.fillNoClassThisDay(noClassThisDay);
   let snap = {};
   snap = {
-    'COMP346Y YA': {
+    val:{
+      'COMP346Y YA': {
       'Term': 2164,
       'Subject': 'COMP',
       'Catalog': 346,
@@ -55,7 +56,7 @@ describe('populate', () => {
       'Last': 'Goswami',
       'First Name': 'Dhrubajyoti',
       'Email': 'dhrubajyoti.goswami@concordia.ca'
-    }
+    }}  
   }
 
   let timeTable = FireBaseTools.populate(startDate, endDate, noClassThisDay, snap);
