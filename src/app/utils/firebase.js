@@ -242,11 +242,11 @@ const FireBaseTools = {
    addProf: (courseSectionPath) => {
       // This function adds the path to a course section that the professor teaches under the path professor/<prof Email>/
       // This will later allow us to easily verify if a user is a professor by checking if the path professors/<user email> contains anything
-      /* eslint-disable */ 
+      /* eslint-disable */
       coursesRef.child(courseSectionPath).child('Email').once('value').then(function (snap) {
         // Replace all the periods in the email with the escape
         const profEmail = snap.val().replace(/\./g, '%2E'); 
-      /* eslint-enable */ 
+      /* eslint-enable */
         const updateProf = {};
         updateProf[courseSectionPath] = courseSectionPath;
         // Update the Professor's email in Firebase thereby adding the course section under the list of courses this prof teaches, if it wasn't already there
