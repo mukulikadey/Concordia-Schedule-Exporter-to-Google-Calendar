@@ -7,7 +7,7 @@ export const firebaseDb = firebaseApp.database();
 export const usersRef = firebase.database().ref('users/');
 export const sectionsRef = firebase.database().ref('sections/');
 export const coursesRef = firebase.database().ref('course/');
-
+export const profRef = firebase.database().ref('professors/');
 const FireBaseTools = {
 
   /**
@@ -160,7 +160,8 @@ const FireBaseTools = {
         const courseSectionPath = section.component === 'LAB' ? courseNumber + section.section + 1 : courseNumber + section.section;
         /* eslint-enable */
         coursesRef.child(courseSectionPath).update(updateSubs);
-
+        // Add the section to the /professor/<prof email>/section:path node in case it hasn't been added yet
+        FireBaseTools.addProf(courseSectionPath);
         const updates = {};
 
         // Update appropriate section depending on whether it's a lab,tutorial or lecture
@@ -236,6 +237,25 @@ const FireBaseTools = {
       errorMessage: error.message,
     }));
     /* eslint-enable */
+    },
+
+   addProf: (courseSectionPath) => {
+      // This function adds the path to a course section that the professor teaches under the path professor/<prof Email>/
+      // This will later allow us to easily verify if a user is a professor by checking if the path professors/<user email> contains anything
+      /* eslint-disable */
+      coursesRef.child(courseSectionPath).child('Email').once('value').then(function (snap) {
+        // Replace all the periods in the email with the escape
+        const profEmail = snap.val().replace(/\./g, '%2E'); 
+      /* eslint-enable */
+        const updateProf = {};
+        updateProf[courseSectionPath] = courseSectionPath;
+        // Update the Professor's email in Firebase thereby adding the course section under the list of courses this prof teaches, if it wasn't already there
+        profRef.child(profEmail).update(updateProf);
+      })
+      .catch(error => ({
+        errorCode: error.code,
+        errorMessage: error.message,
+      }));
     },
 
     getTimetable: (sectionPath) => {
@@ -439,9 +459,16 @@ const FireBaseTools = {
             date['end'].setMinutes(eMinutes);
             date['title']= subject;
             date['section']= section;
-            // Check if the current user is in the section's Whitelist of user's that can edit the class' description
+             // Check if the current user is the prof or in the section's Whitelist of user's that can edit the class' description
             // Ensure that you properly format the email string with escape chars since firebase keys don't have '.' characters
-            date['canEditDescription'] = course['Whitelist'] ? course['Whitelist'].hasOwnProperty(user.email.replace('.','%2E')) : false;
+             let edit=false;
+             if (course['Email']==user.email) {
+                edit=true;
+              }
+            else if (course['Whitelist'] && course['Whitelist'].hasOwnProperty(user.email.replace(/\./g,'%2E'))) { 
+               edit=true;
+            }
+            date['canEditDescription'] = edit;
             // Store the path to the courseSection in each class event
             date['sectionPath'] = course.Component == "Lab" ? course.Subject + course.Catalog + course.Section + 1 : course.Subject + course.Catalog + course.Section ;
             date['type']= type;
