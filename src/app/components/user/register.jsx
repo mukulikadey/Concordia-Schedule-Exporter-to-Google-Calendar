@@ -39,7 +39,7 @@ class UserRegister extends Component {
 
     render() {
         return (
-          <div className="col-md-4 box">
+          <div className="col-md-4 box fadeInHome">
             <div className='wave -one'></div>
             <div className='wave -two'></div>
             <div className='wave -three'></div>

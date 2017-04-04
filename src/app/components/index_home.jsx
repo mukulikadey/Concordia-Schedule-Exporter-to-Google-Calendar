@@ -159,8 +159,8 @@ class Index_home extends Component{
     return (
       <div>
         {this.renderName(this.props.currentUser)}
-        <div className="welcomeHome">
-            <div className="transBox">
+        <div className="welcomeHome fadeInHome">
+            <div className="transBox ">
               <p>Here is the list of classes you are taking:</p>
 
                 {this.getCourses()}
@@ -168,7 +168,7 @@ class Index_home extends Component{
 
               {this.renderSectionResult()}
             </div>
-          <div>
+          <div className="fadeInHome">
             <ToastContainer ref="container"
                             toastMessageFactory={ToastMessageFactory}
                             className="toast-top-right" />
