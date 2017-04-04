@@ -6,8 +6,8 @@ import BigCalendar from 'react-big-calendar';
 import  '../user/react-big-calendar.css';
 import moment from 'moment';
 import localizer from 'react-big-calendar/lib/localizers/moment';
-import { fetchUser, updateUser,getEvents, setDescription } from '../../actions/firebase_actions';
-import Loading from '../helpers/loading';
+import { fetchUser, updateUser,getEvents, setDescription,getUserCourses } from '../../actions/firebase_actions';
+import Loadable from 'react-loading-overlay';
 import ChangePassword from './change_password';
 import 'sweetalert';
 import '../user/sweetalert.css';
@@ -21,6 +21,7 @@ class ScheduleGen extends Component {
   constructor(props) {
     super(props);
     this.props.fetchUser();
+    //this.props.getUserCourses()
     this.props.getEvents(this.props.userCourses.courses);
     this.state = {
       events: this.props.userEvents,
@@ -34,16 +35,28 @@ class ScheduleGen extends Component {
     this.googleSignIn = this.googleSignIn.bind(this);
   }
 
+  componentDidUpdate() {
+    if(!this.props.userCourses.courses && this.props.currentUser) {
+      this.props.getUserCourses()
+    }
+    if(!this.props.userEvents && this.props.currentUser && this.props.userCourses.courses) {
+        this.props.getEvents(this.props.userCourses.courses)
+      
+    }
+  }
+
+  componentDidMount() {
+    document.body.className= "bodySched";
+  }
+
   componentWillMount(){
     //Handling initial stage
     let gapi = getGapi();
     this.updateSignInStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+    
   }
 
-  componentDidMount(){
-    this.props.getEvents(this.props.userCourses.courses);
-    document.body.className= "bodySched";
-  }
+ 
 
   onFormSubmit(event) {
     event.preventDefault();
@@ -192,13 +205,18 @@ class ScheduleGen extends Component {
 
   render() {
     let self = this;
-    if (!this.props.currentUser && !this.props.userEvents) {
-      return <Loading />;
+    if (!this.props.currentUser || !this.props.userEvents) {
+    return  <Loadable
+  active={true}
+  spinner
+  text='Loading...'
+  color='black'
+  >
+  
+</Loadable>
     }
 
-    if(!this.props.userEvents){
-      return <Loading/>
-    }
+
     if(this.props.userEvents.value==0)
     {
       return (
@@ -270,7 +288,7 @@ class ScheduleGen extends Component {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ fetchUser, updateUser,getEvents,setDescription }, dispatch);
+  return bindActionCreators({ fetchUser, updateUser,getEvents,setDescription,getUserCourses }, dispatch);
 }
 
 function mapStateToProps(state) {
