@@ -128,7 +128,7 @@ class Index_home extends Component{
 
   addSection(e)
   {
-   
+
     //var x = document.getElementById("MySelect")? document.getElementById("MySelect").value: null;
      var newSection=e.target.value.split(',')
     if(this.props.userCourses && this.props.userCourses.loaded && this.props.userCourses.courses)
@@ -138,7 +138,7 @@ class Index_home extends Component{
 
       // Update the Firebase database by adding the nwe section to the user's CourseArray
       this.props.addUserSection(courseArray, this.state.course_name,{section:newSection[0], component:newSection[1], maxPat:newSection[2]});
-      
+
     }
   }
 
@@ -152,7 +152,7 @@ class Index_home extends Component{
   spinner
   text='Loading...'
   >
-  
+
 </Loadable>
 
     }
@@ -242,9 +242,9 @@ class Index_home extends Component{
           }
         })
         let return_render = [],return_lec=[],return_tut=[],return_lab=[];
-        return_render.push(<button className="btn btn-info">{this.state.course_name}</button>)
+        return_render.push(<button className="btn btn-info btn-center3">{this.state.course_name}</button>)
         return_render.push(<br/>)
-        return_render.push(<button>LEC</button>)
+        return_render.push(<span className="fa fa-book colorIcon"> <label className="arial"> LEC:</label> </span>)
         return_lec.push(<option value="not picked" >N/A</option>);
         for(let i = 0; i < lec.length; i++) {
           let sectionClick = this.addSection.bind(this,lec[i]);
@@ -255,7 +255,7 @@ class Index_home extends Component{
         return_render.push(<select  value={this} onChange={(e)=>{this.addSection(e)}}>{return_lec}</select>)
 
         if (tut.length!=0) {
-        return_render.push(<button>TUT</button>)
+        return_render.push(<span className="fa fa-pencil-square-o colorIcon"> <label className="arial"> TUT:</label> </span>)
         return_tut.push(<option value="not picked" >N/A</option>);
         for(let i = 0; i < tut.length; i++) {
           let sectionClick = this.addSection.bind(this,tut[i]);
@@ -267,7 +267,7 @@ class Index_home extends Component{
       }
       if (lab.length!=0) {
         return_lab.push(<option value="not picked" >N/A</option>)
-      return_render.push(<button>LAB</button>)
+      return_render.push(<span className="fa fa-desktop colorIcon"> <label className="arial"> TUT:</label> </span>)
       for(let i = 0; i < lab.length; i++) {
         let sectionClick = this.addSection.bind(this,lab[i]);
         let classNames=lab[i].section + " btn btn-default";
