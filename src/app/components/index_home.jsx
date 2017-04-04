@@ -243,8 +243,7 @@ class Index_home extends Component{
         })
         let return_render = [],return_lec=[],return_tut=[],return_lab=[];
         return_render.push(<button className="btn btn-info btn-center3">{this.state.course_name}</button>)
-        return_render.push(<br/>)
-        return_render.push(<span className="fa fa-book colorIcon"> <label className="arial"> LEC:</label> </span>)
+        return_render.push(<label>&nbsp;&nbsp;<span className="fa fa-book colorIcon"> <label className="arial"> LEC:&nbsp;</label> </span></label>)
         return_lec.push(<option value="not picked" >N/A</option>);
         for(let i = 0; i < lec.length; i++) {
           let sectionClick = this.addSection.bind(this,lec[i]);
@@ -255,7 +254,7 @@ class Index_home extends Component{
         return_render.push(<select  value={this} onChange={(e)=>{this.addSection(e)}}>{return_lec}</select>)
 
         if (tut.length!=0) {
-        return_render.push(<span className="fa fa-pencil-square-o colorIcon"> <label className="arial"> TUT:</label> </span>)
+          return_render.push(<label>&nbsp;&nbsp;<span className="fa fa-pencil-square-o colorIcon"> <label className="arial"> TUT:&nbsp;</label> </span></label>)
         return_tut.push(<option value="not picked" >N/A</option>);
         for(let i = 0; i < tut.length; i++) {
           let sectionClick = this.addSection.bind(this,tut[i]);
@@ -267,7 +266,7 @@ class Index_home extends Component{
       }
       if (lab.length!=0) {
         return_lab.push(<option value="not picked" >N/A</option>)
-      return_render.push(<span className="fa fa-desktop colorIcon"> <label className="arial"> TUT:</label> </span>)
+        return_render.push(<label>&nbsp;&nbsp;<span className="fa fa-desktop colorIcon"> <label className="arial"> LAB:&nbsp;</label> </span></label>)
       for(let i = 0; i < lab.length; i++) {
         let sectionClick = this.addSection.bind(this,lab[i]);
         let classNames=lab[i].section + " btn btn-default";
