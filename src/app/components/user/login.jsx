@@ -17,6 +17,10 @@ class UserLogin extends Component {
         };
     }
 
+    componentDidMount(){
+        document.body.className = "";
+    }
+
     onFormSubmit(event) {
         event.preventDefault();
 
@@ -46,44 +50,53 @@ class UserLogin extends Component {
         return (
           <div>
             <div className="row center">
-                <div className='col-md-4'>
-
+              <div className='col-md-4 box fadeInHome'>
+                <div className='wave -one '></div>
+                <div className='wave -two '></div>
+                <div className='wave -three '></div>
                 <form id="frmLogin" role="form" onSubmit={this.onFormSubmit}>
-                    <p>
-                        {this.state.message}
-                    </p>
-                    <h2>Login</h2><br />
-                    <div className="form-group">
-                        <label htmlFor="txtEmail">Email address</label>
-                        <input
-                          type="email" className="form-control" id="txtEmail" ref="email" placeholder="Enter email"
-                          name="email"
-                        />
+                  <p>
+                    {this.state.message}
+                  </p>
+                  <h2 className="align-center">Login</h2><br />
+                  <div className="form-group">
+                    <label htmlFor="txtEmail">Email address</label>
+                    <div className="input-group">
+                      <div className="input-group-addon">
+                        <span className="fa fa-envelope fa" aria-hidden="true"></span>
+                      </div>
+                      <input
+                        type="email" className="form-control" id="txtEmail" ref="email" placeholder="example@live.ca"
+                        name="email"
+                      />
                     </div>
-                    <div className="form-group">
-                        <label htmlFor="txtPass">Password</label>
-                        <input
-                          type="password" className="form-control" id="txtPass" ref="password" placeholder="Password"
-                          name="password"
-                        />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="txtPass">Password</label>
+                    <div className="input-group">
+                      <div className="input-group-addon">
+                        <span className="fa fa-lock fa-lg" aria-hidden="true"></span>
+                      </div>
+                      <input
+                        type="password" className="form-control" id="txtPass" ref="password" placeholder="********"
+                        name="password"
+                      />
                     </div>
-                    <button type="submit" className="btn btn-default btn-block">Login</button>
-                    <br />
-                    <h5><Link to="/reset">Forgot password?</Link></h5>
+                  </div>
+                  <button type="submit" className="btn btn-default btn-block">Login</button>
+                  <br />
+                  <h5><Link to="/reset">Forgot password?</Link></h5>
 
-                    <a
-                      href="#" className="btn btn-block btn-social btn-google" onClick={() => {
-                          this.loginWithProvider('google');
-                      }} data-provider="google"
-                    ><span className="fa fa-google"></span> Sign in with Gmail</a>
+                  <a
+                    href="#" className="btn btn-block btn-social btn-google btn-login" onClick={() => {
+                    this.loginWithProvider('google');
+                  }} data-provider="google"
+                  ><span className="fa fa-google"></span> Sign in with Gmail</a><span className="GoogleLoginWarning">Sign in with Gmail is required to export schedule to Google Calendar</span>
                 </form>
 
-                </div>
-                <UserRegister/>
+              </div>
+              <UserRegister/>
             </div><br />
-            <div className="alert alert alert-info" role="alert">
-              Note: You will not be able to synchronize with your Google Calendar if you do not use your gmail account.
-            </div>
           </div>
 
         );

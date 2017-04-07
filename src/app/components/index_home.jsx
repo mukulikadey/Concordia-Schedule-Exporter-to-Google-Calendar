@@ -6,6 +6,12 @@ import { fetchUser, getUserCourses, getSections, addUserSection,deleteCourse, is
 import Loading from './helpers/loading';
 import 'sweetalert';
 import './user/sweetalert.css';
+import './user/animate.css'
+import Loadable from 'react-loading-overlay'
+
+var ReactToastr = require("react-toastr-redux");
+var {ToastContainer} = ReactToastr; // This is a React Element.
+var ToastMessageFactory = React.createFactory(ReactToastr.ToastMessage.animation);
 
 class Index_home extends Component{
 
@@ -18,6 +24,7 @@ class Index_home extends Component{
       searching: false,
       display_sections: "",
       course_name: "",
+      counter:0,
     };
     this.handleAdd = this.handleAdd.bind(this);
     this.handleForm = this.handleForm.bind(this);
@@ -25,6 +32,11 @@ class Index_home extends Component{
     this.onkeyPress=this.onkeyPress.bind(this);
     this.remove=this.remove.bind(this)
     this.refresh=this.refresh.bind(this)
+    this.addAlert=this.addAlert.bind(this)
+  }
+
+  componentDidMount(){
+      document.body.className = "";
   }
 
   componentDidUpdate(){
@@ -55,10 +67,10 @@ class Index_home extends Component{
            confirmButtonText: "Yes, delete it!",
            closeOnConfirm: false
     },
-    function(){      
+    function(){
       swal("Deleted!", course.coursename+" has been deleted.", "success", );
-      self.props.deleteCourse(self.props.userCourses.courses,course)        
-    });    
+      self.props.deleteCourse(self.props.userCourses.courses,course)
+    });
   }
 
   getCourses()
@@ -71,7 +83,20 @@ class Index_home extends Component{
 
     if(this.props.userCourses&& this.props.userCourses.loaded && this.props.userCourses.courses && this.props.userCourses.courses[0]!='No Courses')
     return this.props.userCourses.courses.map((course)=>{
-      return <p className="parent" key={course.coursename}>{course.coursenumber} <span onClick={this.remove.bind(this,course)} className="hiding fa fa-times-circle"></span></p>
+      if(course.labsection==null && course.tutorialsection==null)
+        return <p className="parent" key={course.coursename}>{course.coursenumber} <span onClick={this.remove.bind(this,course)} className="hiding fa fa-times-circle"></span><span className="courseList">{"("+course.section+")"}</span></p>;
+      else if(course.section==null && course.tutorialsection==null)
+        return <p className="parent" key={course.coursename}>{course.coursenumber} <span onClick={this.remove.bind(this,course)} className="hiding fa fa-times-circle"></span><span className="courseList">{"("+course.labsection+")"}</span></p>;
+      else if(course.section==null && course.labsection==null)
+        return <p className="parent" key={course.coursename}>{course.coursenumber} <span onClick={this.remove.bind(this,course)} className="hiding fa fa-times-circle"></span><span className="courseList">{"("+course.tutorialsection+")"}</span></p>;
+      else if(course.labsection==null)
+        return <p className="parent" key={course.coursename}>{course.coursenumber} <span onClick={this.remove.bind(this,course)} className="hiding fa fa-times-circle"></span><span className="courseList">{"("+course.section+"/"+course.tutorialsection+")"}</span></p>;
+      else if(course.tutorialsection==null)
+        return <p className="parent" key={course.coursename}>{course.coursenumber} <span onClick={this.remove.bind(this,course)} className="hiding fa fa-times-circle"></span><span className="courseList">{"("+course.section+"/"+course.labsection+")"}</span></p>;
+      else if(course.section==null)
+        return <p className="parent" key={course.coursename}>{course.coursenumber} <span onClick={this.remove.bind(this,course)} className="hiding fa fa-times-circle"></span><span className="courseList">{"("+course.tutorialsection+"/"+course.labsection+")"}</span></p>;
+      else
+        return <p className="parent" key={course.coursename}>{course.coursenumber} <span onClick={this.remove.bind(this,course)} className="hiding fa fa-times-circle"></span><span className="courseList">{"("+course.section+"/"+course.tutorialsection+"/"+course.labsection+")"}</span></p>
     })
 
     else if(!this.props.userCourses.courses)
@@ -113,17 +138,19 @@ class Index_home extends Component{
         });
   }
 
-  addSection(newSection,e)
+  addSection(e)
   {
+
+    //var x = document.getElementById("MySelect")? document.getElementById("MySelect").value: null;
+     var newSection=e.target.value.split(',')
     if(this.props.userCourses && this.props.userCourses.loaded && this.props.userCourses.courses)
     {
       // Make sure courseArray is empty if it hasn't been initialized yet instead of holding 'No Courses' value
       let courseArray = this.props.userCourses.courses[0] == 'No Courses'? [] : this.props.userCourses.courses;
 
       // Update the Firebase database by adding the nwe section to the user's CourseArray
-      this.props.addUserSection(courseArray, this.state.course_name,newSection);
-      document.getElementsByClassName(newSection.section)[0].classList.add("btn-default")
-      document.getElementsByClassName(newSection.section)[0].classList.add("btn-primary")
+      this.props.addUserSection(courseArray, this.state.course_name,{section:newSection[0], component:newSection[1], maxPat:newSection[2]});
+
     }
   }
 
@@ -131,14 +158,21 @@ class Index_home extends Component{
     window.location.reload()}
 
   render() {
-    if (!this.props.currentUser) {
-      return <Loading />;
+      if (!this.props.currentUser ||(this.props.userCourses && !this.props.userCourses.courses) ) {
+      return <Loadable
+  active={true}
+  spinner
+  text='Loading...'
+  >
+
+</Loadable>
+
     }
     return (
       <div>
         {this.renderName(this.props.currentUser)}
-        <div className="welcomeHome">
-            <div className="transBox">
+        <div className="welcomeHome fadeInHome">
+            <div className="transBox ">
               <p>Here is the list of classes you are taking:</p>
 
                 {this.getCourses()}
@@ -146,18 +180,33 @@ class Index_home extends Component{
 
               {this.renderSectionResult()}
             </div>
-
-            <p>
-              <Link to="/profile"><button type="button" className="home btn btn-info btn-lg"><span className="fa fa-user"></span>    Profile </button></Link>
-              <Link to="/scheduleGen"><button type="button" className="home btn btn-success btn-lg"><span className="fa fa-calendar"></span>    Schedule </button></Link>
-
-            </p>
+          <div className="fadeInHome">
+            <ToastContainer ref="container"
+                            toastMessageFactory={ToastMessageFactory}
+                            className="toast-top-right" />
+            <button onClick={this.addAlert.bind(this)}>Notification</button>
+          </div>
         </div>
       </div>
 
     );
 
   }
+  addAlert () {
+    var c = this.state.counter
+    this.refs.container.info("Time: 17:45-20:00" + "\n" + "Desc: Class will be extended", "COMP 346 - NN (" + c + ")", {
+        closeButton: true,
+        timeOut: -1,
+        extendedTimeOut: -1,
+        allowHTML: true,
+      },
+    );
+    this.setState({
+      counter: this.state.counter + 1
+    })
+    console.log(this.state.counter)
+  }
+
   renderName(currentUser)
   {
     if(currentUser && currentUser.uid)
@@ -189,14 +238,14 @@ class Index_home extends Component{
     }
     else
     {
-      return <a href="#" onClick={this.handleAdd}><span className="fa fa-plus-circle"></span> Add Courses </a>
+      return <a href="#" onClick={this.handleAdd}><span className="fa fa-plus-circle">&nbsp;</span>Add Courses</a>
     }
   }
  renderSectionResult()
   {
     let sections_array = this.props.sections;
         let lec=[], tut=[], lab=[]
-  
+
     if (this.state.searching && sections_array != undefined && this.showSection) {
       if (sections_array.length!=0) {
         sections_array.map((sec)=> {
@@ -210,32 +259,38 @@ class Index_home extends Component{
             lab.push(sec)
           }
         })
-        let return_render = [];
-        return_render.push(<button className="btn btn-info">{this.state.course_name}</button>)
-        return_render.push(<br/>)
-        return_render.push(<button>LEC</button>)
+        let return_render = [],return_lec=[],return_tut=[],return_lab=[];
+        return_render.push(<button className="btn btn-info btn-center3">{this.state.course_name}</button>)
+        return_render.push(<label>&nbsp;&nbsp;<span className="fa fa-book colorIcon"> <label className="arial"> LEC:&nbsp;</label> </span></label>)
+        return_lec.push(<option value="not picked" >N/A</option>);
         for(let i = 0; i < lec.length; i++) {
           let sectionClick = this.addSection.bind(this,lec[i]);
  	        let classNames=lec[i].section + " btn btn-default";
-          return_render.push(<button key={lec[i].section.toString()} onClick = {sectionClick} type="button" className={classNames}>{lec[i].section}</button>);
+          return_lec.push(<option value={lec[i].section + "," + lec[i].component+ "," + lec[i].maxPat} className={classNames}>{lec[i].section}</option>);
+          //return_render.push(<button key={lec[i].section.toString()} onClick = {sectionClick} type="button" className={classNames}>{lec[i].section}</button>);
         }
+        return_render.push(<select  value={this} onChange={(e)=>{this.addSection(e)}}>{return_lec}</select>)
+
         if (tut.length!=0) {
-        return_render.push(<br/>)
-        return_render.push(<button>TUT</button>)
+          return_render.push(<label>&nbsp;&nbsp;<span className="fa fa-pencil-square-o colorIcon"> <label className="arial"> TUT:&nbsp;</label> </span></label>)
+        return_tut.push(<option value="not picked" >N/A</option>);
         for(let i = 0; i < tut.length; i++) {
           let sectionClick = this.addSection.bind(this,tut[i]);
           let classNames=tut[i].section + " btn btn-default";
-          return_render.push(<button key={tut[i].section.toString()} onClick = {sectionClick} type="button" className={classNames}>{tut[i].section}</button>);
+         // return_render.push(<button key={tut[i].section.toString()} onClick = {sectionClick} type="button" className={classNames}>{tut[i].section}</button>);
+           return_tut.push(<option value={tut[i].section + "," + tut[i].component+ "," + tut[i].maxPat}className={classNames}>{tut[i].section}</option>);
         }
-        return_render.push(<br/>)
+         return_render.push(<select value={this} onChange={(e)=>{this.addSection(e)}}>{return_tut}</select>)
       }
       if (lab.length!=0) {
-      return_render.push(<button>LAB</button>)
+        return_lab.push(<option value="not picked" >N/A</option>)
+        return_render.push(<label>&nbsp;&nbsp;<span className="fa fa-desktop colorIcon"> <label className="arial"> LAB:&nbsp;</label> </span></label>)
       for(let i = 0; i < lab.length; i++) {
         let sectionClick = this.addSection.bind(this,lab[i]);
         let classNames=lab[i].section + " btn btn-default";
-        return_render.push(<button key={lab[i].section.toString()} onClick = {sectionClick} type="button" className={classNames}>{lab[i].section}</button>);
+         return_lab.push(<option value={lab[i].section + "," + lab[i].component+ "," + lab[i].maxPat}className={classNames}>{lab[i].section}</option>);
         }
+        return_render.push(<select value={this} onChange={(e)=>{this.addSection(e)}}>{return_lab}</select>)
       }
       return <div className="notCenter">{return_render}</div>;
     }
@@ -245,7 +300,6 @@ class Index_home extends Component{
   }
   return <div></div>;
   }
-
 
 
 }
