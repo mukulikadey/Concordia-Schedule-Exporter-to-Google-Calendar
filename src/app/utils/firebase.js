@@ -630,14 +630,14 @@ setDateEvents : (course, date) => {
     };
 
     // Goes through each subscribers and creates a new notification node containing the event info, the old description and the timestamp
-    /*eslint prefer-arrow-callback: ["error", { "allowNamedFunctions": true }]*/
-    coursesRef.child(event.sectionPath).child('Subscribers').once('value').then( function (subs){
+    /* eslint-disable */
+    coursesRef.child(event.sectionPath).child('Subscribers').once('value').then(function (subs){
         subs.forEach(function (child) {
           const uid = child.key;
           notifsRef.child(uid).push().update(pushObj);
         });
     });
-    /*eslint prefer-arrow-callback: ["error", { "allowNamedFunctions": false }]*/
+    /* eslint-enable */
   },
 
   /**
