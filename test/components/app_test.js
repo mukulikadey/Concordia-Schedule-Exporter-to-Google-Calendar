@@ -24,6 +24,9 @@ describe('fillNoClassThisDay', () => {
   it('number of days', () => {
     expect(noClassThisDay.length).equals(11);
   });
+    it('number of days', () => {
+    expect(noClassThisDay.length).equals(11);
+  });
 });
 
 describe('populate', () => {
@@ -62,5 +65,90 @@ describe('populate', () => {
 
   it('populate timetable', () => {
     expect(timeTable).to.exist;
+  });
+
+  let expectedDates = {
+    '2017-01-10' : {
+      'description' : 'No Description'
+    },
+    '2017-01-17' : {
+      'description' : 'No Description'
+    },
+    '2017-01-24' : {
+      'description' : 'No Description'
+    },
+    '2017-01-31' : {
+      'description' : 'No Description'
+    },
+    '2017-02-07' : {
+      'description' : 'No Description'
+    },
+    '2017-02-14' : {
+      'description' : 'No Description'
+    },
+    '2017-02-28' : {
+      'description' : 'No Description'
+    },
+    '2017-03-07' : {
+      'description' : 'No Description'
+    },
+    '2017-03-14' : {
+      'description' : 'No Description'
+    },
+    '2017-03-21' : {
+      'description' : 'No Description'
+    },
+    '2017-03-28' : {
+      'description' : 'No Description'
+    },
+    '2017-04-04' : {
+      'description' : 'No Description'
+    },
+    '2017-04-11' : {
+      'description' : 'No Description'
+    },
+  };
+
+    it('timetable object', () => {
+      expect(timeTable).to.be.an('object');
+  });
+});
+
+describe('setDateEvents', () => {
+
+  let course = {
+      'COMP346Y YA': {
+      'Term': 2164,
+      'Subject': 'COMP',
+      'Catalog': 346,
+      'Section': 'Y YA',
+      'Component': 'TUT',
+      'Pat Nbr': 1,
+      'Room Nbr': '',
+      'Mtg Start': '8:30:00 AM',
+      'Mtg End': '9:20:00 AM',
+      'Mon': 'N',
+      'Tues': 'Y',
+      'Wed': 'N',
+      'Thurs': 'N',
+      'Fri': 'N',
+      'Sat': 'N',
+      'Sun': 'N',
+      'Start Date': '2017-01-09',
+      'End Date': '2017-04-13',
+      'Last': 'Goswami',
+      'First Name': 'Dhrubajyoti',
+      'Email': 'dhrubajyoti.goswami@concordia.ca'
+      }
+    };
+
+    let date = {};
+    let returnDate = FireBaseTools.setDateEvents(course, date);
+  
+  it('date exists', () => {
+    expect(returnDate).to.exist;
+  });
+  it('date object', () => {
+      expect(returnDate).to.be.an('object');
   });
 });
