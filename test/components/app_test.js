@@ -31,9 +31,7 @@ describe('populate', () => {
   let endDate = new Date(2017, 4, 13);
   let noClassThisDay = new Array();
   FireBaseTools.fillNoClassThisDay(noClassThisDay);
-  let snap = {};
-  snap() = {
-    val:{
+  let val = {
       'COMP346Y YA': {
       'Term': 2164,
       'Subject': 'COMP',
@@ -56,9 +54,9 @@ describe('populate', () => {
       'Last': 'Goswami',
       'First Name': 'Dhrubajyoti',
       'Email': 'dhrubajyoti.goswami@concordia.ca'
-    }}  
-  }
-
+    }
+  }  
+  let snap = (val) => { return val; };
   let timeTable = FireBaseTools.populate(startDate, endDate, noClassThisDay, snap);
 
   it('populate timetable', () => {
