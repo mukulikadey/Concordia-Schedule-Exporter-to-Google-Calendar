@@ -32,7 +32,7 @@ describe('populate', () => {
   let noClassThisDay = new Array();
   FireBaseTools.fillNoClassThisDay(noClassThisDay);
   let snap = {};
-  snap = {
+  snap() = {
     val:{
       'COMP346Y YA': {
       'Term': 2164,
