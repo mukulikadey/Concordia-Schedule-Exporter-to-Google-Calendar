@@ -8,23 +8,21 @@ class App extends Component {
 
     constructor(props) {
         super(props);
-
         this.props.fetchUser();
-        //this.props.getEvents();
         this.logOut = this.logOut.bind(this);
     }
-
+ 
     logOut() {
         this.props.logoutUser().then((data) => {
       // reload props from reducer
             this.props.fetchUser();
+            gapi.auth2.getAuthInstance().signOut();
         });
     }
 
     renderUserMenu(currentUser) {
     // if current user exists and user id exists than make user navigation
         if (currentUser && currentUser.uid) {
-            this.props.getEvents()
             return (
                 <li className="dropdown">
                     <a

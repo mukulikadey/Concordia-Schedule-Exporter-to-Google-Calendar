@@ -21,7 +21,7 @@ class ScheduleGen extends Component {
   constructor(props) {
     super(props);
     this.props.fetchUser();
-    this.props.getEvents();
+    this.props.getEvents(this.props.userCourses.courses);
     this.state = {
       events: this.props.userEvents,
       message: '',
@@ -38,6 +38,11 @@ class ScheduleGen extends Component {
     //Handling initial stage
     let gapi = getGapi();
     this.updateSignInStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+  }
+
+  componentDidMount(){
+    this.props.getEvents(this.props.userCourses.courses);
+
   }
 
   onFormSubmit(event) {
@@ -69,7 +74,7 @@ class ScheduleGen extends Component {
       }
       return colour;
     }
-        
+
     var backgroundColor = '#' + event.hexColor;
     var style = {
       backgroundColor: stringToColour(event.title),
@@ -188,20 +193,25 @@ class ScheduleGen extends Component {
   render() {
     let self = this;
     if (!this.props.currentUser && !this.props.userEvents) {
-      this.props.getEvents()
       return <Loading />;
+    }
+
+    if(!this.props.userEvents){
+      return <Loading/>
     }
     if(this.props.userEvents.value==0)
     {
       return <div>Nothing to show</div>
     }
+    //console.log(this.props.userEvents)
+
     return (
       <div>
         <div>{this.renderGoogle()}</div>
         <div className="trans-sc">
           <BigCalendar
             {...this.props}
-            events={this.state.events}
+            events={this.props.userEvents}
             min={new Date(2017,1,1,8,0,0)}
             max ={new Date(2017,1,1,23,30,0)}
             step={15}
@@ -230,7 +240,7 @@ class ScheduleGen extends Component {
                       return false
                     }
                     if(event.canEditDescription) {
-                      self.props.setDescription(event.sectionPath,event.datePath, inputValue);
+                      self.props.setDescription(event, inputValue);
                     }
                     swal("Nice!", "You wrote: " + inputValue, "success");
                     event.desc = inputValue;
@@ -257,7 +267,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  return { currentUser: state.currentUser, userEvents: state.userEvents };
+  return { currentUser: state.currentUser, userEvents: state.userEvents, userCourses: state.userCourses };
 }
 
 

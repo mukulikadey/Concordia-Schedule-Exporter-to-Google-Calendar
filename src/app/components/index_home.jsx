@@ -2,16 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { browserHistory, Link } from 'react-router';
-import { fetchUser, getUserCourses, getSections, addUserSection,deleteCourse } from '../actions/firebase_actions';
+import { fetchUser, getUserCourses, getSections, addUserSection,deleteCourse, isProfessor } from '../actions/firebase_actions';
 import Loading from './helpers/loading';
-
 
 class Index_home extends Component{
 
   constructor(props) {
     super(props);
     this.props.fetchUser();
-    this.props.getUserCourses()
+    this.props.getUserCourses();
     this.state = {
       message: '',
       searching: false,
@@ -24,11 +23,22 @@ class Index_home extends Component{
     this.onkeyPress=this.onkeyPress.bind(this);
     this.remove=this.remove.bind(this)
   }
-  
+
   componentDidUpdate(){
     if(!this.props.currentUser) {
       this.props.getUserCourses()
     }
+
+    // Check if current user is a professor if it hasn't been checked yet
+    if(this.props.profState == null ){
+      this.props.isProfessor();
+
+      // TODO This will be moved to wherever the check needs to be made by Front-End team
+      if (this.props.profState == 'Not a professor'){
+        // do something
+      }
+    }
+
   }
 
   remove(course){
@@ -60,14 +70,14 @@ class Index_home extends Component{
   handleAdd()
   {
     this.setState({searching: !this.state.searching});
-    
+
     //if the state is not searching, don't show the previously populated section's array
     if(!this.state.searching){this.showSection=false}
   }
   handleChange() {
     //On enter we set the value of showing the sections to user to true
     this.showSection=true;
-    
+
     //Making sure that the course name is in capital letters just like in the database
     var search_input = this.refs.myInput.value.toUpperCase();
     if(search_input != ""){
@@ -185,12 +195,12 @@ class Index_home extends Component{
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ fetchUser, getUserCourses, getSections, addUserSection,deleteCourse}, dispatch);
+  return bindActionCreators({ fetchUser, getUserCourses, getSections, addUserSection,deleteCourse, isProfessor}, dispatch);
 }
 
 
 function mapStateToProps(state) {
-  return { currentUser: state.currentUser, userCourses: state.userCourses,sections:state.sections };
+  return { currentUser: state.currentUser, userCourses: state.userCourses,sections:state.sections, profState: state.profState };
 }
 
 
