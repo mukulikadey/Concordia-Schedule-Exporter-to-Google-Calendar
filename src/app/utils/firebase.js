@@ -66,6 +66,39 @@ const FireBaseTools = {
     /* eslint-enable */
   },
 
+  /* eslint-disable */
+  /**
+   * Checks if current user is a Professor of any given course
+   * @param dispatch dispatch function relaunches every time the state is changed
+   * @param TYPE IS_PROFESSOR redux action type
+   * @returns {null}
+   */
+  isProfessor: (dispatch, TYPE) => {
+    let profDetails = null;
+    const id = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
+    if ( !id ) return null;
+
+    // Get User's email and replace '.' characters with '%2E' escape character
+    const profEmail = firebaseAuth.currentUser.email.replace(/\./g, '%2E');
+    profRef.child(profEmail).on('value', function (snap) {
+
+      // If the user is a professor, get the list of courses they teach
+      if (snap.val()) {
+        profDetails = (snap.val());
+      }
+
+      // If the user is not a professor, then replace the payload with 'Not a professor'
+      if (id && !profDetails) { profDetails = 'Not a professor'; }
+      // By not returning anything and dispatching from here,
+      // the action will be dispatched every time the professor's node is changed
+      dispatch({
+        type: TYPE,
+        payload: profDetails,
+      });
+    });
+    /* eslint-enable */
+  },
+
     deleteCourse: (coursearray, course) => {
         let obj = [];
         const userSections = [];
@@ -245,7 +278,7 @@ const FireBaseTools = {
       /* eslint-disable */
       coursesRef.child(courseSectionPath).child('Email').once('value').then(function (snap) {
         // Replace all the periods in the email with the escape
-        const profEmail = snap.val().replace(/\./g, '%2E'); 
+        const profEmail = snap.val().replace(/\./g, '%2E');
       /* eslint-enable */
         const updateProf = {};
         updateProf[courseSectionPath] = courseSectionPath;
@@ -465,7 +498,7 @@ const FireBaseTools = {
              if (course['Email']==user.email) {
                 edit=true;
               }
-            else if (course['Whitelist'] && course['Whitelist'].hasOwnProperty(user.email.replace(/\./g,'%2E'))) { 
+            else if (course['Whitelist'] && course['Whitelist'].hasOwnProperty(user.email.replace(/\./g,'%2E'))) {
                edit=true;
             }
             date['canEditDescription'] = edit;
@@ -510,7 +543,7 @@ const FireBaseTools = {
        return finalCourses
       }
       )
-  
+
   },
 
     setDescription: (sectionPath, datePath, description) => {
