@@ -35,8 +35,8 @@ export function getEvents(usercourses) {
     };
 }
 
-export function setDescription(sectionPath, datePath, description) {
-    const request = FireBaseTools.setDescription(sectionPath, datePath, description);
+export function setDescription(event, description) {
+    const request = FireBaseTools.setDescription(event, description);
     return {
         type: SET_DESCRIPTION,
         payload: request,

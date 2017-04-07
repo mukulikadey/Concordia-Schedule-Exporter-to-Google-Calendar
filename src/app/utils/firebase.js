@@ -7,7 +7,8 @@ export const firebaseDb = firebaseApp.database();
 export const usersRef = firebase.database().ref('users/');
 export const sectionsRef = firebase.database().ref('sections/');
 export const coursesRef = firebase.database().ref('course/');
-export const profRef = firebase.database().ref('professors/');
+export const profsRef = firebase.database().ref('professors/');
+export const notifsRef = firebase.database().ref('notifications/');
 const FireBaseTools = {
 
   /**
@@ -80,7 +81,7 @@ const FireBaseTools = {
 
     // Get User's email and replace '.' characters with '%2E' escape character
     const profEmail = firebaseAuth.currentUser.email.replace(/\./g, '%2E');
-    profRef.child(profEmail).on('value', function (snap) {
+    profsRef.child(profEmail).on('value', function (snap) {
 
       // If the user is a professor, get the list of courses they teach
       if (snap.val()) {
@@ -98,7 +99,7 @@ const FireBaseTools = {
     });
     /* eslint-enable */
   },
-  
+
   deleteCourse: (coursearray, course) => {
     let obj = [];
     const userSections = [];
@@ -282,7 +283,7 @@ const FireBaseTools = {
       const updateProf = {};
       updateProf[courseSectionPath] = courseSectionPath;
       // Update the Professor's email in Firebase thereby adding the course section under the list of courses this prof teaches, if it wasn't already there
-      profRef.child(profEmail).update(updateProf);
+      profsRef.child(profEmail).update(updateProf);
     })
     .catch(error => ({
       errorCode: error.code,
@@ -592,14 +593,48 @@ setDateEvents : (course, date) => {
               date['courseTime']=courseTime;
               return date;
 },
-
-  setDescription: (sectionPath, datePath, description) => {
+  /**
+   * Updates the description of an individual class at a specified date
+   * @param event The class event that was edited
+   * @param description The new description
+   * @returns {null}
+   */
+  setDescription: (event, description) => {
     // Change the description of the specific class on Firebase
     const updateDescription = {};
+    let oldDescription = event.desc;
     updateDescription['description'] = description;
     /* eslint-enable */
-    coursesRef.child(sectionPath).child('Timetable').child(datePath.toString()).update(updateDescription);
+    coursesRef.child(event.sectionPath).child('Timetable').child(event.datePath.toString()).update(updateDescription).then(FireBaseTools.updateNotification(event, oldDescription));
     return null;
+  },
+
+  /**
+   * Pushes a new notification for every subscriber in the class
+   * where the description was changed
+   * @param event The class event that was edited
+   * @param oldDescription The description before it was changed
+   */
+  updateNotification: (event, oldDescription) => {
+    const uid = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
+    const editor = firebaseAuth.currentUser.displayName;
+    const timeStamp = new Date();
+
+    //The object that will be pushed into the student's notifications node
+    let pushObj = {
+      event: event,
+      oldDescription: oldDescription,
+      editor: editor,
+      timeStamp: timeStamp,
+    };
+
+    //Goes through each subscribers and creates a new notification node containing the event info, the old description and the timestamp
+    coursesRef.child(event.sectionPath).child('Subscribers').once('value').then(function (subs){
+        subs.forEach(function (child) {
+          const uid = child.key;
+          notifsRef.child(uid).push().update(pushObj);
+        })
+    });
   },
 
   /**

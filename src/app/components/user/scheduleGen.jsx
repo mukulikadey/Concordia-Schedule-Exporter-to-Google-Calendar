@@ -42,7 +42,7 @@ class ScheduleGen extends Component {
 
   componentDidMount(){
     this.props.getEvents(this.props.userCourses.courses);
- 
+
   }
 
   onFormSubmit(event) {
@@ -74,7 +74,7 @@ class ScheduleGen extends Component {
       }
       return colour;
     }
-        
+
     var backgroundColor = '#' + event.hexColor;
     var style = {
       backgroundColor: stringToColour(event.title),
@@ -204,7 +204,7 @@ class ScheduleGen extends Component {
       return <div>Nothing to show</div>
     }
     //console.log(this.props.userEvents)
-   
+
     return (
       <div>
         <div>{this.renderGoogle()}</div>
@@ -240,7 +240,7 @@ class ScheduleGen extends Component {
                       return false
                     }
                     if(event.canEditDescription) {
-                      self.props.setDescription(event.sectionPath,event.datePath, inputValue);
+                      self.props.setDescription(event, inputValue);
                     }
                     swal("Nice!", "You wrote: " + inputValue, "success");
                     event.desc = inputValue;
