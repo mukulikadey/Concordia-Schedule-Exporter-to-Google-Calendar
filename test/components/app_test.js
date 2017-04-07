@@ -61,6 +61,6 @@ describe('populate', () => {
   let timeTable = FireBaseTools.populate(startDate, endDate, noClassThisDay, snap);
 
   it('populate timetable', () => {
-    expect(timeTable.length).greaterThan(0);
+    expect(timeTable).to.exist;
   });
 });
