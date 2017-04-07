@@ -14,6 +14,7 @@ import {
   GET_EVENTS,
   SET_DESCRIPTION,
   DELETE_COURSE,
+  IS_PROFESSOR,
 } from './types';
 
 
@@ -34,8 +35,8 @@ export function getEvents(usercourses) {
     };
 }
 
-export function setDescription(sectionPath, datePath, description) {
-    const request = FireBaseTools.setDescription(sectionPath, datePath, description);
+export function setDescription(event, description) {
+    const request = FireBaseTools.setDescription(event, description);
     return {
         type: SET_DESCRIPTION,
         payload: request,
@@ -59,6 +60,13 @@ export function getUserCourses() {
         FireBaseTools.getUserCourses(dispatch, GET_USER_COURSES);
     };
 }
+
+export function isProfessor() {
+  return (dispatch) => {
+    FireBaseTools.isProfessor(dispatch, IS_PROFESSOR);
+  };
+}
+
 
 export function addUserSection(courseArray, courseNumber, section) {
     const request = FireBaseTools.addUserSection(courseArray, courseNumber, section);

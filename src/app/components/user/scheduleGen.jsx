@@ -42,7 +42,7 @@ class ScheduleGen extends Component {
 
   componentDidMount(){
     this.props.getEvents(this.props.userCourses.courses);
- 
+
   }
 
   onFormSubmit(event) {
@@ -211,7 +211,7 @@ class ScheduleGen extends Component {
 
     }
     //console.log(this.props.userEvents)
-   
+
     return (
       <div>
         <div>{this.renderGoogle()}</div>
@@ -247,7 +247,7 @@ class ScheduleGen extends Component {
                       return false
                     }
                     if(event.canEditDescription) {
-                      self.props.setDescription(event.sectionPath,event.datePath, inputValue);
+                      self.props.setDescription(event, inputValue);
                     }
                     swal("Nice!", "You wrote: " + inputValue, "success");
                     event.desc = inputValue;

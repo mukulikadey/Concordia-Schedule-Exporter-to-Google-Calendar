@@ -5,6 +5,8 @@ import Sections from './getSections';
 import SectionUpdatePromise from './addUserSection';
 import UserEvents from './getEvents';
 import SetDescription from './setDescription';
+import ProfState from './isProfessor';
+
 
 const rootReducer = combineReducers({
     currentUser: FireBaseUserReducer,
@@ -13,6 +15,7 @@ const rootReducer = combineReducers({
     sectionUpdatePromise: SectionUpdatePromise,
     userEvents: UserEvents,
     setDescription: SetDescription,
+    profState: ProfState,
 });
 
 export default rootReducer;
