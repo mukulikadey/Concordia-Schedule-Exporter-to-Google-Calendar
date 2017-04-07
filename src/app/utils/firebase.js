@@ -605,7 +605,8 @@ setDateEvents : (course, date) => {
     let oldDescription = event.desc;
     updateDescription['description'] = description;
     /* eslint-enable */
-    coursesRef.child(event.sectionPath).child('Timetable').child(event.datePath.toString()).update(updateDescription).then(FireBaseTools.updateNotification(event, oldDescription));
+    coursesRef.child(event.sectionPath).child('Timetable').child(event.datePath.toString()).update(updateDescription)
+      .then(FireBaseTools.updateNotification(event, oldDescription));
     return null;
   },
 
@@ -616,25 +617,27 @@ setDateEvents : (course, date) => {
    * @param oldDescription The description before it was changed
    */
   updateNotification: (event, oldDescription) => {
-    const uid = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
     const editor = firebaseAuth.currentUser.displayName;
     const timeStamp = new Date();
 
-    //The object that will be pushed into the student's notifications node
-    let pushObj = {
-      event: event,
-      oldDescription: oldDescription,
-      editor: editor,
-      timeStamp: timeStamp,
+    // The object that will be pushed into the student's notifications node
+    // Using object shorthand so "event," = "event : event,"
+     const pushObj = {
+      event,
+      oldDescription,
+      editor,
+      timeStamp,
     };
 
-    //Goes through each subscribers and creates a new notification node containing the event info, the old description and the timestamp
-    coursesRef.child(event.sectionPath).child('Subscribers').once('value').then(function (subs){
+    // Goes through each subscribers and creates a new notification node containing the event info, the old description and the timestamp
+    /*eslint prefer-arrow-callback: ["error", { "allowNamedFunctions": true }]*/
+    coursesRef.child(event.sectionPath).child('Subscribers').once('value').then( function (subs){
         subs.forEach(function (child) {
           const uid = child.key;
           notifsRef.child(uid).push().update(pushObj);
-        })
+        });
     });
+    /*eslint prefer-arrow-callback: ["error", { "allowNamedFunctions": false }]*/
   },
 
   /**
