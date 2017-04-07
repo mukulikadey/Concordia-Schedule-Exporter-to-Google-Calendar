@@ -24,6 +24,7 @@ class Index_home extends Component{
       searching: false,
       display_sections: "",
       course_name: "",
+      counter:0,
     };
     this.handleAdd = this.handleAdd.bind(this);
     this.handleForm = this.handleForm.bind(this);
@@ -180,15 +181,21 @@ class Index_home extends Component{
     );
 
   }
-  addAlert (){
-    this.refs.container.info("Time: 17:45-20:00" + "\n" + "Desc: Class will be extended", "COMP 346 - NN", {
-      closeButton: true,
-      timeOut:-1,
-      extendedTimeOut:-1,
-      allowHTML: true,
-
-    });
+  addAlert () {
+    var c = this.state.counter
+    this.refs.container.info("Time: 17:45-20:00" + "\n" + "Desc: Class will be extended", "COMP 346 - NN (" + c + ")", {
+        closeButton: true,
+        timeOut: -1,
+        extendedTimeOut: -1,
+        allowHTML: true,
+      },
+    );
+    this.setState({
+      counter: this.state.counter + 1
+    })
+    console.log(this.state.counter)
   }
+
   renderName(currentUser)
   {
     if(currentUser && currentUser.uid)
