@@ -53,7 +53,7 @@ class ScheduleGen extends Component {
 
   componentDidMount(){
     this.props.getEvents(this.props.userCourses.courses);
-    document.body.className= "";
+    document.body.className= "bodySched";
   }
 
   onFormSubmit(event) {

@@ -1,6 +1,6 @@
 //The background picture is now included in the body of the website, i.e. every page on the site
 body {
-  background: url("http://www.asfa.ca/wp-content/uploads/2016/03/ASFA_Blur.jpg");
+  background: url("/src/background-home.jpg");
   background-size: cover;
   position:relative;
   font-size: 16px;
@@ -9,6 +9,18 @@ body {
   width: 100%;
   height: 100%;
 }
+
+.bodySched{
+  background: url("/src/background-sched.jpg");
+  background-size: cover;
+  position:relative;
+  font-size: 16px;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
 .centercolumn{
   text-align: center;
   padding-right: 35%;
@@ -110,6 +122,8 @@ div.transBox{
   width: 50%;
   margin-left: auto;
   margin-right: auto;
+  border-radius: 5px;
+  padding: 1%;
 }
 
 div.transbox{
