@@ -665,7 +665,7 @@ setDateEvents : (course, date) => {
   },
 
   addTA: (email, section) => {
-    const emailObj = { [email.replace(/\./g, '%2E')]: ''} ;
+    const emailObj = { [email.replace(/\./g, '%2E')]: '' };
     coursesRef.child(section).child('Whitelist').update(emailObj);
     return null;
   },
