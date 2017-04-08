@@ -339,14 +339,21 @@ class Index_home extends Component{
     document.getElementById("btnTA").className="hideThis";
     document.getElementById("formTA").className="showThis";
   }
+
+  hideAddTa(){
+    document.getElementById("btnTA").className="showThis btn btn-warning btn-round fa fa-plus-circle spacing2";
+    document.getElementById("formTA").className="hideThis";
+  }
   addTa(){
     return <form onKeyDown={this.submitInfo} onSubmit={this.submitButton} id="formTA" className="hideThis">
+      <span onClick={this.hideAddTa} className="fa fa-times-circle spacingTopRight"> </span>
       <div className="spacing"><input type="text" id="addTA" placeholder="example@gmail.com"/>
         <select id="TA">
           {this.renderTASections()}
         </select>
       </div>
   <div className="spacing"><input className="btn btn-round btn-info" type="submit" onClick={this.submitButton}/></div>
+
     </form>
   }
 
@@ -360,7 +367,7 @@ class Index_home extends Component{
       if(section && email){
         this.props.addTA(email,section)
       }
-      
+
     }
   }
 
