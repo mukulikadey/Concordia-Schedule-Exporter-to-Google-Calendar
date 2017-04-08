@@ -17,3 +17,4 @@ export const SET_DESCRIPTION = 'SET_DESCRIPTION';
 export const DELETE_COURSE = 'DELETE_COURSE';
 export const IS_PROFESSOR = 'IS_PROFESSOR';
 export const GET_NOTIFICATIONS = 'GET_NOTIFICATIONS';
+export const ADD_TA = 'ADD_TA'

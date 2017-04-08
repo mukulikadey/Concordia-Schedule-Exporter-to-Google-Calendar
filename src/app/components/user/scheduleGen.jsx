@@ -261,7 +261,7 @@ class ScheduleGen extends Component {
                       return false
                     }
                     if(event.canEditDescription) {
-                      self.props.setDescription(event.sectionPath,event.datePath, inputValue);
+                      self.props.setDescription(event, inputValue);
                     }
                     swal("Nice!", "You wrote: " + inputValue, "success");
                     event.desc = inputValue;

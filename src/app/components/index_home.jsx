@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { browserHistory, Link } from 'react-router';
-import { fetchUser, getUserCourses, getSections, addUserSection,deleteCourse, isProfessor,getNotifications } from '../actions/firebase_actions';
+import { fetchUser, getUserCourses, getSections, addUserSection,deleteCourse, isProfessor,getNotifications, addTA } from '../actions/firebase_actions';
 import Loading from './helpers/loading';
 import 'sweetalert';
 import './user/sweetalert.css';
@@ -33,6 +33,8 @@ class Index_home extends Component{
     this.remove=this.remove.bind(this)
     this.refresh=this.refresh.bind(this)
     this.addAlert=this.addAlert.bind(this)
+    this.submitInfo=this.submitInfo.bind(this)
+    this.submitButton=this.submitButton.bind(this)
   }
 
   componentDidMount(){
@@ -317,7 +319,7 @@ class Index_home extends Component{
       let i = 0;
     //THIS BREAKS CODE DOES INFINITE LOAD OF CLASSES
       Object.keys(prof).map(function (key) {
-        options.push(<option> {key}</option>)
+        options.push(<option value={i} > {key}</option>)
         i++;
       });
 
@@ -338,13 +340,13 @@ class Index_home extends Component{
     document.getElementById("formTA").className="showThis";
   }
   addTa(){
-    return <form onKeyDown={this.submitInfo} id="formTA" className="hideThis">
+    return <form onKeyDown={this.submitInfo} onSubmit={this.submitButton} id="formTA" className="hideThis">
       <div className="spacing"><input type="text" id="addTA" placeholder="example@gmail.com"/>
         <select id="TA">
           {this.renderTASections()}
         </select>
       </div>
-      <div className="spacing"><input className="btn btn-round btn-info" type="submit"/></div>
+  <div className="spacing"><input className="btn btn-round btn-info" type="submit" onClick={this.submitButton}/></div>
     </form>
   }
 
@@ -352,17 +354,33 @@ class Index_home extends Component{
   submitInfo(e){
     if(e.key=="Enter") {
       e.preventDefault();
-      var answer = document.getElementById("addTA");
-      console.log(answer.value);
-
+      var email = document.getElementById("addTA").value;
+      var sec = document.getElementById("TA");
+      var section = sec.options[sec.selectedIndex].text;
+      if(section && email){
+        this.props.addTA(email,section)
+      }
+      
     }
+  }
+
+  submitButton(e){
+    e.preventDefault();
+      var answer = document.getElementById("addTA");
+      var hi = document.getElementById("TA");
+      var strUser = hi.options[hi.selectedIndex].text;
+      if(strUser){
+        this.props.addTA(answer.value,strUser)
+      }
+
+
   }
 
 
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ fetchUser, getUserCourses, getSections, addUserSection,deleteCourse, isProfessor,getNotifications}, dispatch);
+  return bindActionCreators({ fetchUser, getUserCourses, getSections, addUserSection,deleteCourse, isProfessor,getNotifications, addTA}, dispatch);
 }
 
 

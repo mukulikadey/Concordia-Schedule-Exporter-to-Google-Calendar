@@ -665,6 +665,13 @@ setDateEvents : (course, date) => {
     /* eslint-enable */
   },
 
+  addTA: (email,section) => {
+    let emailObj={[email.replace(/\./g,'%2E')]:""}; 
+    coursesRef.child(section).child('Whitelist').update(emailObj)
+    return null;
+
+  },
+
   /**
    * Login with provider => p is provider "email", "facebook", "github", "google", or "twitter"
    * Uses Popup therefore provider must be an OAuth provider. EmailAuthProvider will throw an error

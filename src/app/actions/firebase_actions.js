@@ -16,6 +16,7 @@ import {
   DELETE_COURSE,
   IS_PROFESSOR,
   GET_NOTIFICATIONS,
+  ADD_TA
 } from './types';
 
 
@@ -34,6 +35,15 @@ export function getEvents(usercourses) {
         type: GET_EVENTS,
         payload: request,
     };
+}
+
+export function addTA(email, section) {
+    const request = FireBaseTools.addTA(email, section);
+
+    return {
+        type: ADD_TA,
+        payload: request,
+    }
 }
 
 export function setDescription(event, description) {
