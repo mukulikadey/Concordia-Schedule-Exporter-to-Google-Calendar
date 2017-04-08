@@ -46,7 +46,7 @@ class Index_home extends Component{
   }
 
   componentDidUpdate(){
-    if(!this.props.currentUser) {
+    if(this.props.userCourses &&  !this.props.userCourses.courses) {
       this.props.getUserCourses()
     }
 
@@ -308,10 +308,11 @@ class Index_home extends Component{
       let prof = this.props.profState;
       let i = 0;
     console.log(this.props.profState );
-      Object.keys(prof).map(function (key) {
+    //THIS BREAKS CODE DOES INFINITE LOAD OF CLASSES
+     /* Object.keys(prof).map(function (key) {
         options.push(<option> {key}</option>)
         i++;
-      });
+      });*/
 
       return <div>{options}</div>;
 
