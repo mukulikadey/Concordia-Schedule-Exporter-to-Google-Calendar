@@ -106,9 +106,8 @@ const FireBaseTools = {
     const uid = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
     if ( !uid ) return null;
 
-    // Add a listener for a user's notifications
-    notifsRef.child(uid).on('value', function (snap) {
-
+    // Add a listener for a user's notifications and retrieve only the 15 most recent notifications the user retrieved
+    notifsRef.child(uid).orderByKey().limitToLast(15).on('value', function (snap) {
       // If the user is a professor, get the list of courses they teach
       if (snap.val()) {
         notifications = (snap.val());
@@ -665,10 +664,11 @@ setDateEvents : (course, date) => {
     /* eslint-enable */
   },
 
-  addTA: (email, section) => {
-    const emailObj = { [email.replace(/\./g, '%2E')]: '' };
-    coursesRef.child(section).child('Whitelist').update(emailObj);
+  addTA: (email,section) => {
+    let emailObj={[email.replace(/\./g,'%2E')]:""};
+    coursesRef.child(section).child('Whitelist').update(emailObj)
     return null;
+
   },
 
   /**
