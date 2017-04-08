@@ -95,7 +95,7 @@ describe('Weekdays', () => {
   FireBaseTools.checkWeekday(startDate, endDate, snap);
 
   it('check weekday', () => {
-    should.not.exist(FireBaseTools.checkWeekday(startDate, endDate, snap));
+    assert.should.not.exist(FireBaseTools.checkWeekday(startDate, endDate, snap));
   });
 });
 
