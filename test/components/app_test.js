@@ -12,8 +12,8 @@ describe('fillNoClassThisDay', () => {
   it('number of days', () => {
     expect(noClassThisDay.length).equals(11);
   });
-    it('number of days', () => {
-    expect(noClassThisDay.length).equals(11);
+    it('expect array', () => {
+    expect(noClassThisDay).expect.to.be.a('array');
   });
 });
 
@@ -54,48 +54,6 @@ describe('populate', () => {
   it('populate timetable', () => {
     expect(timeTable).to.exist;
   });
-
-  let expectedDates = {
-    '2017-01-10' : {
-      'description' : 'No Description'
-    },
-    '2017-01-17' : {
-      'description' : 'No Description'
-    },
-    '2017-01-24' : {
-      'description' : 'No Description'
-    },
-    '2017-01-31' : {
-      'description' : 'No Description'
-    },
-    '2017-02-07' : {
-      'description' : 'No Description'
-    },
-    '2017-02-14' : {
-      'description' : 'No Description'
-    },
-    '2017-02-28' : {
-      'description' : 'No Description'
-    },
-    '2017-03-07' : {
-      'description' : 'No Description'
-    },
-    '2017-03-14' : {
-      'description' : 'No Description'
-    },
-    '2017-03-21' : {
-      'description' : 'No Description'
-    },
-    '2017-03-28' : {
-      'description' : 'No Description'
-    },
-    '2017-04-04' : {
-      'description' : 'No Description'
-    },
-    '2017-04-11' : {
-      'description' : 'No Description'
-    },
-  };
 
     it('timetable object', () => {
       expect(timeTable).to.be.an('object');
