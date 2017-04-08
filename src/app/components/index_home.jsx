@@ -49,6 +49,9 @@ class Index_home extends Component{
     if(this.props.userCourses &&  !this.props.userCourses.courses) {
       this.props.getUserCourses()
     }
+    if(!this.props.profState){
+      this.props.isProfessor();
+    }
 
   }
 
@@ -154,7 +157,7 @@ class Index_home extends Component{
     window.location.reload()}
 
   render() {
-      if (!this.props.currentUser ||(this.props.userCourses && !this.props.userCourses.courses) ) {
+      if (!this.props.currentUser ||(this.props.userCourses && !this.props.userCourses.courses) || !this.props.profState ) {
       return <Loadable
   active={true}
   spinner
@@ -204,7 +207,6 @@ class Index_home extends Component{
     this.setState({
       counter: this.state.counter + 1
     })
-    console.log(this.state.counter)
   }
 
   renderName(currentUser)
@@ -307,19 +309,17 @@ class Index_home extends Component{
       // TODO remove this crap
       let prof = this.props.profState;
       let i = 0;
-    console.log(this.props.profState );
     //THIS BREAKS CODE DOES INFINITE LOAD OF CLASSES
-     /* Object.keys(prof).map(function (key) {
+      Object.keys(prof).map(function (key) {
         options.push(<option> {key}</option>)
         i++;
-      });*/
+      });
 
       return <div>{options}</div>;
 
   //  }
   }
   btnAddTa(){
-    console.log(this.props.profState );
     if (this.props.profState !== 'Not a professor' && this.props.profState != null){
 
       return<button className=" btn btn-warning btn-round fa fa-plus-circle " id="btnTA" onClick={this.showAddTa}> ADD TA</button>
