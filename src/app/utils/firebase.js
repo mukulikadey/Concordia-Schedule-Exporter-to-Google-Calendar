@@ -100,6 +100,31 @@ const FireBaseTools = {
     /* eslint-enable */
   },
 
+  /* eslint-disable */
+  getNotifications: (dispatch, TYPE) => {
+    let notifications = null;
+    const uid = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
+    if ( !uid ) return null;
+
+    // Add a listener for a user's notifications
+    notifsRef.child(uid).on('value', function (snap) {
+
+      // If the user is a professor, get the list of courses they teach
+      if (snap.val()) {
+        notifications = (snap.val());
+      }
+      // If the user has no notifications, then replace the payload with 'No notifications'
+      if (uid && !notifications) { notifications = 'No notifications'; }
+      // By not returning anything and dispatching from here,
+      // the action will be dispatched every time the user's notifications are changed
+      dispatch({
+        type: TYPE,
+        payload: notifications,
+      });
+    });
+    /* eslint-enable */
+  },
+
   deleteCourse: (coursearray, course) => {
     let obj = [];
     const userSections = [];

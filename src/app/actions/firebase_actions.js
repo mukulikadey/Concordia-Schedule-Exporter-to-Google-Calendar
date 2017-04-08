@@ -15,6 +15,7 @@ import {
   SET_DESCRIPTION,
   DELETE_COURSE,
   IS_PROFESSOR,
+  GET_NOTIFICATIONS,
 } from './types';
 
 
@@ -67,6 +68,11 @@ export function isProfessor() {
   };
 }
 
+export function getNotifications() {
+  return (dispatch) => {
+    FireBaseTools.getNotifications(dispatch, GET_NOTIFICATIONS);
+  };
+}
 
 export function addUserSection(courseArray, courseNumber, section) {
     const request = FireBaseTools.addUserSection(courseArray, courseNumber, section);

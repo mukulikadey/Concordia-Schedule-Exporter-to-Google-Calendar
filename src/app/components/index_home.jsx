@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { browserHistory, Link } from 'react-router';
-import { fetchUser, getUserCourses, getSections, addUserSection,deleteCourse, isProfessor } from '../actions/firebase_actions';
+import { fetchUser, getUserCourses, getSections, addUserSection,deleteCourse, isProfessor,getNotifications } from '../actions/firebase_actions';
 import Loading from './helpers/loading';
 import 'sweetalert';
 import './user/sweetalert.css';
@@ -38,6 +38,7 @@ class Index_home extends Component{
   componentDidMount(){
       document.body.className = "";
       this.props.isProfessor();
+      this.props.getNotifications();
 
       // TODO This will be moved to wherever the check needs to be made by Front-End team
       if (this.props.profState == 'Not a professor'){
@@ -49,8 +50,15 @@ class Index_home extends Component{
     if(this.props.userCourses &&  !this.props.userCourses.courses) {
       this.props.getUserCourses()
     }
+
+    // wait for profState
     if(!this.props.profState){
       this.props.isProfessor();
+    }
+
+    // wait for notifications
+    if(!this.props.notifications) {
+      this.props.getNotifications()
     }
 
   }
@@ -157,15 +165,13 @@ class Index_home extends Component{
     window.location.reload()}
 
   render() {
-      if (!this.props.currentUser ||(this.props.userCourses && !this.props.userCourses.courses) || !this.props.profState ) {
+      if (!this.props.currentUser ||(this.props.userCourses && !this.props.userCourses.courses) || !this.props.profState|| !this.props.getNotifications ) {
       return <Loadable
   active={true}
   spinner
   text='Loading...'
   >
-
 </Loadable>
-
     }
     return (
       <div>
@@ -356,12 +362,12 @@ class Index_home extends Component{
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ fetchUser, getUserCourses, getSections, addUserSection,deleteCourse, isProfessor}, dispatch);
+  return bindActionCreators({ fetchUser, getUserCourses, getSections, addUserSection,deleteCourse, isProfessor,getNotifications}, dispatch);
 }
 
 
 function mapStateToProps(state) {
-  return { currentUser: state.currentUser, userCourses: state.userCourses,sections:state.sections, profState: state.profState };
+  return { currentUser: state.currentUser, userCourses: state.userCourses,sections:state.sections, profState: state.profState, notifications: state.notifications };
 }
 
 
