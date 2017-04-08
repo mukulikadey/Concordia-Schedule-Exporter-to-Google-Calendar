@@ -6,8 +6,8 @@ import { fetchUser, getUserCourses, getSections, addUserSection,deleteCourse, is
 import Loading from './helpers/loading';
 import 'sweetalert';
 import './user/sweetalert.css';
-import './user/animate.css'
 import Loadable from 'react-loading-overlay'
+import './user/animate.css';
 
 var ReactToastr = require("react-toastr-redux");
 var {ToastContainer} = ReactToastr; // This is a React Element.
@@ -37,21 +37,17 @@ class Index_home extends Component{
 
   componentDidMount(){
       document.body.className = "";
+      this.props.isProfessor();
+
+      // TODO This will be moved to wherever the check needs to be made by Front-End team
+      if (this.props.profState == 'Not a professor'){
+        // do somethingg
+    }
   }
 
   componentDidUpdate(){
     if(!this.props.currentUser) {
       this.props.getUserCourses()
-    }
-
-    // Check if current user is a professor if it hasn't been checked yet
-    if(this.props.profState == null ){
-      this.props.isProfessor();
-
-      // TODO This will be moved to wherever the check needs to be made by Front-End team
-      if (this.props.profState == 'Not a professor'){
-        // do something
-      }
     }
 
   }
@@ -180,6 +176,10 @@ class Index_home extends Component{
 
               {this.renderSectionResult()}
             </div>
+          <span> {this.btnAddTa()} </span>
+          <div className="transbox">
+            {this.addTa()}
+          </div>
           <div className="fadeInHome">
             <ToastContainer ref="container"
                             toastMessageFactory={ToastMessageFactory}
@@ -299,6 +299,56 @@ class Index_home extends Component{
     }
   }
   return <div></div>;
+  }
+
+  renderTASections() {
+   // if(this.props.profState && this.props.profState !=  'Not a professor') {
+      let options = [];
+      // TODO remove this crap
+      let prof = this.props.profState;
+      let i = 0;
+    console.log(this.props.profState );
+      Object.keys(prof).map(function (key) {
+        options.push(<option> {key}</option>)
+        i++;
+      });
+
+      return <div>{options}</div>;
+
+  //  }
+  }
+  btnAddTa(){
+    console.log(this.props.profState );
+    if (this.props.profState !== 'Not a professor' && this.props.profState != null){
+
+      return<button className=" btn btn-warning btn-round fa fa-plus-circle " id="btnTA" onClick={this.showAddTa}> ADD TA</button>
+    }
+
+
+  }
+  showAddTa(){
+    document.getElementById("btnTA").className="hideThis";
+    document.getElementById("formTA").className="showThis";
+  }
+  addTa(){
+    return <form onKeyDown={this.submitInfo} id="formTA" className="hideThis">
+      <div className="spacing"><input type="text" id="addTA" placeholder="example@gmail.com"/>
+        <select id="TA">
+          {this.renderTASections()}
+        </select>
+      </div>
+      <div className="spacing"><input className="btn btn-round btn-info" type="submit"/></div>
+    </form>
+  }
+
+
+  submitInfo(e){
+    if(e.key=="Enter") {
+      e.preventDefault();
+      var answer = document.getElementById("addTA");
+      console.log(answer.value);
+
+    }
   }
 
 

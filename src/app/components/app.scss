@@ -53,7 +53,7 @@ alert{
   text-align: center;
   text-transform: uppercase;
   font-weight: bold;
-  color: white;
+  color: black;
 }
 
 //Transparent box for profile page
@@ -441,4 +441,22 @@ hr {
 
 .colorIcon {
   color: black;
+}
+
+.hideThis{
+  display: none;
+}
+
+.showThis{
+  display: block;
+}
+
+#TA{
+  width:auto;
+  height: 28px;
+}
+
+.spacing{
+  padding-bottom: 10px;
+  padding-top: 10px;
 }
