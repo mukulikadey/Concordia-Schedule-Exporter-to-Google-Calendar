@@ -13,7 +13,7 @@ describe('fillNoClassThisDay', () => {
     expect(noClassThisDay.length).equals(11);
   });
     it('expect array', () => {
-    expect(noClassThisDay).expect.to.be.a('array');
+    expect(noClassThisDay).to.be.a('array');
   });
 });
 
