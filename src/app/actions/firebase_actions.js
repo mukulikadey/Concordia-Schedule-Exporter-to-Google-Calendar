@@ -16,7 +16,7 @@ import {
   DELETE_COURSE,
   IS_PROFESSOR,
   GET_NOTIFICATIONS,
-  ADD_TA
+  ADD_TA,
 } from './types';
 
 
@@ -43,7 +43,7 @@ export function addTA(email, section) {
     return {
         type: ADD_TA,
         payload: request,
-    }
+    };
 }
 
 export function setDescription(event, description) {
@@ -73,14 +73,14 @@ export function getUserCourses() {
 }
 
 export function isProfessor() {
-  return (dispatch) => {
-    FireBaseTools.isProfessor(dispatch, IS_PROFESSOR);
+    return (dispatch) => {
+      FireBaseTools.isProfessor(dispatch, IS_PROFESSOR);
   };
 }
 
 export function getNotifications() {
-  return (dispatch) => {
-    FireBaseTools.getNotifications(dispatch, GET_NOTIFICATIONS);
+    return (dispatch) => {
+      FireBaseTools.getNotifications(dispatch, GET_NOTIFICATIONS);
   };
 }
 

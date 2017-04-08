@@ -665,11 +665,10 @@ setDateEvents : (course, date) => {
     /* eslint-enable */
   },
 
-  addTA: (email,section) => {
-    let emailObj={[email.replace(/\./g,'%2E')]:""}; 
-    coursesRef.child(section).child('Whitelist').update(emailObj)
+  addTA: (email, section) => {
+    const emailObj = { [email.replace(/\./g, '%2E')]: '' };
+    coursesRef.child(section).child('Whitelist').update(emailObj);
     return null;
-
   },
 
   /**

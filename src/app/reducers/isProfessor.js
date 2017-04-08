@@ -3,10 +3,10 @@ import {
 } from '../actions/types';
 
 export default function (state = null, action) {
-  switch (action.type) {
-    case IS_PROFESSOR:
-      return action.payload;
-    default:
-      return state;
+    switch (action.type) {
+      case IS_PROFESSOR:
+        return action.payload;
+      default:
+        return state;
   }
 }

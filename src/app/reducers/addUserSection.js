@@ -1,7 +1,7 @@
 import {
   ADD_USER_SECTION,
   DELETE_COURSE,
-  ADD_TA
+  ADD_TA,
 } from '../actions/types';
 
 export default function (state = null, action) {
