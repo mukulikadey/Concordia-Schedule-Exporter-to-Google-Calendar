@@ -20,13 +20,13 @@ const FireBaseTools = {
     getProvider: (provider) => {
         switch (provider) {
 
-      case 'email':
-          return new firebase.auth.EmailAuthProvider();
-      case 'google':
-          return new firebase.auth.GoogleAuthProvider();
-      default:
-          throw new Error('Provider is not supported!!!');
-      }
+        case 'email':
+            return new firebase.auth.EmailAuthProvider();
+        case 'google':
+            return new firebase.auth.GoogleAuthProvider();
+        default:
+            throw new Error('Provider is not supported!!!');
+        }
     },
 
   /* eslint-disable */
@@ -133,8 +133,8 @@ const FireBaseTools = {
         let index = -1;
         for (let i = 0; i < coursearray.length; i += 1) {
             if (coursearray[i] === course) {
-              index = i;
-          }
+                index = i;
+            }
         }
         if (index > -1) {
             coursearray.splice(index, 1);
@@ -178,29 +178,29 @@ const FireBaseTools = {
     // Check if the user has already subscribed to one section of the course
         for (let i = 0; i < courseArray.length; i += 1) {
       // If the course is already in the course array, then overwrite the section
-          if (courseArray[i].coursenumber === courseNumber) {
-            courseIndex = i; // contains index number of course in user's courseArray
+            if (courseArray[i].coursenumber === courseNumber) {
+              courseIndex = i; // contains index number of course in user's courseArray
+          }
         }
-      }
 
         if (courseIndex >= 0) {
-          if (section.component === 'LAB' && courseArray[courseIndex].labsection) {
-            path = courseArray[courseIndex].coursenumber + courseArray[courseIndex].labsection + 1;
-        }
-          if (section.component === 'TUT' && courseArray[courseIndex].tutorialsection) {
-            path = courseArray[courseIndex].coursenumber + courseArray[courseIndex].tutorialsection;
-        }
-          if (section.component === 'LEC' && courseArray[courseIndex].section) {
-            path = courseArray[courseIndex].coursenumber + courseArray[courseIndex].section;
-        }
-          if (path) {
+            if (section.component === 'LAB' && courseArray[courseIndex].labsection) {
+              path = courseArray[courseIndex].coursenumber + courseArray[courseIndex].labsection + 1;
+          }
+            if (section.component === 'TUT' && courseArray[courseIndex].tutorialsection) {
+              path = courseArray[courseIndex].coursenumber + courseArray[courseIndex].tutorialsection;
+          }
+            if (section.component === 'LEC' && courseArray[courseIndex].section) {
+              path = courseArray[courseIndex].coursenumber + courseArray[courseIndex].section;
+          }
+            if (path) {
             coursesRef.child(path).child('Subscribers').child(id).set(null);
+          }
         }
-      }
 
         if (courseIndex < 0) {
       // A new course is added to the courseArray if the student was not previously subscribed to it
-          const newCourse =
+            const newCourse =
             {
                 coursename: courseNumber,
                 coursenumber: courseNumber,
@@ -495,8 +495,8 @@ const FireBaseTools = {
 
         const user = firebaseAuth.currentUser ? firebaseAuth.currentUser : null;
         if (!user) {
-          return null;
-      }
+            return null;
+        }
     /* eslint-disable */
 
     if(userCourses[0]== "No Courses") {return {value: 0};}
@@ -656,6 +656,7 @@ setDateEvents : (course, date) => {
     // Truncating the date string's unwanted details
     /* eslint-disable */
         const timeStamp = splitTime[0] + ':' + splitTime[1];
+    /* eslint-enable */
 
     // The object that will be pushed into the student's notifications node
     // Using object shorthand so "event," = "event : event,"

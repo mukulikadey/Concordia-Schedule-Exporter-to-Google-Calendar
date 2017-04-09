@@ -329,7 +329,7 @@ class Index_home extends Component{
   }
   addTa(){
     return <form onKeyDown={this.submitInfo} onSubmit={this.submitButton} id="formTA" className="hideThis">
-      <span onClick={this.hideAddTa} className="fa fa-times-circle spacingTopRight"> </span>
+      <span onClick={this.hideAddTa} className="fa fa-times-circle spacingTopRight hover"> </span>
       <div className="spacing"><input type="text" id="addTA" placeholder="example@gmail.com"/>
         <select id="TA">
           {this.renderTASections()}
