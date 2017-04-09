@@ -588,12 +588,14 @@ const FireBaseTools = {
   * @param date the date event array that will be pushed as a class event
   */
 setDateEvents : (course, date) => {
-if (course != null) {
              let teacher = (course['First Name']+" "+course.Last);
              let room=(course['Room Nbr']);
-             let startTime = course['Mtg Start']? course['Mtg Start'].split(":") : null;
-             let endTime = course['Mtg End']? course['Mtg End'].split(":"): null;
+             let defaultStartArray = ["12", "0", "0 AM"];
+             let defaultEndArray = ["12", "0", "1 AM"];
+             let startTime = course['Mtg Start']? course['Mtg Start'].split(":") : defaultStartArray.split(":");
+             let endTime = course['Mtg End']? course['Mtg End'].split(":"): defaultEndArray.split(":");
              let courseTime=(startTime[0] + ":" + startTime[1] + startTime[2].slice(2, startTime[2].length) + " - " + endTime[0] + ":" + endTime[1] + endTime[2].slice(2, endTime[2].length));
+
              date['type']= course.Component;
               if (date['type'] == "LEC") {
                 date['type'] = "Lecture";
@@ -626,7 +628,6 @@ if (course != null) {
               }
               date['courseTime']=courseTime;
               return date;
-}
 },
   /**
    * Updates the description of an individual class at a specified date
