@@ -7,11 +7,7 @@ import Loading from './helpers/loading';
 import 'sweetalert';
 import './user/sweetalert.css';
 import Loadable from 'react-loading-overlay'
-import './user/animate.css';
 
-var ReactToastr = require("react-toastr-redux");
-var {ToastContainer} = ReactToastr; // This is a React Element.
-var ToastMessageFactory = React.createFactory(ReactToastr.ToastMessage.animation);
 
 class Index_home extends Component{
 
@@ -32,7 +28,6 @@ class Index_home extends Component{
     this.onkeyPress=this.onkeyPress.bind(this);
     this.remove=this.remove.bind(this)
     this.refresh=this.refresh.bind(this)
-    this.addAlert=this.addAlert.bind(this)
     this.submitInfo=this.submitInfo.bind(this)
     this.submitButton=this.submitButton.bind(this)
     this.returnNotifications = this.returnNotifications.bind(this)
@@ -171,7 +166,7 @@ class Index_home extends Component{
     window.location.reload()}
 
   render() {
-      if (!this.props.currentUser ||(this.props.userCourses && !this.props.userCourses.courses) || !this.props.profState|| !this.props.getNotifications ) {
+      if (!this.props.currentUser ||(this.props.userCourses && !this.props.userCourses.courses) || !this.props.profState|| !this.props.notifications ) {
       return <Loadable
   active={true}
   spinner
@@ -196,9 +191,6 @@ class Index_home extends Component{
             {this.addTa()}
           </div>
           <div className="fadeInHome">
-            <ToastContainer ref="container"
-                            toastMessageFactory={ToastMessageFactory}
-                            className="toast-top-right" />
             <div  className="transboxonClick" >{this.returnButton()}</div>
           </div>
         </div>
@@ -209,7 +201,7 @@ class Index_home extends Component{
   }
 
   returnButton(){
-    return <div> 
+    return <div>
     <div id="noB" className="btn btn-warning" onClick={this.change}>Notification</div>
     <div id= "N" className="hideThis">{this.returnNotifications()}</div>
     </div>
@@ -233,19 +225,6 @@ class Index_home extends Component{
       return <div>{array}</div>
     }
     return <div></div>
-  }
-  addAlert () {
-    var c = this.state.counter
-    this.refs.container.info("Time: 17:45-20:00" + "\n" + "Desc: Class will be extended", "COMP 346 - NN (" + c + ")", {
-        closeButton: true,
-        timeOut: -1,
-        extendedTimeOut: -1,
-        allowHTML: true,
-      },
-    );
-    this.setState({
-      counter: this.state.counter + 1
-    })
   }
 
   renderName(currentUser)
