@@ -132,12 +132,12 @@ const FireBaseTools = {
         const id = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
         let index = -1;
         for (let i = 0; i < coursearray.length; i += 1) {
-          if (coursearray[i] === course) {
-            index = i;
+            if (coursearray[i] === course) {
+              index = i;
           }
         }
         if (index > -1) {
-          coursearray.splice(index, 1);
+            coursearray.splice(index, 1);
         }
     /* eslint-disable */
     course.section ? userSections.push(course.coursenumber + course.section) : null;
@@ -164,68 +164,68 @@ const FireBaseTools = {
     },
 
     removeNotification: (key) => {
-      const uid = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
-      notifsRef.child(uid).child(key).remove();
+        const uid = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
+        notifsRef.child(uid).child(key).remove();
     },
 
     addUserSection: (courseArray, courseNumber, section) => {
     // Variable to keep track of course index
-      let courseIndex = -1;
-      let path = '';
+        let courseIndex = -1;
+        let path = '';
     // current user's UID
-      const id = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
+        const id = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
 
     // Check if the user has already subscribed to one section of the course
-      for (let i = 0; i < courseArray.length; i += 1) {
+        for (let i = 0; i < courseArray.length; i += 1) {
       // If the course is already in the course array, then overwrite the section
-        if (courseArray[i].coursenumber === courseNumber) {
-          courseIndex = i; // contains index number of course in user's courseArray
+          if (courseArray[i].coursenumber === courseNumber) {
+            courseIndex = i; // contains index number of course in user's courseArray
         }
       }
 
-      if (courseIndex >= 0) {
-        if (section.component === 'LAB' && courseArray[courseIndex].labsection) {
-          path = courseArray[courseIndex].coursenumber + courseArray[courseIndex].labsection + 1;
+        if (courseIndex >= 0) {
+          if (section.component === 'LAB' && courseArray[courseIndex].labsection) {
+            path = courseArray[courseIndex].coursenumber + courseArray[courseIndex].labsection + 1;
         }
-        if (section.component === 'TUT' && courseArray[courseIndex].tutorialsection) {
-          path = courseArray[courseIndex].coursenumber + courseArray[courseIndex].tutorialsection;
+          if (section.component === 'TUT' && courseArray[courseIndex].tutorialsection) {
+            path = courseArray[courseIndex].coursenumber + courseArray[courseIndex].tutorialsection;
         }
-        if (section.component === 'LEC' && courseArray[courseIndex].section) {
-          path = courseArray[courseIndex].coursenumber + courseArray[courseIndex].section;
+          if (section.component === 'LEC' && courseArray[courseIndex].section) {
+            path = courseArray[courseIndex].coursenumber + courseArray[courseIndex].section;
         }
-        if (path) {
-          coursesRef.child(path).child('Subscribers').child(id).set(null);
+          if (path) {
+            coursesRef.child(path).child('Subscribers').child(id).set(null);
         }
       }
 
-      if (courseIndex < 0) {
+        if (courseIndex < 0) {
       // A new course is added to the courseArray if the student was not previously subscribed to it
-        const newCourse =
-          {
-              coursename: courseNumber,
-              coursenumber: courseNumber,
-          };
+          const newCourse =
+            {
+                coursename: courseNumber,
+                coursenumber: courseNumber,
+            };
 
       // Set course index to the next available index value or to 0 if courseArray doesn't exist yet
-      courseIndex = courseArray ? courseArray.length : 0;
+          courseIndex = courseArray ? courseArray.length : 0;
 
       // Create new firebase path with the course details
-      const updates = {};
-      updates[courseIndex] = newCourse;
-      usersRef.child(id.toString()).child('coursearray').update(updates);
-    }
+          const updates = {};
+          updates[courseIndex] = newCourse;
+          usersRef.child(id.toString()).child('coursearray').update(updates);
+      }
 
     // Adding the user to the subscriber list of the course
-    const updateSubs = {};
+        const updateSubs = {};
     /* eslint-disable */
     updateSubs['/Subscribers/' + id.toString()] = firebaseAuth.currentUser.displayName;
 
     const courseSectionPath = section.component === 'LAB' ? courseNumber + section.section + 1 : courseNumber + section.section;
     /* eslint-enable */
-    coursesRef.child(courseSectionPath).update(updateSubs);
+        coursesRef.child(courseSectionPath).update(updateSubs);
     // Add the section to the /professor/<prof email>/section:path node in case it hasn't been added yet
-    FireBaseTools.addProf(courseSectionPath);
-    const updates = {};
+        FireBaseTools.addProf(courseSectionPath);
+        const updates = {};
 
     // Update appropriate section depending on whether it's a lab,tutorial or lecture
     /* eslint-disable */
@@ -246,13 +246,13 @@ const FireBaseTools = {
     /* eslint-enable */
 
     // Building path to course section so that it can be read/written to
-    const sectionPath = courseNumber + section.section;
+        const sectionPath = courseNumber + section.section;
 
     // The timetable variable that will contain all the Date objects of each individual class
-    const timetablePromises = [];
+        const timetablePromises = [];
 
     // Loop through every pat value of a given course section (usually only greater than 1 for labs)
-    for (let i = 1; i <= section.maxPat; i += 1) {
+        for (let i = 1; i <= section.maxPat; i += 1) {
       /* eslint-disable */
       // new section path has PatNumber appended if it is a lab sections
       const newSectionPath = section.component === 'LAB' ? sectionPath + i + '/' : sectionPath;
@@ -260,7 +260,7 @@ const FireBaseTools = {
 
       // We add a promise to the array for every path we're
       // fetching data from (will be more than one if it's a lab section)
-      timetablePromises.push(FireBaseTools.getTimetable(newSectionPath));
+        timetablePromises.push(FireBaseTools.getTimetable(newSectionPath));
     }
 
     // The .then() function is ONLY triggered if and when ALL of the promises in the given array are resolved.
@@ -280,9 +280,9 @@ const FireBaseTools = {
     });
     return null;
     /* eslint-enable */
-  },
+    },
 
-  addTimetableToFirebase: (timetable, courseSectionPath) => {
+    addTimetableToFirebase: (timetable, courseSectionPath) => {
     /* eslint-disable */
     // pushes a newly created timetable the appropriate course section path, assuming it doesn't already have one
     coursesRef.child(courseSectionPath).once('value').then(function (snap) {
@@ -302,16 +302,18 @@ const FireBaseTools = {
     /* eslint-enable */
   },
 
-  addProf: (courseSectionPath) => {
+    addProf: (courseSectionPath) => {
     // This function adds the path to a course section that the professor teaches under the path professor/<prof Email>/
-    // This will later allow us to easily verify if a user is a professor by checking if the path professors/<user email> contains anything
+    // This will later allow us to easily verify if a user is a professor by checking if the path professors/
+    // <user email> contains anything
     /* eslint-disable */
     coursesRef.child(courseSectionPath).child('Email').once('value').then(function (snap) {
-      /* eslint-enable */
-      const profEmail = snap.val().replace(/\./g, '%2E'); // Replace all the periods in the email with the escape
-      const updateProf = {};
+        /* eslint-enable */
+        const profEmail = snap.val().replace(/\./g, '%2E'); // Replace all the periods in the email with the escape
+        const updateProf = {};
       updateProf[courseSectionPath] = courseSectionPath;
-      // Update the Professor's email in Firebase thereby adding the course section under the list of courses this prof teaches, if it wasn't already there
+      // Update the Professor's email in Firebase thereby adding the course section under the list of courses this prof
+      // teaches, if it wasn't already there
       profsRef.child(profEmail).update(updateProf);
     })
     .catch(error => ({
@@ -472,7 +474,7 @@ const FireBaseTools = {
     },
 
     getSections: (courseName) => {
-      const sections = [];
+        const sections = [];
     /* eslint-disable */
       return sectionsRef.child(courseName).once('value').then(function (snap) {
         snap.forEach(function (childSnap) {
@@ -489,11 +491,11 @@ const FireBaseTools = {
 
     getUserEvents: (userCourses) => {
     // let userCourses = null;
-      const stringCourses = [];
+        const stringCourses = [];
 
-      const user = firebaseAuth.currentUser ? firebaseAuth.currentUser : null;
-      if (!user) {
-        return null;
+        const user = firebaseAuth.currentUser ? firebaseAuth.currentUser : null;
+        if (!user) {
+          return null;
       }
     /* eslint-disable */
 
@@ -652,15 +654,16 @@ setDateEvents : (course, date) => {
         const splitTime = new Date().toString().split(':');
 
     // Truncating the date string's unwanted details
+    /* eslint-disable */
         const timeStamp = splitTime[0] + ':' + splitTime[1];
 
     // The object that will be pushed into the student's notifications node
     // Using object shorthand so "event," = "event : event,"
         const pushObj = {
-          event,
-          oldDescription,
-          editor,
-          timeStamp,
+            event,
+            oldDescription,
+            editor,
+            timeStamp,
         };
 
     /**
@@ -692,8 +695,8 @@ setDateEvents : (course, date) => {
     loginWithProvider: (p) => {
         const provider = FireBaseTools.getProvider(p);
         return firebaseAuth.signInWithPopup(provider).then(firebaseAuth.currentUser).catch(error => ({
-          errorCode: error.code,
-          errorMessage: error.message,
+            errorCode: error.code,
+            errorMessage: error.message,
         }));
     },
 
@@ -726,10 +729,10 @@ setDateEvents : (course, date) => {
    */
     fetchUser: () => new Promise((resolve, reject) => {
         const unsub = firebaseAuth.onAuthStateChanged((user) => {
-          unsub();
-          resolve(user);
+            unsub();
+            resolve(user);
         }, (error) => {
-          reject(error);
+            reject(error);
         });
     }),
 
