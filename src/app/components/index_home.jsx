@@ -31,6 +31,8 @@ class Index_home extends Component{
     this.submitInfo=this.submitInfo.bind(this);
     this.submitButton=this.submitButton.bind(this);
     this.removeNotification = this.removeNotification.bind(this);
+    this.hideAddTa=this.hideAddTa.bind(this)
+    this.showAddTa=this.showAddTa.bind(this)
 
   }
 
@@ -313,22 +315,23 @@ class Index_home extends Component{
   btnAddTa(){
     if (this.props.profState !== 'Not a professor' && this.props.profState != null){
 
-      return<button className=" btn btn-warning btn-round fa fa-plus-circle " id="btnTA" onClick={this.showAddTa}><span className="arial white"> ADD TA</span></button>
+      return<button className=" btn btn-warning btn-round fa fa-plus-circle " id="btnTA" ref="btnTA" onClick={this.showAddTa}><span className="arial white"> ADD TA</span></button>
     }
 
 
   }
   showAddTa(){
-    document.getElementById("btnTA").className="hideThis";
-    document.getElementById("formTA").className="showThis";
+    this.refs.btnTA.className="hideThis";
+    this.refs.formTA.className="showThis";
   }
 
   hideAddTa(){
-    document.getElementById("btnTA").className="showThis btn btn-warning btn-round fa fa-plus-circle spacing2";
-    document.getElementById("formTA").className="hideThis";
+    this.refs.btnTA.className="showThis btn btn-warning btn-round fa fa-plus-circle spacing2";
+    this.refs.formTA.className="hideThis";
   }
   addTa(){
-    return <form onKeyDown={this.submitInfo} onSubmit={this.submitButton} id="formTA" className="hideThis">
+    if (this.props.profState && this.props.profState!=="Not a professor") {
+      return <form onKeyDown={this.submitInfo} onSubmit={this.submitButton} id="formTA" ref="formTA" className="hideThis">
       <span onClick={this.hideAddTa} className="fa fa-times-circle spacingTopRight"> </span>
       <div className="spacing"><input type="text" id="addTA" placeholder="example@gmail.com"/>
         <select id="TA">
@@ -336,8 +339,9 @@ class Index_home extends Component{
         </select>
       </div>
       <div className="spacing"><input className="btn btn-round btn-info" type="submit" onClick={this.submitButton}/></div>
-
     </form>
+    }
+    return <div></div>
   }
 
 
