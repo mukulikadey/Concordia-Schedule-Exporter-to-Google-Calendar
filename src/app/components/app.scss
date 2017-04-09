@@ -478,10 +478,29 @@ hr {
   background: #B4131B;
   border-radius: 50%;
   display: inline-block;
-  height: 10px;
+  height: 12px;
   margin-left: -8.5px;
-  width: 10px;
+  width: 12px;
   margin-bottom: 5px;
+  color: #fff;
+  font-size: 10px;
+  position: absolute;
+  top: 13px;
+}
+
+.counterNotif {
+  /*text-align: center;
+  font-weight: bold;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;*/
+  position: absolute;
+  top: 12px;
+  left: 22px;
+  background-color: #d4130d;
+  color: #fff;
+  border-radius: 3px;
+  padding: 1px 3px;
+  font: 8px Verdana;
+  display: inline-block;
 }
 
 .closeNotif {
@@ -492,4 +511,13 @@ hr {
 .white {
   color: white !important;
   font-weight: bold;
+}
+
+.small {
+  font-size: 11px;
+}
+
+.newDescNotif {
+  font-weight: bold;
+  color: #337ab7;
 }

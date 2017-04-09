@@ -6,6 +6,7 @@ import { fetchUser, logoutUser,getEvents,getNotifications, removeNotification } 
 import {Popover, OverlayTrigger} from 'react-bootstrap'
 
 let NotifIconRed = "";
+let NotifCounter = "";
 class App extends Component {
 
   constructor(props) {
@@ -61,9 +62,10 @@ class App extends Component {
     }
   }
 
-  removeNotification(key){
+  removeNotification(key) {
     this.props.removeNotification(key);
-    NotifIconRed="";
+    NotifCounter = "";
+    NotifIconRed = "";
   }
 
   returnNotifications() {
@@ -72,12 +74,16 @@ class App extends Component {
     let notify = this.props.notifications;
     if (this.props.notifications && this.props.notifications !== "No notifications") {
       Object.keys(notify).map(function (key) {
-        array.push(<div>{notify[key].event.title + notify[key].event.section  + "\n" + notify[key].event.courseTime + ": \n"}<br />{notify[key].editor + " on " + notify[key].timeStamp}<br />{notify[key].event.desc} <span className="fa fa-times-circle" onClick={this.removeNotification.bind(this, key)}> </span> </div>,<hr className="hrNotifs" />);
+        array.push(<div>{notify[key].event.title + notify[key].event.section + " (" + notify[key].event.start  + ")\n" + notify[key].event.courseTime + ":  "}<span className="fa fa-times-circle" onClick={this.removeNotification.bind(this, key)}></span><br /><span className="newDescNotif">{notify[key].event.desc + " \n"}</span><br /><span className="fa fa-user "></span>  <span className="small">{notify[key].editor}</span>  &nbsp;&nbsp;&nbsp; <span className="fa fa-pencil-square-o"></span>  <span className="small">{notify[key].timeStamp} </span></div>,<hr className="hrNotifs" />);
         i++;
-        NotifIconRed=<span className="redNotif" aria-hidden="true"></span>
+        NotifCounter = array.length/2;
+        NotifIconRed=<span className="counterNotif" aria-hidden="true">{NotifCounter}</span>
+
       }, this);
       return <div>{array}</div>
+
     }
+
     return <div></div>
   }
 
@@ -109,7 +115,7 @@ class App extends Component {
               <li><Link to="/profile"><span className="fa fa-user" aria-hidden="true"></span> Profile</Link></li>
               <li><Link to="/scheduleGen"><span className="fa fa-calendar" aria-hidden="true"></span> Schedule</Link></li>
               <li><Link to="."><OverlayTrigger trigger="click" rootClose placement="bottom" overlay={popoverClickRootClose}>
-                <span className=" gold fa fa-bell" aria-hidden="true">{NotifIconRed}<span className="arial gold"> Notification </span></span>
+                <span className=" gold fa fa-bell" aria-hidden="true">{NotifIconRed} <span className="arial gold">&nbsp;Notifications </span></span>
               </OverlayTrigger></Link></li>
             </ul>
             <ul className="nav navbar-nav navbar-right">
