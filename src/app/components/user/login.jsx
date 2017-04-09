@@ -106,7 +106,9 @@ class UserLogin extends Component {
           </div>
           <UserRegister/>
         </div><br />
-        {this.alert()};
+        <div className="centerAlert">
+          {this.alert()}
+        </div>
       </div>
 
     );

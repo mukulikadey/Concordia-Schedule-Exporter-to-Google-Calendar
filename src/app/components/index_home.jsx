@@ -331,8 +331,8 @@ class Index_home extends Component{
   }
   addTa(){
     if (this.props.profState && this.props.profState!=="Not a professor") {
-      return <form onKeyDown={this.submitInfo} onSubmit={this.submitButton} id="formTA" ref="formTA" className="hideThis">
-      <span onClick={this.hideAddTa} className="fa fa-times-circle spacingTopRight"> </span>
+    return <form onKeyDown={this.submitInfo} onSubmit={this.submitButton} id="formTA" ref="formTA" className="hideThis">
+      <span onClick={this.hideAddTa} className="fa fa-times-circle spacingTopRight hover"> </span>
       <div className="spacing"><input type="text" id="addTA" placeholder="example@gmail.com"/>
         <select id="TA">
           {this.renderTASections()}

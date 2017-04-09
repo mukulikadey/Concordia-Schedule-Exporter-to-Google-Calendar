@@ -89,7 +89,9 @@ class UserRegister extends Component {
             </form>
           </div>
         </div>
-        {this.alert()}
+        <div className="centerAlertReg">
+          {this.alert()}
+        </div>
       </div>
 
     );
