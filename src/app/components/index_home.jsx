@@ -350,7 +350,9 @@ class Index_home extends Component{
       if(section && email){
         this.props.addTA(email,section)
       }
-
+      swal("Added!", email+" has been added as a TA to "+section+".", "success", );
+      document.getElementById("addTA").value="";
+      document.getElementById("TA").value=""
     }
   }
 
@@ -362,7 +364,9 @@ class Index_home extends Component{
     if(strUser){
       this.props.addTA(answer.value,strUser)
     }
-
+    swal("Added!", answer.value+" has been added as a TA to "+strUser+".", "success", );
+    document.getElementById("addTA").value="";
+    document.getElementById("TA").value=""
 
   }
 
