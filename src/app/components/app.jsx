@@ -70,7 +70,7 @@ class App extends Component {
     let notify = this.props.notifications;
     if (this.props.notifications && this.props.notifications !== "No notifications") {
       Object.keys(notify).map(function (key) {
-        array.push(<div>{notify[key].event.title + notify[key].event.section  + "\n" + notify[key].event.courseTime + ": \n" + notify[key].event.desc} <span  className="fa fa-times-circle" onClick={this.removeNotification.bind(this, key)}> </span> </div>);
+        array.push(<div>{notify[key].event.title + notify[key].event.section  + "\n" + notify[key].event.courseTime + ": \n"}<br />{notify[key].event.desc} <span  className="fa fa-times-circle" onClick={this.removeNotification.bind(this, key)}> </span><hr className="hrNotifs" /></div>);
         i++;
       }, this);
       return <div>{array}</div>
@@ -105,7 +105,7 @@ class App extends Component {
             <ul className="nav navbar-nav">
               <li><Link to="/profile"><span className="fa fa-user" aria-hidden="true"></span> Profile</Link></li>
               <li><Link to="/scheduleGen"><span className="fa fa-calendar" aria-hidden="true"></span> Schedule</Link></li>
-              <li><Link><OverlayTrigger trigger="click" rootClose placement="right" overlay={popoverClickRootClose}>
+              <li><Link to="."><OverlayTrigger trigger="click" rootClose placement="right" overlay={popoverClickRootClose}>
                 <span className=" gold fa fa-bell" aria-hidden="true"><span className="arial gold"> Notification</span></span>
               </OverlayTrigger></Link></li>
             </ul>
