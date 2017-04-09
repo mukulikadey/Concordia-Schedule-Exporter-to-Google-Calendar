@@ -112,7 +112,7 @@ class App extends Component {
   render() {
     return(
       <div>
-        {(this.props.currentUser && this.props.currentUser.uid) ? this.loginNav() : this.logoutNav()}
+        {((this.props.currentUser && this.props.currentUser.uid)|| (this.props.currentUser && this.props.currentUser.user)) ? this.loginNav() : this.logoutNav()}
       </div>
     )
   }
