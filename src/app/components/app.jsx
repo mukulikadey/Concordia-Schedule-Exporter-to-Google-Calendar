@@ -5,6 +5,9 @@ import { bindActionCreators } from 'redux';
 import { fetchUser, logoutUser,getEvents,getNotifications, removeNotification } from '../actions/firebase_actions';
 import {Popover, OverlayTrigger} from 'react-bootstrap'
 
+let notifIconRed = "";
+let notifCounter = "";
+let overlay ="bottom";
 class App extends Component {
 
   constructor(props) {
@@ -33,35 +36,10 @@ class App extends Component {
     });
   }
 
-  renderUserMenu(currentUser) {
-    // if current user exists and user id exists than make user navigation
-    if (currentUser && currentUser.uid) {
-      this.props.getEvents();
-      return (
-        <li className="dropdown">
-          <a
-            href="#" className="dropdown-toggle" data-toggle="dropdown" role="button"
-            aria-haspopup="true" aria-expanded="false"
-          >
-            {currentUser.email} <span className="caret" /></a>
-          <ul className="dropdown-menu">
-            <li><Link to="/profile"><span className="fa fa-user" aria-hidden="true"></span> Profile</Link></li>
-            <li role="separator" className="divider" />
-            <li><Link to="/scheduleGen"><span className="fa fa-calendar" aria-hidden="true"></span> Schedule</Link></li>
-            <li role="separator" className="divider" />
-            <li><Link to="/login" onClick={this.logOut}> <span className="fa fa-sign-out" aria-hidden="true"></span> Logout</Link></li>
-          </ul>
-        </li>
-      );
-    } else {
-      return [
-        <li key={1}><Link to="/login">Login/Register</Link></li>,
-      ];
-    }
-  }
-
-  removeNotification(key){
+  removeNotification(key) {
     this.props.removeNotification(key);
+    notifCounter = "";
+    notifIconRed = "";
   }
 
   returnNotifications() {
@@ -70,12 +48,23 @@ class App extends Component {
     let notify = this.props.notifications;
     if (this.props.notifications && this.props.notifications !== "No notifications") {
       Object.keys(notify).map(function (key) {
-        array.push(<div>{notify[key].event.title + notify[key].event.section  + "\n" + notify[key].event.courseTime + ": \n" + notify[key].event.desc} <span  className="fa fa-times-circle" onClick={this.removeNotification.bind(this, key)}> </span> </div>);
+        array.push(<div>{notify[key].event.title + notify[key].event.section + " (" + notify[key].event.datePath  + ")\n" + notify[key].event.courseTime + ":  "}
+        <span className="fa fa-times-circle hover floatRight" onClick={this.removeNotification.bind(this, key)}></span><br />
+          <span className="newDescNotif">{notify[key].event.desc + " \n"}</span><br /><span className="fa fa-user "></span>  <span className="small">{notify[key].editor}</span>
+          &nbsp;&nbsp;&nbsp; <span className="fa fa-pencil-square-o"></span>  <span className="small">{notify[key].timeStamp} </span></div>,<hr className="hrNotifs" />);
         i++;
+        notifCounter = array.length/2;
+        notifIconRed=<span className="counterNotif" aria-hidden="true">{notifCounter}</span>
+        overlay="bottom";
       }, this);
       return <div>{array}</div>
+
     }
-    return <div></div>
+    else {
+      array[0]=(<div> No new notifications </div>);
+      overlay= "right";
+      return <div> {array}</div>
+    }
   }
 
   logoutNav(){
@@ -89,9 +78,10 @@ class App extends Component {
   }
 
   loginNav() {
+
     const popoverClickRootClose = (
       <Popover id="popover-trigger-click-root-close" title="Notifications">
-        {this.returnNotifications()}.
+        {this.returnNotifications()}
       </Popover>
     );
     if (this.props.currentUser) {
@@ -105,13 +95,12 @@ class App extends Component {
             <ul className="nav navbar-nav">
               <li><Link to="/profile"><span className="fa fa-user" aria-hidden="true"></span> Profile</Link></li>
               <li><Link to="/scheduleGen"><span className="fa fa-calendar" aria-hidden="true"></span> Schedule</Link></li>
-              <li><Link><OverlayTrigger trigger="click" rootClose placement="right" overlay={popoverClickRootClose}>
-                <span className=" gold fa fa-bell" aria-hidden="true"><span className="arial gold"> Notification</span></span>
+              <li><Link to="."><OverlayTrigger trigger="click" rootClose placement={overlay} overlay={popoverClickRootClose} className="fixed">
+                <span className=" gold fa fa-bell" aria-hidden="true">{notifIconRed} <span className="arial gold">&nbsp;Notifications </span></span>
               </OverlayTrigger></Link></li>
             </ul>
             <ul className="nav navbar-nav navbar-right">
-              <li><Link to="/login" onClick={this.logOut}> <span className="fa fa-sign-out" aria-hidden="true"></span>
-                Logout</Link></li>
+              <li><Link to="/login" onClick={this.logOut}> <span className="fa fa-sign-out" aria-hidden="true"></span> Logout</Link></li>
             </ul>
 
           </div>
@@ -126,7 +115,7 @@ class App extends Component {
   render() {
     return(
       <div>
-        {this.props.currentUser ? this.loginNav() : this.logoutNav()}
+        {((this.props.currentUser && this.props.currentUser.uid)|| (this.props.currentUser && this.props.currentUser.user)) ? this.loginNav() : this.logoutNav()}
       </div>
     )
   }
@@ -143,7 +132,3 @@ function mapStateToProps(state) {
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
-
-
-
-

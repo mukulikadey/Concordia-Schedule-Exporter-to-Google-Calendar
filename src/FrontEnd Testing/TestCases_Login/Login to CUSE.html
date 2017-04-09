@@ -4,12 +4,12 @@
 <head profile="http://selenium-ide.openqa.org/profiles/test-case">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="selenium.base" href="http://localhost:3000/" />
-<title>Calendar and popup</title>
+<title>Login with Email/Password</title>
 </head>
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">Calendar and popup</td></tr>
+<tr><td rowspan="1" colspan="3">Login with Email/Password</td></tr>
 </thead><tbody>
 <tr>
 	<td>open</td>
@@ -32,29 +32,9 @@
 	<td></td>
 </tr>
 <tr>
-	<td>click</td>
-	<td>link=Schedule</td>
-	<td></td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>//div[34]/div[2]</td>
-	<td></td>
-</tr>
-<tr>
-	<td>verifyElementNotPresent</td>
-	<td>css=input[type=&quot;text&quot;]</td>
-	<td></td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>css=button.confirm</td>
-	<td></td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>link=Logout</td>
-	<td></td>
+	<td>verifyText</td>
+	<td>css=div.welcomeHome.white &gt; span</td>
+	<td>Welcome</td>
 </tr>
 </tbody></table>
 </body>

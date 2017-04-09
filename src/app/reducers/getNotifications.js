@@ -4,9 +4,9 @@ import {
 
 export default function (state = null, action) {
     switch (action.type) {
-      case GET_NOTIFICATIONS:
+    case GET_NOTIFICATIONS:
         return action.payload;
-      default:
+    default:
         return state;
-  }
+    }
 }

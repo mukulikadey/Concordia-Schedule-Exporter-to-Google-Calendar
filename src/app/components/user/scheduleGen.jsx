@@ -44,13 +44,6 @@ class ScheduleGen extends Component {
     }
   }
 
-
-  componentWillMount(){
-    //Handling initial stage
-    let gapi = getGapi();
-    this.updateSignInStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
-  }
-
   componentDidMount(){
     this.props.getEvents(this.props.userCourses.courses);
     document.body.className= "bodySched";
@@ -122,8 +115,7 @@ class ScheduleGen extends Component {
 
   googleSignIn(){
     if(this.state.signedStatus == "Signed Out"){
-      let gapi = getGapi();
-      gapi.auth2.getAuthInstance().signIn().then(this.exportEvents);
+      gapi.auth2.getAuthInstance().signIn().then(this.updateSignInStatus).then(this.exportEvents);
     }
     else{
       this.exportEvents();
@@ -181,7 +173,6 @@ class ScheduleGen extends Component {
   }
 
   updateSignInStatus() {
-    let gapi = getGapi();
     if(gapi.auth2.getAuthInstance().isSignedIn.get()){
       this.setState({signedStatus: "Signed In"});
     }
@@ -191,8 +182,6 @@ class ScheduleGen extends Component {
   }
 
   renderGoogle(){
-    let gapi = getGapi();
-    gapi.auth2.getAuthInstance().isSignedIn.listen(this.updateSignInStatus);
     return (
       <div>
         <button className="btn btn-status" onClick={this.googleSignIn}> <span className="fa fa-calendar-plus-o"></span> Google Calendar </button>
@@ -276,7 +265,7 @@ class ScheduleGen extends Component {
             }
             }
             eventPropGetter={this.eventStyleGetter}
-            views={["month", "week", "day", "agenda"]} />
+            views={["month", "week", "day"]} />
         </div>
       </div>
     );

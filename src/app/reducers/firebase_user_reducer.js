@@ -23,7 +23,7 @@ export default function (state = null, action) {
     case UPDATE_FIREBASE_USER:
         return action.payload;
     case CHANGE_FIREBASE_USER_PASSWORD:
-        return action.payload;
+        return { payload: action.payload, user: true };
     case FIREBASE_PASSWORD_RESET_EMAIL:
         return action.payload;
     case LOGIN_WITH_PROVIDER_FIREBASE:
