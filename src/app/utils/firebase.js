@@ -593,7 +593,6 @@ setDateEvents : (course, date) => {
              let defaultStartString = '12:00:0 AM';
              let defaultEndString = '12:01:0 AM';
              let startTime = course['Mtg Start']? course['Mtg Start'].split(":") : defaultStartString.split(":");
-             console.log(startTime);
              let endTime = course['Mtg End']? course['Mtg End'].split(":"): defaultEndString.split(":");
              let courseTime=(startTime[0] + ":" + startTime[1] + startTime[2].slice(2, startTime[2].length) + " - " + endTime[0] + ":" + endTime[1] + endTime[2].slice(2, endTime[2].length));
 

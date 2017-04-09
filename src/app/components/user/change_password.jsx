@@ -2,41 +2,74 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { changePassword } from '../../actions/firebase_actions';
+import {Alert} from 'react-bootstrap'
 
 class ChangePassword extends Component {
 
   constructor(props) {
-      super(props);
-      this.onFormSubmit = this.onFormSubmit.bind(this);
-      this.state = {
-        message: '',
+    super(props);
+    this.onFormSubmit = this.onFormSubmit.bind(this);
+    this.handleAlertDismiss=this.handleAlertDismiss.bind(this);
+    this.handleSuccessDismiss=this.handleSuccessDismiss.bind(this);
+    this.state = {
+      message: '',
+      alertVisible: false,
+      successVisible: false,
     };
   }
 
   onFormSubmit(event) {
-      event.preventDefault();
-      let password = this.refs.password.value;
-      let repeatPassword = this.refs.repeatPassword.value;
-      if (password !== repeatPassword) {
-        this.setState({
-          message: 'Please password must match!',
+    event.preventDefault();
+    let password = this.refs.password.value;
+    let repeatPassword = this.refs.repeatPassword.value;
+    if (password !== repeatPassword) {
+      this.setState({alertVisible: !this.state.alertVisible});
+      this.setState({
+        message: 'Password does not match!',
       });
     } else {
-        this.props.changePassword(password).then((data) => {
-          if (data.payload.errorCode)
-            this.setState({ message: data.payload.errorMessage });
-          else
-          this.setState({ message: 'Password was changed!' });
+      this.props.changePassword(password).then((data) => {
+        if (data.payload.errorCode) {
+          this.setState({alertVisible: !this.state.alertVisible});
+          this.setState({message: data.payload.errorMessage});
+        }
+        else {
+          this.setState({successVisible: !this.state.successVisible});
+          this.setState({message: 'Password was changed!'});
+        }
       });
     }
   }
 
-    render() {
-      return (
+  handleAlertDismiss() {
+    this.setState({alertVisible: !this.state.alertVisible});
+  }
 
+  handleSuccessDismiss() {
+    this.setState({successVisible: !this.state.successVisible});
+  }
+
+  alert() {
+    if (this.state.alertVisible) {
+      return (<Alert bsStyle="danger" onDismiss={this.handleAlertDismiss}>
+        <p> {this.state.message}</p>
+      </Alert>)
+    }
+  }
+
+  success() {
+    if (this.state.successVisible) {
+      return (<Alert bsStyle="success" onDismiss={this.handleSuccessDismiss}>
+        <p> {this.state.message}</p>
+      </Alert>)
+    }
+  }
+
+  render() {
+    return (
+      <div>
         <form id="changePassword" role="form" onSubmit={this.onFormSubmit}>
           <h4 className="align-center"> Change Password </h4>
-          <h5> {this.state.message} </h5>
           <div className="form-group">
             <label htmlFor="password"> New Password: </label>
             <div className="input-group">
@@ -61,6 +94,11 @@ class ChangePassword extends Component {
           </div>
           <button type="submit" className="btn btn-primary btn-round btn-center2"> Change Password</button>
         </form>
+        <div className="centerAlertPassword">
+          {this.alert()}
+          {this.success()}
+        </div>
+      </div>
 
     );
   }
@@ -69,11 +107,11 @@ class ChangePassword extends Component {
 
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ changePassword }, dispatch);
+  return bindActionCreators({ changePassword }, dispatch);
 }
 
 function mapStateToProps(state) {
-    return { currentUser: state.currentUser };
+  return { currentUser: state.currentUser };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChangePassword);
