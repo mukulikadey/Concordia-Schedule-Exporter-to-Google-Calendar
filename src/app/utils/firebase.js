@@ -566,8 +566,9 @@ const FireBaseTools = {
               date['canEditDescription'] = edit;
               // Store the path to the courseSection in each class event
               date['sectionPath'] = course.Component == "Lab" ? course.Subject + course.Catalog + course.Section + 1 : course.Subject + course.Catalog + course.Section ;
-
-               FireBaseTools.setDateEvents(course, date);
+              if (course) {
+                FireBaseTools.setDateEvents(course, date);
+              }
 
               finalCourses.push(date);
 
