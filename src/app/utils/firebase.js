@@ -590,8 +590,8 @@ setDateEvents : (course, date) => {
 
              let teacher = (course['First Name']+" "+course.Last);
              let room=(course['Room Nbr']);
-             let startTime = course['Mtg Start'].split(":");
-             let endTime = course['Mtg End'].split(":");
+             let startTime = course['Mtg Start']? course['Mtg Start'].split(":") : null;
+             let endTime = course['Mtg End']? course['Mtg End'].split(":"): null;
              let courseTime=(startTime[0] + ":" + startTime[1] + startTime[2].slice(2, startTime[2].length) + " - " + endTime[0] + ":" + endTime[1] + endTime[2].slice(2, endTime[2].length));
              date['type']= course.Component;
               if (date['type'] == "LEC") {

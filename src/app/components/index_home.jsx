@@ -257,35 +257,35 @@ class Index_home extends Component{
         let return_render = [],return_lec=[],return_tut=[],return_lab=[];
         return_render.push(<button className="btn btn-info btn-center3">{this.state.course_name}</button>)
         return_render.push(<label>&nbsp;&nbsp;<span className="fa fa-book colorIcon"> <label className="arial"> LEC:&nbsp;</label> </span></label>)
-        return_lec.push(<option value="not picked" >N/A</option>);
+        return_lec.push(<option value="not picked" ></option>);
         for(let i = 0; i < lec.length; i++) {
           let sectionClick = this.addSection.bind(this,lec[i]);
           let classNames=lec[i].section + " btn btn-default";
           return_lec.push(<option value={lec[i].section + "," + lec[i].component+ "," + lec[i].maxPat} className={classNames}>{lec[i].section}</option>);
           //return_render.push(<button key={lec[i].section.toString()} onClick = {sectionClick} type="button" className={classNames}>{lec[i].section}</button>);
         }
-        return_render.push(<select  value={this} onChange={(e)=>{this.addSection(e)}}>{return_lec}</select>)
+        return_render.push(<select onChange={(e)=>{this.addSection(e)}}>{return_lec}</select>)
 
         if (tut.length!=0) {
           return_render.push(<label>&nbsp;&nbsp;<span className="fa fa-pencil-square-o colorIcon"> <label className="arial"> TUT:&nbsp;</label> </span></label>)
-          return_tut.push(<option value="not picked" >N/A</option>);
+          return_tut.push(<option value="not picked" ></option>);
           for(let i = 0; i < tut.length; i++) {
             let sectionClick = this.addSection.bind(this,tut[i]);
             let classNames=tut[i].section + " btn btn-default";
             // return_render.push(<button key={tut[i].section.toString()} onClick = {sectionClick} type="button" className={classNames}>{tut[i].section}</button>);
             return_tut.push(<option value={tut[i].section + "," + tut[i].component+ "," + tut[i].maxPat}className={classNames}>{tut[i].section}</option>);
           }
-          return_render.push(<select value={this} onChange={(e)=>{this.addSection(e)}}>{return_tut}</select>)
+          return_render.push(<select onChange={(e)=>{this.addSection(e)}}>{return_tut}</select>)
         }
         if (lab.length!=0) {
-          return_lab.push(<option value="not picked" >N/A</option>)
+          return_lab.push(<option value="not picked" ></option>)
           return_render.push(<label>&nbsp;&nbsp;<span className="fa fa-desktop colorIcon"> <label className="arial"> LAB:&nbsp;</label> </span></label>)
           for(let i = 0; i < lab.length; i++) {
             let sectionClick = this.addSection.bind(this,lab[i]);
             let classNames=lab[i].section + " btn btn-default";
             return_lab.push(<option value={lab[i].section + "," + lab[i].component+ "," + lab[i].maxPat}className={classNames}>{lab[i].section}</option>);
           }
-          return_render.push(<select value={this} onChange={(e)=>{this.addSection(e)}}>{return_lab}</select>)
+          return_render.push(<select onChange={(e)=>{this.addSection(e)}}>{return_lab}</select>)
         }
         return <div className="notCenter">{return_render}</div>;
       }
@@ -303,6 +303,7 @@ class Index_home extends Component{
     let prof = this.props.profState;
     let i = 0;
     //THIS BREAKS CODE DOES INFINITE LOAD OF CLASSES
+    options.push(<option value='-1'></option>)
     Object.keys(prof).map(function (key) {
       options.push(<option value={i} > {key}</option>)
       i++;
