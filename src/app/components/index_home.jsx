@@ -326,7 +326,7 @@ class Index_home extends Component{
           {this.renderTASections()}
         </select>
       </div>
-      <div className="spacing"><input className="btn btn-round btn-info" type="submit" onClick={this.submitButton}/></div>
+      <div className="spacing"><input className="btn btn-round btn-primary" type="submit" onClick={this.submitButton}/></div>
     </form>
     }
     return <div></div>
