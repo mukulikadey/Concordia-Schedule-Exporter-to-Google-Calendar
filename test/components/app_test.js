@@ -1,5 +1,4 @@
-import {renderComponent, expect} from '../test_helper';
-import App from '../../src/app/components/app';
+import expect from '../test_helper';
 import FireBaseTools from '../../src/app/utils/firebase';
 
 describe('fillNoClassThisDay', () => {
@@ -46,8 +45,8 @@ describe('Weekdays', () => {
       'First Name': 'Dhrubajyoti',
       'Email': 'dhrubajyoti.goswami@concordia.ca'
       }
-    }
-  }  
+    };
+  }; 
   let snap = {val: val};
 
   it('check weekday', () => {
@@ -84,8 +83,8 @@ describe('populate', () => {
       'First Name': 'Dhrubajyoti',
       'Email': 'dhrubajyoti.goswami@concordia.ca'
       }
-    }
-  }  
+    };
+  };
   let snap = {val: val};
   let timeTable = FireBaseTools.populate(startDate, endDate, noClassThisDay, snap);
 
