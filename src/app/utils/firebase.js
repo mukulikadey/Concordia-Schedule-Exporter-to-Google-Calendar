@@ -18,16 +18,16 @@ const FireBaseTools = {
    * @returns {firebase.auth.AuthProvider}
    */
     getProvider: (provider) => {
-      switch (provider) {
+        switch (provider) {
 
-    case 'email':
-        return new firebase.auth.EmailAuthProvider();
-    case 'google':
-        return new firebase.auth.GoogleAuthProvider();
-    default:
-        throw new Error('Provider is not supported!!!');
-    }
-  },
+      case 'email':
+          return new firebase.auth.EmailAuthProvider();
+      case 'google':
+          return new firebase.auth.GoogleAuthProvider();
+      default:
+          throw new Error('Provider is not supported!!!');
+      }
+    },
 
   /* eslint-disable */
   getUserCourses: (dispatch, TYPE) => {
@@ -126,19 +126,19 @@ const FireBaseTools = {
   },
 
     deleteCourse: (coursearray, course) => {
-      let obj = [];
-      const userSections = [];
-      const sections = [];
-      const id = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
-      let index = -1;
-      for (let i = 0; i < coursearray.length; i += 1) {
-        if (coursearray[i] === course) {
-          index = i;
+        let obj = [];
+        const userSections = [];
+        const sections = [];
+        const id = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
+        let index = -1;
+        for (let i = 0; i < coursearray.length; i += 1) {
+          if (coursearray[i] === course) {
+            index = i;
+          }
         }
-      }
-      if (index > -1) {
-        coursearray.splice(index, 1);
-      }
+        if (index > -1) {
+          coursearray.splice(index, 1);
+        }
     /* eslint-disable */
     course.section ? userSections.push(course.coursenumber + course.section) : null;
     course.tutorialsection ? userSections.push(course.coursenumber + course.tutorialsection) : null;
@@ -159,8 +159,8 @@ const FireBaseTools = {
       });
     });
     /* eslint-enable */
-      usersRef.child(id.toString()).child('coursearray').set(coursearray);
-      return null;
+        usersRef.child(id.toString()).child('coursearray').set(coursearray);
+        return null;
     },
 
     removeNotification: (key) => {
@@ -648,20 +648,20 @@ setDateEvents : (course, date) => {
    * @param oldDescription The description before it was changed
    */
     updateNotification: (event, oldDescription) => {
-      const editor = firebaseAuth.currentUser.displayName;
-      let splitTime = new Date().toString().split(":");
+        const editor = firebaseAuth.currentUser.displayName;
+        const splitTime = new Date().toString().split(':');
 
-    //Truncating the date string's unwanted details
-      let timeStamp = splitTime[0] + ":" + splitTime[1];
+    // Truncating the date string's unwanted details
+        const timeStamp = splitTime[0] + ':' + splitTime[1];
 
     // The object that will be pushed into the student's notifications node
     // Using object shorthand so "event," = "event : event,"
-      const pushObj = {
+        const pushObj = {
           event,
           oldDescription,
           editor,
           timeStamp,
-      };
+        };
 
     /**
      * Goes through each subscribers and creates a new notification node containing the event info,
@@ -678,9 +678,9 @@ setDateEvents : (course, date) => {
     },
 
     addTA: (email, section) => {
-      const emailObj = { [email.replace(/\./g, '%2E')]: '' };
-      coursesRef.child(section).child('Whitelist').update(emailObj);
-      return null;
+        const emailObj = { [email.replace(/\./g, '%2E')]: '' };
+        coursesRef.child(section).child('Whitelist').update(emailObj);
+        return null;
     },
 
   /**
@@ -690,11 +690,11 @@ setDateEvents : (course, date) => {
    * @returns {any|!firebase.Thenable.<*>|firebase.Thenable<any>}
    */
     loginWithProvider: (p) => {
-      const provider = FireBaseTools.getProvider(p);
-      return firebaseAuth.signInWithPopup(provider).then(firebaseAuth.currentUser).catch(error => ({
-        errorCode: error.code,
-        errorMessage: error.message,
-      }));
+        const provider = FireBaseTools.getProvider(p);
+        return firebaseAuth.signInWithPopup(provider).then(firebaseAuth.currentUser).catch(error => ({
+          errorCode: error.code,
+          errorMessage: error.message,
+        }));
     },
 
   /**
@@ -716,8 +716,8 @@ setDateEvents : (course, date) => {
    * @returns {!firebase.Promise.<*>|firebase.Thenable<any>|firebase.Promise<any>|!firebase.Thenable.<*>}
    */
     logoutUser: () => firebaseAuth.signOut().then(() => ({
-      success: 1,
-      message: 'logout',
+        success: 1,
+        message: 'logout',
     })),
 
   /**
@@ -725,12 +725,12 @@ setDateEvents : (course, date) => {
    * @returns {Promise}
    */
     fetchUser: () => new Promise((resolve, reject) => {
-      const unsub = firebaseAuth.onAuthStateChanged((user) => {
-        unsub();
-        resolve(user);
-      }, (error) => {
-        reject(error);
-      });
+        const unsub = firebaseAuth.onAuthStateChanged((user) => {
+          unsub();
+          resolve(user);
+        }, (error) => {
+          reject(error);
+        });
     }),
 
   /**
@@ -753,8 +753,8 @@ setDateEvents : (course, date) => {
    * @returns {!firebase.Promise.<*>|firebase.Thenable<any>|firebase.Promise<any>|!firebase.Thenable.<*>}
    */
     updateUserProfile: u => firebaseAuth.currentUser.updateProfile(u).then(() => firebaseAuth.currentUser, error => ({
-      errorCode: error.code,
-      errorMessage: error.message,
+        errorCode: error.code,
+        errorMessage: error.message,
     })),
 
   /**
@@ -764,10 +764,10 @@ setDateEvents : (course, date) => {
    * @returns {!firebase.Promise.<*>|firebase.Thenable<any>|firebase.Promise<any>|!firebase.Thenable.<*>}
    */
     resetPasswordEmail: email => firebaseAuth.sendPasswordResetEmail(email).then(() => ({
-      message: 'Email sent',
+        message: 'Email sent',
     }), error => ({
-      errorCode: error.code,
-      errorMessage: error.message,
+        errorCode: error.code,
+        errorMessage: error.message,
     })),
 
   /**
@@ -777,8 +777,8 @@ setDateEvents : (course, date) => {
    * @returns {!firebase.Promise.<*>|firebase.Thenable<any>|firebase.Promise<any>|!firebase.Thenable.<*>}
    */
     changePassword: newPassword => firebaseAuth.currentUser.updatePassword(newPassword).then(user => user, error => ({
-      errorCode: error.code,
-      errorMessage: error.message,
+        errorCode: error.code,
+        errorMessage: error.message,
     })),
 
   /**
@@ -787,10 +787,10 @@ setDateEvents : (course, date) => {
    * @returns {!firebase.Promise.<*>|firebase.Thenable<any>|firebase.Promise<any>|!firebase.Thenable.<*>}
    */
     sendEmailVerification: () => firebaseAuth.currentUser.sendEmailVerification().then(() => ({
-      message: 'Email sent',
+        message: 'Email sent',
     }), error => ({
-      errorCode: error.code,
-      errorMessage: error.message,
+        errorCode: error.code,
+        errorMessage: error.message,
     })),
 
   /**
