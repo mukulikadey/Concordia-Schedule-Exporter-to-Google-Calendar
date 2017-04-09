@@ -1,4 +1,5 @@
-import expect from '../test_helper';
+import {renderComponent, expect} from '../test_helper';
+import App from '../../src/app/components/app';
 import FireBaseTools from '../../src/app/utils/firebase';
 
 describe('fillNoClassThisDay', () => {
