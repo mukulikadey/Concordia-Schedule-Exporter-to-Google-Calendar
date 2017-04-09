@@ -178,24 +178,24 @@ const FireBaseTools = {
     // Check if the user has already subscribed to one section of the course
         for (let i = 0; i < courseArray.length; i += 1) {
       // If the course is already in the course array, then overwrite the section
-              if (courseArray[i].coursenumber === courseNumber) {
-                courseIndex = i; // contains index number of course in user's courseArray
-          }
+           if (courseArray[i].coursenumber === courseNumber) {
+               courseIndex = i; // contains index number of course in user's courseArray
+           }
         }
 
         if (courseIndex >= 0) {
               if (section.component === 'LAB' && courseArray[courseIndex].labsection) {
-                path = courseArray[courseIndex].coursenumber + courseArray[courseIndex].labsection + 1;
-            }
+                  path = courseArray[courseIndex].coursenumber + courseArray[courseIndex].labsection + 1;
+              }
               if (section.component === 'TUT' && courseArray[courseIndex].tutorialsection) {
-                path = courseArray[courseIndex].coursenumber + courseArray[courseIndex].tutorialsection;
-            }
+                  path = courseArray[courseIndex].coursenumber + courseArray[courseIndex].tutorialsection;
+              }
               if (section.component === 'LEC' && courseArray[courseIndex].section) {
-                path = courseArray[courseIndex].coursenumber + courseArray[courseIndex].section;
-            }
+                  path = courseArray[courseIndex].coursenumber + courseArray[courseIndex].section;
+              }
               if (path) {
-                coursesRef.child(path).child('Subscribers').child(id).set(null);
-            }
+                  coursesRef.child(path).child('Subscribers').child(id).set(null);
+              }
         }
 
         if (courseIndex < 0) {
@@ -206,8 +206,8 @@ const FireBaseTools = {
                     coursenumber: courseNumber,
                 };
 
-          // Set course index to the next available index value or to 0 if courseArray doesn't exist yet
-          courseIndex = courseArray ? courseArray.length : 0;
+            // Set course index to the next available index value or to 0 if courseArray doesn't exist yet
+            courseIndex = courseArray ? courseArray.length : 0;
 
             // Create new firebase path with the course details
             const updates = {};
@@ -312,8 +312,8 @@ const FireBaseTools = {
         const profEmail = snap.val().replace(/\./g, '%2E'); // Replace all the periods in the email with the escape
         const updateProf = {};
         updateProf[courseSectionPath] = courseSectionPath;
-        // Update the Professor's email in Firebase thereby adding the course section under the list of courses this prof
-        // teaches, if it wasn't already there
+        // Update the Professor's email in Firebase thereby adding the course section under the list 
+        // of courses this prof teaches, if it wasn't already there
         profsRef.child(profEmail).update(updateProf);
     })
     .catch(error => ({
@@ -350,23 +350,23 @@ const FireBaseTools = {
    * @param noClassThisDay The array of dates on which NO classes are given
    */
     fillNoClassThisDay: (noClassThisDay) => {
-    // Winter Semester Reading Week
-    // Monday, February 20 to Sunday February 26
-      noClassThisDay.push(new Date(2017, 1, 20));
-      noClassThisDay.push(new Date(2017, 1, 21));
-      noClassThisDay.push(new Date(2017, 1, 22));
-      noClassThisDay.push(new Date(2017, 1, 23));
-      noClassThisDay.push(new Date(2017, 1, 24));
-      noClassThisDay.push(new Date(2017, 1, 25));
-      noClassThisDay.push(new Date(2017, 1, 26));
+        // Winter Semester Reading Week
+        // Monday, February 20 to Sunday February 26
+        noClassThisDay.push(new Date(2017, 1, 20));
+        noClassThisDay.push(new Date(2017, 1, 21));
+        noClassThisDay.push(new Date(2017, 1, 22));
+        noClassThisDay.push(new Date(2017, 1, 23));
+        noClassThisDay.push(new Date(2017, 1, 24));
+        noClassThisDay.push(new Date(2017, 1, 25));
+        noClassThisDay.push(new Date(2017, 1, 26));
 
-      // Easter Weekend and end of semester
-      // Friday, April 14 to Sunday April 17
-      noClassThisDay.push(new Date(2017, 3, 14));
-      noClassThisDay.push(new Date(2017, 3, 15));
-      noClassThisDay.push(new Date(2017, 3, 16));
-      noClassThisDay.push(new Date(2017, 3, 17));
-  },
+        // Easter Weekend and end of semester
+        // Friday, April 14 to Sunday April 17
+        noClassThisDay.push(new Date(2017, 3, 14));
+        noClassThisDay.push(new Date(2017, 3, 15));
+        noClassThisDay.push(new Date(2017, 3, 16));
+        noClassThisDay.push(new Date(2017, 3, 17));
+    },
 
     /**
      *  Populates timetable with date objects and descriptions
@@ -377,36 +377,36 @@ const FireBaseTools = {
      * @returns timetable
      */
     populate: (startDate, endDate, noClassThisDay, snap) => {
-      // create empty timeTable object
-      const timetable = {};
-      // Iterate through every date between day 1 and the last day to see if there's a class
-      while (startDate < endDate) {
-        // Verify if classes are given on this day or not
-        let classesGivenOnThisDay = true;
-        for (let i = 0; i < noClassThisDay.length; i += 1) {
-          /* eslint-disable */
-          if (noClassThisDay[i].getFullYear() === startDate.getFullYear() && noClassThisDay[i].getMonth() === startDate.getMonth() && noClassThisDay[i].getDate() === startDate.getDate()) {
+        // create empty timeTable object
+        const timetable = {};
+        // Iterate through every date between day 1 and the last day to see if there's a class
+        while (startDate < endDate) {
+          // Verify if classes are given on this day or not
+          let classesGivenOnThisDay = true;
+          for (let i = 0; i < noClassThisDay.length; i += 1) {
+            /* eslint-disable */
+            if (noClassThisDay[i].getFullYear() === startDate.getFullYear() && noClassThisDay[i].getMonth() === startDate.getMonth() && noClassThisDay[i].getDate() === startDate.getDate()) {
             /* eslint-enable */
-            // If the current date is included in the list of dates when there are no classes,
-            // then don't update the timetable
-            classesGivenOnThisDay = false;
+              // If the current date is included in the list of dates when there are no classes,
+              // then don't update the timetable
+              classesGivenOnThisDay = false;
+          }
         }
+
+          // only update timetable in this iteration if classes are actually given on this date
+          if (classesGivenOnThisDay) {
+            FireBaseTools.checkWeekday(startDate, timetable, snap);
+          }
+
+          // check next date (startDate acts as our iterator in this loop so it takes the value of the next day)
+          const newDate = startDate.setDate(startDate.getDate() + 1);
+          /* eslint-disable */
+          startDate = new Date(newDate);
+          /* eslint-enable */
       }
-
-      // only update timetable in this iteration if classes are actually given on this date
-        if (classesGivenOnThisDay) {
-          FireBaseTools.checkWeekday(startDate, timetable, snap);
-        }
-
-        // check next date (startDate acts as our iterator in this loop so it takes the value of the next day)
-        const newDate = startDate.setDate(startDate.getDate() + 1);
-        /* eslint-disable */
-        startDate = new Date(newDate);
-        /* eslint-enable */
-    }
-    // return a promise of a timetable object with all the dates of a given course section path
-    return timetable;
-  },
+      // return a promise of a timetable object with all the dates of a given course section path
+      return timetable;
+    },
 
  /**
   *  Updates the timetable according to what day of the week the startDate param represents
