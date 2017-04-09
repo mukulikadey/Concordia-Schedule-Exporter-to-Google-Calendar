@@ -108,7 +108,7 @@ const FireBaseTools = {
 
     // Add a listener for a user's notifications
     notifsRef.child(uid).on('value', function (snap) {
-
+       let notifications = null;
       // If the user is a professor, get the list of courses they teach
       if (snap.val()) {
         notifications = (snap.val());
