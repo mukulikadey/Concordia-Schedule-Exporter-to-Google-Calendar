@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { browserHistory, Link } from 'react-router';
 import { fetchUser, getUserCourses, getSections, addUserSection,deleteCourse, isProfessor,getNotifications, addTA, removeNotification } from '../actions/firebase_actions';
 import Loading from './helpers/loading';
 import 'sweetalert';
@@ -41,10 +40,6 @@ class Index_home extends Component{
     this.props.isProfessor();
     this.props.getNotifications();
 
-    // TODO This will be moved to wherever the check needs to be made by Front-End team
-    if (this.props.profState == 'Not a professor'){
-      // do somethingg
-    }
   }
 
   componentDidUpdate(){
@@ -259,10 +254,8 @@ class Index_home extends Component{
         return_render.push(<label>&nbsp;&nbsp;<span className="fa fa-book colorIcon"> <label className="arial"> LEC:&nbsp;</label> </span></label>)
         return_lec.push(<option value="not picked" ></option>);
         for(let i = 0; i < lec.length; i++) {
-          let sectionClick = this.addSection.bind(this,lec[i]);
           let classNames=lec[i].section + " btn btn-default";
           return_lec.push(<option value={lec[i].section + "," + lec[i].component+ "," + lec[i].maxPat} className={classNames}>{lec[i].section}</option>);
-          //return_render.push(<button key={lec[i].section.toString()} onClick = {sectionClick} type="button" className={classNames}>{lec[i].section}</button>);
         }
         return_render.push(<select onChange={(e)=>{this.addSection(e)}}>{return_lec}</select>)
 
@@ -270,9 +263,7 @@ class Index_home extends Component{
           return_render.push(<label>&nbsp;&nbsp;<span className="fa fa-pencil-square-o colorIcon"> <label className="arial"> TUT:&nbsp;</label> </span></label>)
           return_tut.push(<option value="not picked" ></option>);
           for(let i = 0; i < tut.length; i++) {
-            let sectionClick = this.addSection.bind(this,tut[i]);
             let classNames=tut[i].section + " btn btn-default";
-            // return_render.push(<button key={tut[i].section.toString()} onClick = {sectionClick} type="button" className={classNames}>{tut[i].section}</button>);
             return_tut.push(<option value={tut[i].section + "," + tut[i].component+ "," + tut[i].maxPat}className={classNames}>{tut[i].section}</option>);
           }
           return_render.push(<select onChange={(e)=>{this.addSection(e)}}>{return_tut}</select>)
@@ -281,7 +272,6 @@ class Index_home extends Component{
           return_lab.push(<option value="not picked" ></option>)
           return_render.push(<label>&nbsp;&nbsp;<span className="fa fa-desktop colorIcon"> <label className="arial"> LAB:&nbsp;</label> </span></label>)
           for(let i = 0; i < lab.length; i++) {
-            let sectionClick = this.addSection.bind(this,lab[i]);
             let classNames=lab[i].section + " btn btn-default";
             return_lab.push(<option value={lab[i].section + "," + lab[i].component+ "," + lab[i].maxPat}className={classNames}>{lab[i].section}</option>);
           }
@@ -290,19 +280,17 @@ class Index_home extends Component{
         return <div className="notCenter">{return_render}</div>;
       }
       else{
-        return <div className= "alert alert-danger">{this.state.course_name} Does Not Exist.</div>
+        return <div className= "alert alert-danger centerAlertCourse">{this.state.course_name} Does Not Exist.</div>
       }
     }
     return <div></div>;
   }
 
   renderTASections() {
-    // if(this.props.profState && this.props.profState !=  'Not a professor') {
     let options = [];
     // TODO remove this crap
     let prof = this.props.profState;
     let i = 0;
-    //THIS BREAKS CODE DOES INFINITE LOAD OF CLASSES
     options.push(<option value='-1'></option>)
     Object.keys(prof).map(function (key) {
       options.push(<option value={i} > {key}</option>)
@@ -311,7 +299,6 @@ class Index_home extends Component{
 
     return <div>{options}</div>;
 
-    //  }
   }
   btnAddTa(){
     if (this.props.profState !== 'Not a professor' && this.props.profState != null){
