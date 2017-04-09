@@ -265,7 +265,7 @@ class ScheduleGen extends Component {
             }
             }
             eventPropGetter={this.eventStyleGetter}
-            views={["month", "week", "day", "agenda"]} />
+            views={["month", "week", "day"]} />
         </div>
       </div>
     );
