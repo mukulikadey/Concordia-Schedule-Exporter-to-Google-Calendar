@@ -74,7 +74,7 @@ class App extends Component {
     let notify = this.props.notifications;
     if (this.props.notifications && this.props.notifications !== "No notifications") {
       Object.keys(notify).map(function (key) {
-        array.push(<div>{notify[key].event.title + notify[key].event.section + " (" + notify[key].event.start  + ")\n" + notify[key].event.courseTime + ":  "}<span className="fa fa-times-circle" onClick={this.removeNotification.bind(this, key)}></span><br /><span className="newDescNotif">{notify[key].event.desc + " \n"}</span><br /><span className="fa fa-user "></span>  <span className="small">{notify[key].editor}</span>  &nbsp;&nbsp;&nbsp; <span className="fa fa-pencil-square-o"></span>  <span className="small">{notify[key].timeStamp} </span></div>,<hr className="hrNotifs" />);
+        array.push(<div>{notify[key].event.title + notify[key].event.section + " (" + notify[key].event.datePath  + ")\n" + notify[key].event.courseTime + ":  "}<span className="fa fa-times-circle" onClick={this.removeNotification.bind(this, key)}></span><br /><span className="newDescNotif">{notify[key].event.desc + " \n"}</span><br /><span className="fa fa-user "></span>  <span className="small">{notify[key].editor}</span>  &nbsp;&nbsp;&nbsp; <span className="fa fa-pencil-square-o"></span>  <span className="small">{notify[key].timeStamp} </span></div>,<hr className="hrNotifs" />);
         i++;
         NotifCounter = array.length/2;
         NotifIconRed=<span className="counterNotif" aria-hidden="true">{NotifCounter}</span>

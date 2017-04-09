@@ -588,7 +588,9 @@ setDateEvents : (course, date) => {
 
              let teacher = (course['First Name']+" "+course.Last);
              let room=(course['Room Nbr']);
-             let courseTime=(course['Mtg Start']+" - "+course['Mtg End']);
+             let startTime = course['Mtg Start'].split(":");
+             let endTime = course['Mtg End'].split(":");
+             let courseTime=(startTime[0] + ":" + startTime[1] + startTime[2].slice(2, startTime[2].length) + " - " + endTime[0] + ":" + endTime[1] + endTime[2].slice(2, endTime[2].length));
              date['type']= course.Component;
               if (date['type'] == "LEC") {
                 date['type'] = "Lecture";
@@ -647,7 +649,10 @@ setDateEvents : (course, date) => {
    */
     updateNotification: (event, oldDescription) => {
       const editor = firebaseAuth.currentUser.displayName;
-      const timeStamp = new Date();
+      let splitTime = new Date().toString().split(":");
+
+    //Truncating the date string's unwanted details
+      let timeStamp = splitTime[0] + ":" + splitTime[1];
 
     // The object that will be pushed into the student's notifications node
     // Using object shorthand so "event," = "event : event,"
