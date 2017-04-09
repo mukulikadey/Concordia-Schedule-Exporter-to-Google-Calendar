@@ -15,6 +15,9 @@ import {
   SET_DESCRIPTION,
   DELETE_COURSE,
   IS_PROFESSOR,
+  GET_NOTIFICATIONS,
+  ADD_TA,
+  REMOVE_NOTIFICATIONS,
 } from './types';
 
 
@@ -32,6 +35,24 @@ export function getEvents(usercourses) {
     return {
         type: GET_EVENTS,
         payload: request,
+    };
+}
+
+export function addTA(email, section) {
+    const request = FireBaseTools.addTA(email, section);
+
+    return {
+        type: ADD_TA,
+        payload: request,
+    };
+}
+
+export function removeNotification(key) {
+    const request = FireBaseTools.removeNotification(key);
+
+    return {
+      type: REMOVE_NOTIFICATIONS,
+      payload: request,
     };
 }
 
@@ -62,11 +83,16 @@ export function getUserCourses() {
 }
 
 export function isProfessor() {
-  return (dispatch) => {
-    FireBaseTools.isProfessor(dispatch, IS_PROFESSOR);
+    return (dispatch) => {
+      FireBaseTools.isProfessor(dispatch, IS_PROFESSOR);
   };
 }
 
+export function getNotifications() {
+    return (dispatch) => {
+      FireBaseTools.getNotifications(dispatch, GET_NOTIFICATIONS);
+  };
+}
 
 export function addUserSection(courseArray, courseNumber, section) {
     const request = FireBaseTools.addUserSection(courseArray, courseNumber, section);
