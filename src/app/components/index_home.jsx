@@ -226,7 +226,6 @@ class Index_home extends Component{
         array.push(<div>{notify[key].event.title + notify[key].event.section  + "\n" + notify[key].event.courseTime + "\n" + notify[key].event.desc} <span  className="fa fa-times-circle" onClick={this.removeNotification.bind(this, key)}> </span> </div>);
         i++;
       }, this);
-      console.log(array);
       return <div>{array}</div>
     }
     return <div></div>
