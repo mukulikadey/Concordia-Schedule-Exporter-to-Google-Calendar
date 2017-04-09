@@ -27,19 +27,24 @@ class ResetPassword extends Component {
     render() {
         return (
 
-            <div className="col-md-4">
-                <form role="form" onSubmit={this.onFormSubmit}>
-                  <h4>{this.state.message}</h4>
-                  <div className="form-group">
-                    <label htmlFor="txtEmail">Email address</label>
-                    <input
+          <div className="col-md-4 box boxReset">
+            <form role="form" onSubmit={this.onFormSubmit}>
+              <h4>{this.state.message}</h4>
+              <div className="form-group">
+                <label htmlFor="txtEmail">Email address</label>
+                <div className="input-group">
+                  <div className="input-group-addon">
+                    <span className="fa fa-envelope fa" aria-hidden="true"></span>
+                  </div>
+                  <input
                     type="email" className="form-control" id="txtEmail" ref="email" placeholder="Enter email"
                     name="email"
                   />
                 </div>
-                  <button type="submit" className="btn btn-default btn-block">Reset Password</button>
-              </form>
-            </div>
+              </div>
+              <button type="submit" className="btn btn-warning btn-round">Reset Password</button>
+            </form>
+          </div>
 
         );
     }

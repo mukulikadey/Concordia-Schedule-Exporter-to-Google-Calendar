@@ -6,8 +6,8 @@ import BigCalendar from 'react-big-calendar';
 import  '../user/react-big-calendar.css';
 import moment from 'moment';
 import localizer from 'react-big-calendar/lib/localizers/moment';
-import { fetchUser, updateUser,getEvents, setDescription } from '../../actions/firebase_actions';
-import Loading from '../helpers/loading';
+import { fetchUser, updateUser,getEvents, setDescription,getUserCourses } from '../../actions/firebase_actions';
+import Loadable from 'react-loading-overlay';
 import ChangePassword from './change_password';
 import 'sweetalert';
 import '../user/sweetalert.css';
@@ -34,6 +34,17 @@ class ScheduleGen extends Component {
     this.googleSignIn = this.googleSignIn.bind(this);
   }
 
+  componentDidUpdate() {
+    if(!this.props.userCourses.courses && this.props.currentUser) {
+      this.props.getUserCourses()
+    }
+    if(!this.props.userEvents && this.props.currentUser && this.props.userCourses.courses) {
+        this.props.getEvents(this.props.userCourses.courses)
+
+    }
+  }
+
+
   componentWillMount(){
     //Handling initial stage
     let gapi = getGapi();
@@ -42,7 +53,7 @@ class ScheduleGen extends Component {
 
   componentDidMount(){
     this.props.getEvents(this.props.userCourses.courses);
-
+    document.body.className= "bodySched";
   }
 
   onFormSubmit(event) {
@@ -184,31 +195,41 @@ class ScheduleGen extends Component {
     gapi.auth2.getAuthInstance().isSignedIn.listen(this.updateSignInStatus);
     return (
       <div>
-        <button className="btn-google" onClick={this.googleSignIn}>Export to Calendar</button>
-        <text>{this.state.signedStatus}</text>
+        <button className="btn btn-status" onClick={this.googleSignIn}> <span className="fa fa-calendar-plus-o"></span> Google Calendar </button>
+        {this.state.signedStatus == "Signed In" ? <span className=" green"> </span> : <span className=" red"> </span> }
       </div>
     )
   }
 
   render() {
     let self = this;
-    if (!this.props.currentUser && !this.props.userEvents) {
-      return <Loading />;
-    }
+    if (!this.props.currentUser || !this.props.userEvents) {
+    return  <Loadable
+  active={true}
+  spinner
+  text='Loading...'
+  color='black'
+  >
 
-    if(!this.props.userEvents){
-      return <Loading/>
+</Loadable>
     }
     if(this.props.userEvents.value==0)
     {
-      return <div>Nothing to show</div>
+      return (
+          //The message is displayed in an alert box with a link that allows user to return to HomePage.
+          <div className= "alert alert-danger">
+            You are subscribed to 0 classes. Please add classes on your HomePage to generate your schedule.
+            <a href="/index_home" class="alert-link" ><strong>Click here to return to HomePage.</strong></a>
+          </div>
+      )
+
     }
     //console.log(this.props.userEvents)
 
     return (
       <div>
         <div>{this.renderGoogle()}</div>
-        <div className="trans-sc">
+        <div className="trans-sc fadeInHome">
           <BigCalendar
             {...this.props}
             events={this.props.userEvents}
@@ -255,7 +276,7 @@ class ScheduleGen extends Component {
             }
             }
             eventPropGetter={this.eventStyleGetter}
-            views={["month", "week", "day",]} />
+            views={["month", "week", "day", "agenda"]} />
         </div>
       </div>
     );
@@ -263,7 +284,7 @@ class ScheduleGen extends Component {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ fetchUser, updateUser,getEvents,setDescription }, dispatch);
+  return bindActionCreators({ fetchUser, updateUser,getEvents,setDescription,getUserCourses }, dispatch);
 }
 
 function mapStateToProps(state) {

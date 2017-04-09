@@ -1,6 +1,6 @@
 //The background picture is now included in the body of the website, i.e. every page on the site
 body {
-  background: url("http://www.asfa.ca/wp-content/uploads/2016/03/ASFA_Blur.jpg");
+  background: url("/src/background-home.jpg");
   background-size: cover;
   position:relative;
   font-size: 16px;
@@ -9,6 +9,18 @@ body {
   width: 100%;
   height: 100%;
 }
+
+.bodySched{
+  background: url("/src/background-sched.jpg");
+  background-size: cover;
+  position:relative;
+  font-size: 16px;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
 .centercolumn{
   text-align: center;
   padding-right: 35%;
@@ -28,7 +40,7 @@ body {
 .bottom {
   text-align: center;
   margin-top: 5%;
- }
+}
 
 .home{
   margin-left: 30px;
@@ -53,19 +65,48 @@ alert{
   text-align: center;
   text-transform: uppercase;
   font-weight: bold;
+  color: black;
 }
 
 //Transparent box for profile page
-div.trans{
-  background-color: #ffffff;
-  border: 1px solid black;
-  opacity: 0.6;
-  filter: alpha(opacity=60);
-  width: 80%;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 1%;
+div.trans {
+  width: 50%;
+  float: left;
+  background-color: white;
+  margin: 25px 15px;
+  border-radius: 5px;
+  transform: translate3d(0, 0, 0);
+  position: relative;
+  opacity: 0.85;
+  overflow: hidden;
+  font-weight: bold;
+  left: 25%;
 }
+
+.fadeIn{
+  -webkit-animation: fadein 1s; /* Safari, Chrome and Opera > 12.1 */
+  -moz-animation: fadein 1s; /* Firefox < 16 */
+  -ms-animation: fadein 1s; /* Internet Explorer */
+}
+
+.fadeInHome{
+  -webkit-animation: easein 1s; /* Safari, Chrome and Opera > 12.1 */
+  -moz-animation: easein 1s; /* Firefox < 16 */
+  -ms-animation: easein 1s; /* Internet Explorer */
+}
+
+@keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 0.85; }
+}
+
+@keyframes easein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+
+
 div.trans h4,label{
   font-weight: bold;
   color:#000000;
@@ -75,14 +116,28 @@ div.trans h4,label{
 div.transBox{
   margin: 30px;
   background-color: #ffffff;
-  border: 1px solid black;
-  opacity: 0.6;
+  //border: 1px solid black;
+  opacity: 0.75;
   filter: alpha(opacity=60);
   width: 50%;
   margin-left: auto;
   margin-right: auto;
+  border-radius: 5px;
+  padding: 1%;
 }
-div.transBox p {
+
+div.transbox{
+  margin: 20px;
+  background-color: #ffffff;
+  opacity: 0.75;
+  filter: alpha(opacity=60);
+  width: 35%;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 5px;
+}
+
+div.transBox p{
   margin: 5%;
   font-weight: bold;
   color: #000000;
@@ -90,12 +145,13 @@ div.transBox p {
 //Transparent box for schedule page
 div.trans-sc{
   background-color: #ffffff;
-  border: 1px solid black;
+  //border: 1px solid black;
   opacity: 1;/*0.6*/
   filter: alpha(opacity=20);
   margin-left: auto;
   margin-right: auto;
   padding: 1%;
+  border-radius: 5px;
 }
 .hiding{
   display:none;
@@ -103,4 +159,332 @@ div.trans-sc{
 .parent:hover .hiding {
   display:inline;
 }
+//Styling for links in alert box - ScheduleGen Page
+.alert-link{
+  text-decoration:none;
+}
 
+.green{
+  background: rgb(66, 183, 42);
+  border-radius: 50%;
+  display: inline-block;
+  height: 8px;
+  margin-left: 4px;
+  width: 8px;
+  margin-bottom: 5px;
+}
+
+.red{
+  background:  #B4131B;
+  border-radius: 50%;
+  display: inline-block;
+  height: 8px;
+  margin-left: 4px;
+  width: 8px;
+  margin-bottom: 5px;
+}
+
+.btn-status {
+  position: relative;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 2px;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  background-color: #35b73f;
+  margin-bottom: 10px;
+  color: #FFFFFF;
+}
+
+.btn-status:hover{
+  background-color: #35b73f;
+}
+
+.notCenter{
+  right: auto;
+  left: 20px;
+  text-align: left;
+  padding:5px
+}
+
+.navbar-custom{
+  background-color: #325277 !important;
+  border-color: #325277 !important;
+}
+.navbar-custom .navbar-brand{
+  color: gold;
+}
+.navbar-custom .navbar-brand:hover,
+.navbar-custom .navbar-brand:focus{
+  color: gold;
+}
+.navbar-custom .navbar-text{
+  color: gold;
+}
+.navbar-custom .navbar-nav > li > a{
+  color: gold;
+}
+.navbar-custom .navbar-nav > li > a:hover,
+.navbar-custom .navbar-nav > li > a:focus{
+  color: gold;
+}
+.navbar-custom .navbar-nav > .active > a,
+.navbar-custom .navbar-nav > .active > a:hover,
+.navbar-custom .navbar-nav > .active > a:focus{
+  color: gold;
+  background-color: #9d081f;
+}
+.navbar-custom .navbar-nav > .open > a,
+.navbar-custom .navbar-nav > .open > a:hover,
+.navbar-custom .navbar-nav > .open > a:focus{
+  color: gold;
+  background-color: #9d081f;
+}
+.navbar-custom .navbar-toggle{
+  border-color: #9d081f;
+}
+.navbar-custom .navbar-toggle:hover,
+.navbar-custom .navbar-toggle:focus{
+  background-color: #9d081f;
+}
+.navbar-custom .navbar-toggle .icon-bar{
+  background-color: gold;
+}
+.navbar-custom .navbar-collapse,
+.navbar-custom .navbar-form{
+  border-color: gold;
+}
+.navbar-custom .navbar-link{
+  color: gold;
+}
+.navbar-custom .navbar-link:hover{
+  color: gold;
+}
+
+@media (max-width: 767px){
+  .navbar-custom .navbar-nav .open .dropdown-menu > li > a{
+    color: gold;
+  }
+  .navbar-custom .navbar-nav .open .dropdown-menu > li > a:hover,
+  .navbar-custom .navbar-nav .open .dropdown-menu > li > a:focus{
+    color: gold;
+  }
+  .navbar-custom .navbar-nav .open .dropdown-menu > .active > a,
+  .navbar-custom .navbar-nav .open .dropdown-menu > .active > a:hover,
+  .navbar-custom .navbar-nav .open .dropdown-menu > .active > a:focus{
+    color: gold;
+    background-color: #9d081f;
+  }
+}
+
+li a:active{
+  background-color: transparent !important;
+  color: white !important;
+}
+li a:visited{
+  background-color: transparent !important;
+  color: gold !important;
+}
+li a:hover{
+  background-color: transparent !important;
+  color: white !important;
+}
+li a:focus{
+  background-color: transparent !important;
+  color: white !important;
+}
+
+.img{
+  margin-top: -12px;
+  margin-left: -40px;
+  margin-bottom: -40px
+}
+
+.courseList{
+  font-size: 13px;
+  color: #000000;
+  display: block;
+}
+
+.toast-title{
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.toast-message{
+  font-size: 14px;
+}
+
+.logoutBox{
+  top: 40px;
+  position: relative;
+  left: 41%;
+}
+
+.containerLogout{
+  position: relative;
+  top: 90px;
+  right:30px;
+  width: 1170px;
+}
+
+.box{
+  width:40%;
+  height:400px;
+  float:left;
+  background-color:white;
+  margin:25px 15px;
+  border-radius:5px;
+  background: rgba(116, 152, 204, 0.7);
+  transform: translate3d(0, 0, 0);
+  position: relative;
+  overflow: hidden;
+  font-weight: bold;
+
+}
+
+.wave {
+  opacity: .3;
+  position: absolute;
+  top: 3%;
+  left: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  width: 500px;
+  height: 500px;
+  margin-left: -250px;
+  margin-top: -250px;
+  transform-origin: 50% 48%;
+  border-radius: 43%;
+  animation: drift 3000ms infinite linear;
+}
+
+.wave.-three {
+  animation: drift 5000ms infinite linear;
+}
+
+.wave.-two {
+  animation: drift 7000ms infinite linear;
+  opacity: .1;
+  background: #EEEEEE;
+}
+
+@keyframes drift {
+  from { transform: rotate(0deg); }
+  from { transform: rotate(360deg); }
+}
+
+h5 > a{
+  color: #EEEEEE;
+}
+.btn-login{
+  margin-bottom: 5px;
+}
+
+.input-group-addon {
+  color: orange;
+}
+
+.align-center{
+  text-align: center;
+}
+
+.GoogleLoginWarning{
+  color: #000000;
+  font-size: 9.5px;
+}
+
+h2{
+  color: #FFFFFF;
+}
+
+hr {
+  display: block;
+  margin-left: 2%;
+  margin-right: 2%;
+  border-style: inset;
+  border-width: 1px;
+  color: black;
+}
+
+.btn-center{
+  position: relative;
+  left: 43%
+}
+
+.btn-center2{
+  position: relative;
+  left: 37%;
+}
+
+.form-control:focus{
+  border-color: orange;
+}
+
+.boxReset {
+  position: relative;
+  left:36%;
+  height:150px;
+  margin-top: 95px;
+}
+
+.btn:focus,
+.btn:active{
+  outline:0 !important;
+  outline:none !important;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;
+}
+
+#frmProfile{
+  margin: 20px;
+}
+
+#changePassword{
+  margin: 20px;
+}
+
+.btn-center3{
+  margin-bottom: 10px;
+}
+
+.arial{
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;
+  color: black !important;
+}
+
+.colorIcon {
+  color: black;
+}
+
+.hideThis{
+  display: none;
+}
+
+.showThis{
+  display: block;
+}
+
+#TA{
+  width:auto;
+  height: 28px;
+}
+
+.spacing{
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+.spacing2{
+  margin: 20px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.spacingTopRight{
+  margin-left: 92%;
+}
+
+.gold{
+  color: gold !important;
+}

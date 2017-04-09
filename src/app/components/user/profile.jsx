@@ -19,7 +19,11 @@ class UserProfile extends Component {
         this.onFormSubmit = this.onFormSubmit.bind(this);
     }
 
-    onFormSubmit(event) {
+  componentDidMount(){
+        document.body.className = "";
+  }
+
+  onFormSubmit(event) {
         event.preventDefault();
         const email = this.refs.email.value;
         const displayName = this.refs.displayName.value;
@@ -41,34 +45,44 @@ class UserProfile extends Component {
         }
 
         return (
-            <div>
+          <div>
 
-              <div className="trans">
+            <div className="trans fadeIn">
               <form id="frmProfile" role="form" onSubmit={this.onFormSubmit}>
-                    <h4>My Profile</h4>
-                    <p>{this.state.message}</p>
-
-                    <div className="form-group">
-                        <label htmlFor="email">Email: </label>
-                        <input
-                          type="text" defaultValue={this.props.currentUser.email}
-                          className="form-control" id="email" ref="email" placeholder="Email" name="email"
-                        />
+                <h4 className="align-center">My Profile</h4>
+                <p>{this.state.message}</p>
+                <div className="form-group">
+                  <label htmlFor="email">Email: </label>
+                  <div className="input-group">
+                    <div className="input-group-addon">
+                      <span className="fa fa-envelope fa" aria-hidden="true"></span>
                     </div>
-                    <div className="form-group">
-                        <label htmlFor="displayName">Display name: </label>
-                        <input
-                          type="text" defaultValue={this.props.currentUser.displayName}
-                          className="form-control" ref="displayName" id="displayName" placeholder="Display name"
-                          name="displayName"
-                        />
+                    <input
+                      type="text" defaultValue={this.props.currentUser.email}
+                      className="form-control" id="email" ref="email" placeholder="Email" name="email"
+                    />
+                  </div>
+                </div>
+                <div className="form-group">
+                  <label htmlFor="displayName">Display name: </label>
+                  <div className="input-group">
+                    <div className="input-group-addon">
+                      <span className="fa fa-id-badge fa-lg" aria-hidden="true"></span>
                     </div>
-                    <button type="submit" className="btn btn-primary">Update</button>
-                </form>
-                <ChangePassword />
-              </div>
-
+                    <input
+                      type="text" defaultValue={this.props.currentUser.displayName}
+                      className="form-control" ref="displayName" id="displayName" placeholder="Display name"
+                      name="displayName"
+                    />
+                  </div>
+                </div>
+                <button type="submit" className="btn btn-primary btn-round btn-center">  Update </button>
+              </form>
+              <hr />
+              <ChangePassword />
             </div>
+
+          </div>
         );
     }
 

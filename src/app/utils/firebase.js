@@ -33,7 +33,7 @@ const FireBaseTools = {
   getUserCourses: (dispatch, TYPE) => {
     let userCur = null;
     const id = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
-    if (!id) return null
+    if (!id) return null;
     usersRef.child(id.toString()).on('value', function (snap) {
 
       // Before modifying the course array, check if the user node
@@ -100,6 +100,31 @@ const FireBaseTools = {
     /* eslint-enable */
   },
 
+  /* eslint-disable */
+  getNotifications: (dispatch, TYPE) => {
+    let notifications = null;
+    const uid = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
+    if ( !uid ) return null;
+
+    // Add a listener for a user's notifications
+    notifsRef.child(uid).on('value', function (snap) {
+       let notifications = null;
+      // If the user is a professor, get the list of courses they teach
+      if (snap.val()) {
+        notifications = (snap.val());
+      }
+      // If the user has no notifications, then replace the payload with 'No notifications'
+      if (uid && !notifications) { notifications = 'No notifications'; }
+      // By not returning anything and dispatching from here,
+      // the action will be dispatched every time the user's notifications are changed
+      dispatch({
+        type: TYPE,
+        payload: notifications,
+      });
+    });
+    /* eslint-enable */
+  },
+
   deleteCourse: (coursearray, course) => {
     let obj = [];
     const userSections = [];
@@ -122,8 +147,8 @@ const FireBaseTools = {
     userSections.map((section) => {
       sections.push(coursesRef.child(section).once('value').then(function (snap) {
         return snap.val();
-      }))
-    })
+      }));
+    });
 
     Promise.all(sections).then(function (resolvedSub) {
       resolvedSub.map((sec, i) => {
@@ -138,6 +163,10 @@ const FireBaseTools = {
     return null;
   },
 
+  removeNotification: (key) => {
+    const uid = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
+    notifsRef.child(uid).child(key).remove();
+  },
 
   addUserSection: (courseArray, courseNumber, section) => {
     // Variable to keep track of course index
@@ -447,7 +476,7 @@ const FireBaseTools = {
     /* eslint-disable */
     return sectionsRef.child(courseName).once('value').then(function (snap) {
       snap.forEach(function (childSnap) {
-        sections.push({ section: childSnap.key, maxPat: childSnap.child('MaxPat').val(), component: childSnap.child('Component').val() })
+        sections.push({ section: childSnap.key, maxPat: childSnap.child('MaxPat').val(), component: childSnap.child('Component').val() });
       });
       return sections;
     }).catch(error => ({
@@ -468,36 +497,36 @@ const FireBaseTools = {
     }
     /* eslint-disable */
 
-    if(userCourses[0]== "No Courses") {return {value: 0}}
+    if(userCourses[0]== "No Courses") {return {value: 0};}
     for (var i = 0; i<userCourses.length; i+=1) {
-      userCourses[i].section ? stringCourses.push(userCourses[i].coursename + userCourses[i].section ):null
-      userCourses[i].tutorialsection ? stringCourses.push(userCourses[i].coursename + userCourses[i].tutorialsection): null
-      userCourses[i].labsection ? stringCourses.push(userCourses[i].coursename + (userCourses[i].labsection + "1")):null
+      userCourses[i].section ? stringCourses.push(userCourses[i].coursename + userCourses[i].section ):null;
+      userCourses[i].tutorialsection ? stringCourses.push(userCourses[i].coursename + userCourses[i].tutorialsection): null;
+      userCourses[i].labsection ? stringCourses.push(userCourses[i].coursename + (userCourses[i].labsection + "1")):null;
 
     }
     var coursePromises = [];
     stringCourses.map((section) => {
       coursePromises.push(coursesRef.child(section).once('value').then(function (snap) {
         return snap.val();
-      }))
-    })
+      }));
+    });
 
     let finalCourses=[];
     return Promise.all(coursePromises).then(function(resolvedarray){
         resolvedarray.map((course)=>{
           var timetable = course.Timetable? course.Timetable : null;
-          var subject=(course.Subject+course.Catalog)
+          var subject=(course.Subject+course.Catalog);
           var  section=(" - "+course.Section);
           var time=[];
 
             Object.keys(timetable).map(function(key) {
               var year = new Date(key).getUTCFullYear(), month = new Date(key).getUTCMonth(), day= new Date(key).getUTCDate() + 1;
               time.push({start :new Date(Date.UTC(year,month,day)), end: new Date(Date.UTC(year,month,day)), title:'', section:'', type:'', popupType:'',  monthType:'', teacher:'', room:'', courseTime:'',
-                desc:timetable[key]['description'], datePath:key})
+                desc:timetable[key]['description'], datePath:key});
             });
 
-            timetable=time
-            time = course['Mtg Start']
+            timetable=time;
+            time = course['Mtg Start'];
             let hours = Number(time.match(/^(\d+)/)[1]);
             let minutes = Number(time.match(/:(\d+)/)[1]);
             let AMPM = time.match(/\s(.*)$/)[1];
@@ -507,7 +536,7 @@ const FireBaseTools = {
             let sMinutes = minutes.toString();
 
             //end
-            time = course['Mtg End']
+            time = course['Mtg End'];
             hours = Number(time.match(/^(\d+)/)[1]);
             minutes = Number(time.match(/:(\d+)/)[1]);
             AMPM = time.match(/\s(.*)$/)[1];
@@ -538,15 +567,15 @@ const FireBaseTools = {
 
                FireBaseTools.setDateEvents(course, date);
 
-              finalCourses.push(date)
+              finalCourses.push(date);
 
-            })
+            });
 
-        })
+        });
 
-        return finalCourses
+        return finalCourses;
       }
-    )
+    );
 
   },
 
@@ -569,7 +598,7 @@ setDateEvents : (course, date) => {
                 date['type'] = "Tutorial";
               }
               else {
-                (date['type'] == "LAB")
+                (date['type'] == "LAB");
                 date['type'] = "Laboratory";
               }
               date['teacher'] = teacher;
@@ -582,12 +611,12 @@ setDateEvents : (course, date) => {
                 date['popupType'] = "Tutorial";
               }
               else {
-                (date['popupType'] == "LAB")
+                (date['popupType'] == "LAB");
                 date['popupType'] = "Lab";
               }
               date['monthType'] = course.Component;
               date['room'] = room;
-              if (date['room'] == "") {
+              if (date['room'] ==="") {
                 date['room'] = "TBA";
               }
               date['courseTime']=courseTime;
@@ -638,6 +667,12 @@ setDateEvents : (course, date) => {
         });
     });
     /* eslint-enable */
+  },
+
+  addTA: (email, section) => {
+    const emailObj = { [email.replace(/\./g, '%2E')]: '' };
+    coursesRef.child(section).child('Whitelist').update(emailObj);
+    return null;
   },
 
   /**
