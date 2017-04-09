@@ -17,14 +17,14 @@ const FireBaseTools = {
    * @param provider
    * @returns {firebase.auth.AuthProvider}
    */
-  getProvider: (provider) => {
-    switch (provider) {
+    getProvider: (provider) => {
+      switch (provider) {
 
-      case 'email':
+    case 'email':
         return new firebase.auth.EmailAuthProvider();
-      case 'google':
+    case 'google':
         return new firebase.auth.GoogleAuthProvider();
-      default:
+    default:
         throw new Error('Provider is not supported!!!');
     }
   },
@@ -125,20 +125,20 @@ const FireBaseTools = {
     /* eslint-enable */
   },
 
-  deleteCourse: (coursearray, course) => {
-    let obj = [];
-    const userSections = [];
-    const sections = [];
-    const id = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
-    let index = -1;
-    for (let i = 0; i < coursearray.length; i += 1) {
-      if (coursearray[i] === course) {
-        index = i;
+    deleteCourse: (coursearray, course) => {
+      let obj = [];
+      const userSections = [];
+      const sections = [];
+      const id = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
+      let index = -1;
+      for (let i = 0; i < coursearray.length; i += 1) {
+        if (coursearray[i] === course) {
+          index = i;
+        }
       }
-    }
-    if (index > -1) {
-      coursearray.splice(index, 1);
-    }
+      if (index > -1) {
+        coursearray.splice(index, 1);
+      }
     /* eslint-disable */
     course.section ? userSections.push(course.coursenumber + course.section) : null;
     course.tutorialsection ? userSections.push(course.coursenumber + course.tutorialsection) : null;
@@ -159,52 +159,52 @@ const FireBaseTools = {
       });
     });
     /* eslint-enable */
-    usersRef.child(id.toString()).child('coursearray').set(coursearray);
-    return null;
-  },
+      usersRef.child(id.toString()).child('coursearray').set(coursearray);
+      return null;
+    },
 
-  removeNotification: (key) => {
-    const uid = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
-    notifsRef.child(uid).child(key).remove();
-  },
+    removeNotification: (key) => {
+      const uid = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
+      notifsRef.child(uid).child(key).remove();
+    },
 
-  addUserSection: (courseArray, courseNumber, section) => {
+    addUserSection: (courseArray, courseNumber, section) => {
     // Variable to keep track of course index
-    let courseIndex = -1;
-    let path = '';
+      let courseIndex = -1;
+      let path = '';
     // current user's UID
-    const id = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
+      const id = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
 
     // Check if the user has already subscribed to one section of the course
-    for (let i = 0; i < courseArray.length; i += 1) {
+      for (let i = 0; i < courseArray.length; i += 1) {
       // If the course is already in the course array, then overwrite the section
-      if (courseArray[i].coursenumber === courseNumber) {
-        courseIndex = i; // contains index number of course in user's courseArray
+        if (courseArray[i].coursenumber === courseNumber) {
+          courseIndex = i; // contains index number of course in user's courseArray
+        }
       }
-    }
 
-    if (courseIndex >= 0) {
-      if (section.component === 'LAB' && courseArray[courseIndex].labsection) {
-        path = courseArray[courseIndex].coursenumber + courseArray[courseIndex].labsection + 1;
+      if (courseIndex >= 0) {
+        if (section.component === 'LAB' && courseArray[courseIndex].labsection) {
+          path = courseArray[courseIndex].coursenumber + courseArray[courseIndex].labsection + 1;
+        }
+        if (section.component === 'TUT' && courseArray[courseIndex].tutorialsection) {
+          path = courseArray[courseIndex].coursenumber + courseArray[courseIndex].tutorialsection;
+        }
+        if (section.component === 'LEC' && courseArray[courseIndex].section) {
+          path = courseArray[courseIndex].coursenumber + courseArray[courseIndex].section;
+        }
+        if (path) {
+          coursesRef.child(path).child('Subscribers').child(id).set(null);
+        }
       }
-      if (section.component === 'TUT' && courseArray[courseIndex].tutorialsection) {
-        path = courseArray[courseIndex].coursenumber + courseArray[courseIndex].tutorialsection;
-      }
-      if (section.component === 'LEC' && courseArray[courseIndex].section) {
-        path = courseArray[courseIndex].coursenumber + courseArray[courseIndex].section;
-      }
-      if (path) {
-        coursesRef.child(path).child('Subscribers').child(id).set(null);
-      }
-    }
 
-    if (courseIndex < 0) {
+      if (courseIndex < 0) {
       // A new course is added to the courseArray if the student was not previously subscribed to it
-      const newCourse =
-        {
-          coursename: courseNumber,
-          coursenumber: courseNumber,
-        };
+        const newCourse =
+          {
+              coursename: courseNumber,
+              coursenumber: courseNumber,
+          };
 
       // Set course index to the next available index value or to 0 if courseArray doesn't exist yet
       courseIndex = courseArray ? courseArray.length : 0;
@@ -471,30 +471,30 @@ const FireBaseTools = {
         /* eslint-enable */
     },
 
-  getSections: (courseName) => {
-    const sections = [];
+    getSections: (courseName) => {
+      const sections = [];
     /* eslint-disable */
-    return sectionsRef.child(courseName).once('value').then(function (snap) {
-      snap.forEach(function (childSnap) {
-        sections.push({ section: childSnap.key, maxPat: childSnap.child('MaxPat').val(), component: childSnap.child('Component').val() });
-      });
-      return sections;
-    }).catch(error => ({
-      errorCode: error.code,
-      errorMessage: error.message,
-    }));
+      return sectionsRef.child(courseName).once('value').then(function (snap) {
+        snap.forEach(function (childSnap) {
+          sections.push({ section: childSnap.key, maxPat: childSnap.child('MaxPat').val(), component: childSnap.child('Component').val() });
+        });
+        return sections;
+      }).catch(error => ({
+        errorCode: error.code,
+        errorMessage: error.message,
+      }));
     /* eslint-enable */
-  },
+    },
 
 
-  getUserEvents: (userCourses) => {
+    getUserEvents: (userCourses) => {
     // let userCourses = null;
-    const stringCourses = [];
+      const stringCourses = [];
 
-    const user = firebaseAuth.currentUser ? firebaseAuth.currentUser : null;
-    if (!user) {
-      return null;
-    }
+      const user = firebaseAuth.currentUser ? firebaseAuth.currentUser : null;
+      if (!user) {
+        return null;
+      }
     /* eslint-disable */
 
     if(userCourses[0]== "No Courses") {return {value: 0};}
@@ -577,7 +577,7 @@ const FireBaseTools = {
       }
     );
 
-  },
+    },
 
 /**
   *  Populate the date event object with data from the Firebase Database
@@ -634,9 +634,9 @@ setDateEvents : (course, date) => {
     let oldDescription = event.desc;
     updateDescription['description'] = description;
     /* eslint-enable */
-    coursesRef.child(event.sectionPath).child('Timetable').child(event.datePath.toString()).update(updateDescription)
+      coursesRef.child(event.sectionPath).child('Timetable').child(event.datePath.toString()).update(updateDescription)
       .then(FireBaseTools.updateNotification(event, oldDescription));
-    return null;
+      return null;
   },
 
   /**
@@ -645,35 +645,38 @@ setDateEvents : (course, date) => {
    * @param event The class event that was edited
    * @param oldDescription The description before it was changed
    */
-  updateNotification: (event, oldDescription) => {
+    updateNotification: (event, oldDescription) => {
       const editor = firebaseAuth.currentUser.displayName;
       const timeStamp = new Date();
 
     // The object that will be pushed into the student's notifications node
     // Using object shorthand so "event," = "event : event,"
       const pushObj = {
-         event,
-         oldDescription,
-         editor,
-         timeStamp,
-       };
+          event,
+          oldDescription,
+          editor,
+          timeStamp,
+      };
 
-    /* Goes through each subscribers and creates a new notification node containing the event info, the old description and the timestamp */
+    /**
+     * Goes through each subscribers and creates a new notification node containing the event info,
+     * the old description and the timestamp
+    */
     /* eslint-disable */
-    coursesRef.child(event.sectionPath).child('Subscribers').once('value').then(function (subs){
-        subs.forEach(function (child) {
-          const uid = child.key;
-          notifsRef.child(uid).push().update(pushObj);
-        });
-    });
+      coursesRef.child(event.sectionPath).child('Subscribers').once('value').then(function (subs){
+          subs.forEach(function (child) {
+            const uid = child.key;
+            notifsRef.child(uid).push().update(pushObj);
+          });
+      });
     /* eslint-enable */
-  },
+    },
 
-  addTA: (email, section) => {
-    const emailObj = { [email.replace(/\./g, '%2E')]: '' };
-    coursesRef.child(section).child('Whitelist').update(emailObj);
-    return null;
-  },
+    addTA: (email, section) => {
+      const emailObj = { [email.replace(/\./g, '%2E')]: '' };
+      coursesRef.child(section).child('Whitelist').update(emailObj);
+      return null;
+    },
 
   /**
    * Login with provider => p is provider "email", "facebook", "github", "google", or "twitter"
@@ -681,13 +684,13 @@ setDateEvents : (course, date) => {
    *
    * @returns {any|!firebase.Thenable.<*>|firebase.Thenable<any>}
    */
-  loginWithProvider: (p) => {
-    const provider = FireBaseTools.getProvider(p);
-    return firebaseAuth.signInWithPopup(provider).then(firebaseAuth.currentUser).catch(error => ({
+    loginWithProvider: (p) => {
+      const provider = FireBaseTools.getProvider(p);
+      return firebaseAuth.signInWithPopup(provider).then(firebaseAuth.currentUser).catch(error => ({
         errorCode: error.code,
         errorMessage: error.message,
-    }));
-  },
+      }));
+    },
 
   /**
    * Register a user with email and password
@@ -695,7 +698,7 @@ setDateEvents : (course, date) => {
    * @param user
    * @returns {any|!firebase.Thenable.<*>|firebase.Thenable<any>}
    */
-  registerUser: user => firebaseAuth.createUserWithEmailAndPassword(user.email, user.password)
+    registerUser: user => firebaseAuth.createUserWithEmailAndPassword(user.email, user.password)
     .then(userInfo => userInfo)
     .catch(error => ({
         errorCode: error.code,
@@ -707,23 +710,23 @@ setDateEvents : (course, date) => {
    *
    * @returns {!firebase.Promise.<*>|firebase.Thenable<any>|firebase.Promise<any>|!firebase.Thenable.<*>}
    */
-  logoutUser: () => firebaseAuth.signOut().then(() => ({
+    logoutUser: () => firebaseAuth.signOut().then(() => ({
       success: 1,
       message: 'logout',
-  })),
+    })),
 
   /**
    * Retrieve the current user (Promise)
    * @returns {Promise}
    */
-  fetchUser: () => new Promise((resolve, reject) => {
-    const unsub = firebaseAuth.onAuthStateChanged((user) => {
+    fetchUser: () => new Promise((resolve, reject) => {
+      const unsub = firebaseAuth.onAuthStateChanged((user) => {
         unsub();
         resolve(user);
-    }, (error) => {
+      }, (error) => {
         reject(error);
-    });
-  }),
+      });
+    }),
 
   /**
    * Log the user in using email and password
@@ -731,7 +734,7 @@ setDateEvents : (course, date) => {
    * @param user
    * @returns {any|!firebase.Thenable.<*>|firebase.Thenable<any>}
    */
-  loginUser: user => firebaseAuth.signInWithEmailAndPassword(user.email, user.password)
+    loginUser: user => firebaseAuth.signInWithEmailAndPassword(user.email, user.password)
     .then(userInfo => userInfo)
     .catch(error => ({
         errorCode: error.code,
@@ -744,10 +747,10 @@ setDateEvents : (course, date) => {
    * @param u
    * @returns {!firebase.Promise.<*>|firebase.Thenable<any>|firebase.Promise<any>|!firebase.Thenable.<*>}
    */
-  updateUserProfile: u => firebaseAuth.currentUser.updateProfile(u).then(() => firebaseAuth.currentUser, error => ({
+    updateUserProfile: u => firebaseAuth.currentUser.updateProfile(u).then(() => firebaseAuth.currentUser, error => ({
       errorCode: error.code,
       errorMessage: error.message,
-  })),
+    })),
 
   /**
    * Reset the password given the specified email
@@ -755,12 +758,12 @@ setDateEvents : (course, date) => {
    * @param email {string}
    * @returns {!firebase.Promise.<*>|firebase.Thenable<any>|firebase.Promise<any>|!firebase.Thenable.<*>}
    */
-  resetPasswordEmail: email => firebaseAuth.sendPasswordResetEmail(email).then(() => ({
+    resetPasswordEmail: email => firebaseAuth.sendPasswordResetEmail(email).then(() => ({
       message: 'Email sent',
-  }), error => ({
+    }), error => ({
       errorCode: error.code,
       errorMessage: error.message,
-  })),
+    })),
 
   /**
    * Update the user's password with the given password
@@ -768,22 +771,22 @@ setDateEvents : (course, date) => {
    * @param newPassword {string}
    * @returns {!firebase.Promise.<*>|firebase.Thenable<any>|firebase.Promise<any>|!firebase.Thenable.<*>}
    */
-  changePassword: newPassword => firebaseAuth.currentUser.updatePassword(newPassword).then(user => user, error => ({
+    changePassword: newPassword => firebaseAuth.currentUser.updatePassword(newPassword).then(user => user, error => ({
       errorCode: error.code,
       errorMessage: error.message,
-  })),
+    })),
 
   /**
    * Send an account email verification message for the currently logged in user
    *
    * @returns {!firebase.Promise.<*>|firebase.Thenable<any>|firebase.Promise<any>|!firebase.Thenable.<*>}
    */
-  sendEmailVerification: () => firebaseAuth.currentUser.sendEmailVerification().then(() => ({
+    sendEmailVerification: () => firebaseAuth.currentUser.sendEmailVerification().then(() => ({
       message: 'Email sent',
-  }), error => ({
+    }), error => ({
       errorCode: error.code,
       errorMessage: error.message,
-  })),
+    })),
 
   /**
    * Get the firebase database reference.
