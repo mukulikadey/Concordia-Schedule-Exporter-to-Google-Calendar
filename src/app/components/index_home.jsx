@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { browserHistory, Link } from 'react-router';
-import { fetchUser, getUserCourses, getSections, addUserSection,deleteCourse, isProfessor,getNotifications, addTA } from '../actions/firebase_actions';
+import { fetchUser, getUserCourses, getSections, addUserSection,deleteCourse, isProfessor,getNotifications, addTA, removeNotification } from '../actions/firebase_actions';
 import Loading from './helpers/loading';
 import 'sweetalert';
 import './user/sweetalert.css';
@@ -26,12 +26,13 @@ class Index_home extends Component{
     this.handleForm = this.handleForm.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.onkeyPress=this.onkeyPress.bind(this);
-    this.remove=this.remove.bind(this)
-    this.refresh=this.refresh.bind(this)
-    this.submitInfo=this.submitInfo.bind(this)
-    this.submitButton=this.submitButton.bind(this)
-    this.returnNotifications = this.returnNotifications.bind(this)
-    this.returnButton=this.returnButton.bind(this)
+    this.remove=this.remove.bind(this);
+    this.refresh=this.refresh.bind(this);
+    this.submitInfo=this.submitInfo.bind(this);
+    this.submitButton=this.submitButton.bind(this);
+    this.returnNotifications = this.returnNotifications.bind(this);
+    this.removeNotification = this.removeNotification.bind(this);
+    this.returnButton=this.returnButton.bind(this);
     this.change=this.change.bind(this)
 
   }
@@ -79,6 +80,10 @@ class Index_home extends Component{
       swal("Deleted!", course.coursename+" has been deleted.", "success", );
       self.props.deleteCourse(self.props.userCourses.courses,course)
     });
+  }
+
+  removeNotification(key){
+    this.props.removeNotification(key);
   }
 
   getCourses()
@@ -218,9 +223,9 @@ class Index_home extends Component{
     let notify = this.props.notifications;
     if (this.props.notifications !== "No notifications") {
       Object.keys(notify).map(function (key) {
-        array.push(<div>{notify[key].event.title + notify[key].event.section  + "\n" + notify[key].event.courseTime + "\n" + notify[key].event.desc} <span className="fa fa-times-circle" onClick={""}> </span> </div>);
+        array.push(<div>{notify[key].event.title + notify[key].event.section  + "\n" + notify[key].event.courseTime + "\n" + notify[key].event.desc} <span  className="fa fa-times-circle" onClick={this.removeNotification.bind(this, key)}> </span> </div>);
         i++;
-      });
+      }, this);
       console.log(array);
       return <div>{array}</div>
     }
@@ -397,7 +402,7 @@ class Index_home extends Component{
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ fetchUser, getUserCourses, getSections, addUserSection,deleteCourse, isProfessor,getNotifications, addTA}, dispatch);
+  return bindActionCreators({ fetchUser, getUserCourses, getSections, addUserSection,deleteCourse, isProfessor,getNotifications, addTA, removeNotification}, dispatch);
 }
 
 

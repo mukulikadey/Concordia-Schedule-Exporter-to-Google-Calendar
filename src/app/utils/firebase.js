@@ -163,6 +163,10 @@ const FireBaseTools = {
     return null;
   },
 
+  removeNotification: (key) => {
+    const uid = firebaseAuth.currentUser ? firebaseAuth.currentUser.uid : null;
+    notifsRef.child(uid).child(key).remove();
+  },
 
   addUserSection: (courseArray, courseNumber, section) => {
     // Variable to keep track of course index

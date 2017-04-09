@@ -17,6 +17,7 @@ import {
   IS_PROFESSOR,
   GET_NOTIFICATIONS,
   ADD_TA,
+  REMOVE_NOTIFICATIONS,
 } from './types';
 
 
@@ -43,6 +44,15 @@ export function addTA(email, section) {
     return {
         type: ADD_TA,
         payload: request,
+    };
+}
+
+export function removeNotification(key) {
+    const request = FireBaseTools.removeNotification(key);
+
+    return {
+      type: REMOVE_NOTIFICATIONS,
+      payload: request,
     };
 }
 
