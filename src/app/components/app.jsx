@@ -68,7 +68,7 @@ class App extends Component {
     let array = [];
     let i=0;
     let notify = this.props.notifications;
-    if (this.props.notifications !== "No notifications") {
+    if (this.props.notifications && this.props.notifications !== "No notifications") {
       Object.keys(notify).map(function (key) {
         array.push(<div>{notify[key].event.title + notify[key].event.section  + "\n" + notify[key].event.courseTime + ": \n" + notify[key].event.desc} <span  className="fa fa-times-circle" onClick={this.removeNotification.bind(this, key)}> </span> </div>);
         i++;

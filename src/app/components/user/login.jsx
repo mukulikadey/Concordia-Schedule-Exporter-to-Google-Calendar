@@ -23,7 +23,6 @@ class UserLogin extends Component {
 
     onFormSubmit(event) {
         event.preventDefault();
-
         const email = this.refs.email.value;
         const password = this.refs.password.value;
         this.props.loginUser({ email, password }).then((data) => {
@@ -51,9 +50,7 @@ class UserLogin extends Component {
           <div>
             <div className="row center">
               <div className='col-md-4 box fadeInHome'>
-                <div className='wave -one '></div>
-                <div className='wave -two '></div>
-                <div className='wave -three '></div>
+                
                 <form id="frmLogin" role="form" onSubmit={this.onFormSubmit}>
                   <p>
                     {this.state.message}
@@ -83,7 +80,7 @@ class UserLogin extends Component {
                       />
                     </div>
                   </div>
-                  <button type="submit" className="btn btn-default btn-block">Login</button>
+                  <button type="submit" className="btn btn-default btn-block" onClick={this.onFormSubmit}>Login</button>
                   <br />
                   <h5><Link to="/reset">Forgot password?</Link></h5>
 

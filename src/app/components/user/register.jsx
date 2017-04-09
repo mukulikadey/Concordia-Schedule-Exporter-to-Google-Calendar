@@ -40,9 +40,6 @@ class UserRegister extends Component {
     render() {
         return (
           <div className="col-md-4 box fadeInHome">
-            <div className='wave -one'></div>
-            <div className='wave -two'></div>
-            <div className='wave -three'></div>
             <form id="frmRegister" role="form" onSubmit={this.onFormSubmit}>
               <p>{this.state.message}</p>
               <h2 className="align-center">Register</h2><br />
