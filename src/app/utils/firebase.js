@@ -387,11 +387,11 @@ const FireBaseTools = {
               /* eslint-disable */
               if (noClassThisDay[i].getFullYear() === startDate.getFullYear() && noClassThisDay[i].getMonth() === startDate.getMonth() && noClassThisDay[i].getDate() === startDate.getDate()) {
               /* eslint-enable */
-                // If the current date is included in the list of dates when there are no classes,
-                // then don't update the timetable
-                classesGivenOnThisDay = false;
+                  // If the current date is included in the list of dates when there are no classes,
+                  // then don't update the timetable
+                  classesGivenOnThisDay = false;
+              }
             }
-          }
 
             // only update timetable in this iteration if classes are actually given on this date
             if (classesGivenOnThisDay) {
