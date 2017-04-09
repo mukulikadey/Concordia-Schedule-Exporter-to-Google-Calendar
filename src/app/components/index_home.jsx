@@ -38,6 +38,7 @@ class Index_home extends Component{
     this.returnNotifications = this.returnNotifications.bind(this)
     this.returnButton=this.returnButton.bind(this)
     this.change=this.change.bind(this)
+
   }
 
   componentDidMount(){
@@ -225,7 +226,7 @@ class Index_home extends Component{
     let notify = this.props.notifications;
     if (this.props.notifications !== "No notifications") {
       Object.keys(notify).map(function (key) {
-        array.push( <div>{notify[key].event.title + notify[key].event.section + "\n" + notify[key].event.courseTime + notify[key].event.desc} </div> );
+        array.push(<div>{notify[key].event.title + notify[key].event.section  + "\n" + notify[key].event.courseTime + "\n" + notify[key].event.desc} <span className="fa fa-times-circle" onClick={""}> </span> </div>);
         i++;
       });
       console.log(array);
