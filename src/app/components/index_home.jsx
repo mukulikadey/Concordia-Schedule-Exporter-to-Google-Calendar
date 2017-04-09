@@ -203,7 +203,7 @@ class Index_home extends Component{
   renderName(currentUser)
   {
     if(currentUser && currentUser.uid)
-      return <div className="welcomeHome">Welcome {currentUser.displayName}!</div>
+      return <div className="welcomeHome white">Welcome {currentUser.displayName}!</div>
     return <div></div>
   }
 
@@ -313,7 +313,7 @@ class Index_home extends Component{
   btnAddTa(){
     if (this.props.profState !== 'Not a professor' && this.props.profState != null){
 
-      return<button className=" btn btn-warning btn-round fa fa-plus-circle " id="btnTA" onClick={this.showAddTa}> ADD TA</button>
+      return<button className=" btn btn-warning btn-round fa fa-plus-circle " id="btnTA" onClick={this.showAddTa}><span className="arial white"> ADD TA</span></button>
     }
 
 
