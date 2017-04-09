@@ -410,7 +410,7 @@ const FireBaseTools = {
   * @param timetable the actual timetable that contains every date object and every description
   * @param snap the Firebase resolved promise from the /course/ path
   */
- checkWeekday: (startDate, timetable, snap) => {
+    checkWeekday: (startDate, timetable, snap) => {
         // Format the month and date so that it is always a two digit number. i.e. Prepend a '0' when 1-digit number
         /* eslint-disable */
         const monthNumber = startDate.getMonth() < 9 ? '0' + (startDate.getMonth() + 1) : (startDate.getMonth() + 1);
@@ -469,7 +469,7 @@ const FireBaseTools = {
           default:
         }
         /* eslint-enable */
- },
+    },
 
   getSections: (courseName) => {
     const sections = [];
@@ -646,19 +646,19 @@ setDateEvents : (course, date) => {
    * @param oldDescription The description before it was changed
    */
   updateNotification: (event, oldDescription) => {
-    const editor = firebaseAuth.currentUser.displayName;
-    const timeStamp = new Date();
+      const editor = firebaseAuth.currentUser.displayName;
+      const timeStamp = new Date();
 
     // The object that will be pushed into the student's notifications node
     // Using object shorthand so "event," = "event : event,"
-     const pushObj = {
-      event,
-      oldDescription,
-      editor,
-      timeStamp,
-    };
+      const pushObj = {
+         event,
+         oldDescription,
+         editor,
+         timeStamp,
+       };
 
-    // Goes through each subscribers and creates a new notification node containing the event info, the old description and the timestamp
+    /* Goes through each subscribers and creates a new notification node containing the event info, the old description and the timestamp */
     /* eslint-disable */
     coursesRef.child(event.sectionPath).child('Subscribers').once('value').then(function (subs){
         subs.forEach(function (child) {
@@ -684,8 +684,8 @@ setDateEvents : (course, date) => {
   loginWithProvider: (p) => {
     const provider = FireBaseTools.getProvider(p);
     return firebaseAuth.signInWithPopup(provider).then(firebaseAuth.currentUser).catch(error => ({
-      errorCode: error.code,
-      errorMessage: error.message,
+        errorCode: error.code,
+        errorMessage: error.message,
     }));
   },
 
@@ -698,8 +698,8 @@ setDateEvents : (course, date) => {
   registerUser: user => firebaseAuth.createUserWithEmailAndPassword(user.email, user.password)
     .then(userInfo => userInfo)
     .catch(error => ({
-      errorCode: error.code,
-      errorMessage: error.message,
+        errorCode: error.code,
+        errorMessage: error.message,
     })),
 
   /**
@@ -708,8 +708,8 @@ setDateEvents : (course, date) => {
    * @returns {!firebase.Promise.<*>|firebase.Thenable<any>|firebase.Promise<any>|!firebase.Thenable.<*>}
    */
   logoutUser: () => firebaseAuth.signOut().then(() => ({
-    success: 1,
-    message: 'logout',
+      success: 1,
+      message: 'logout',
   })),
 
   /**
@@ -718,10 +718,10 @@ setDateEvents : (course, date) => {
    */
   fetchUser: () => new Promise((resolve, reject) => {
     const unsub = firebaseAuth.onAuthStateChanged((user) => {
-      unsub();
-      resolve(user);
+        unsub();
+        resolve(user);
     }, (error) => {
-      reject(error);
+        reject(error);
     });
   }),
 
@@ -734,8 +734,8 @@ setDateEvents : (course, date) => {
   loginUser: user => firebaseAuth.signInWithEmailAndPassword(user.email, user.password)
     .then(userInfo => userInfo)
     .catch(error => ({
-      errorCode: error.code,
-      errorMessage: error.message,
+        errorCode: error.code,
+        errorMessage: error.message,
     })),
 
   /**
@@ -745,8 +745,8 @@ setDateEvents : (course, date) => {
    * @returns {!firebase.Promise.<*>|firebase.Thenable<any>|firebase.Promise<any>|!firebase.Thenable.<*>}
    */
   updateUserProfile: u => firebaseAuth.currentUser.updateProfile(u).then(() => firebaseAuth.currentUser, error => ({
-    errorCode: error.code,
-    errorMessage: error.message,
+      errorCode: error.code,
+      errorMessage: error.message,
   })),
 
   /**
@@ -756,10 +756,10 @@ setDateEvents : (course, date) => {
    * @returns {!firebase.Promise.<*>|firebase.Thenable<any>|firebase.Promise<any>|!firebase.Thenable.<*>}
    */
   resetPasswordEmail: email => firebaseAuth.sendPasswordResetEmail(email).then(() => ({
-    message: 'Email sent',
+      message: 'Email sent',
   }), error => ({
-    errorCode: error.code,
-    errorMessage: error.message,
+      errorCode: error.code,
+      errorMessage: error.message,
   })),
 
   /**
@@ -769,8 +769,8 @@ setDateEvents : (course, date) => {
    * @returns {!firebase.Promise.<*>|firebase.Thenable<any>|firebase.Promise<any>|!firebase.Thenable.<*>}
    */
   changePassword: newPassword => firebaseAuth.currentUser.updatePassword(newPassword).then(user => user, error => ({
-    errorCode: error.code,
-    errorMessage: error.message,
+      errorCode: error.code,
+      errorMessage: error.message,
   })),
 
   /**
@@ -779,10 +779,10 @@ setDateEvents : (course, date) => {
    * @returns {!firebase.Promise.<*>|firebase.Thenable<any>|firebase.Promise<any>|!firebase.Thenable.<*>}
    */
   sendEmailVerification: () => firebaseAuth.currentUser.sendEmailVerification().then(() => ({
-    message: 'Email sent',
+      message: 'Email sent',
   }), error => ({
-    errorCode: error.code,
-    errorMessage: error.message,
+      errorCode: error.code,
+      errorMessage: error.message,
   })),
 
   /**
@@ -791,7 +791,7 @@ setDateEvents : (course, date) => {
    * @param path {!string|string}
    * @returns {!firebase.database.Reference|firebase.database.Reference}
    */
-  getDatabaseReference: path => firebaseDb.ref(path),
+    getDatabaseReference: path => firebaseDb.ref(path),
 };
 
 export default FireBaseTools;

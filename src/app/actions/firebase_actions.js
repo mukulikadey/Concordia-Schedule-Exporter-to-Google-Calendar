@@ -51,8 +51,8 @@ export function removeNotification(key) {
     const request = FireBaseTools.removeNotification(key);
 
     return {
-      type: REMOVE_NOTIFICATIONS,
-      payload: request,
+        type: REMOVE_NOTIFICATIONS,
+        payload: request,
     };
 }
 
@@ -84,14 +84,14 @@ export function getUserCourses() {
 
 export function isProfessor() {
     return (dispatch) => {
-      FireBaseTools.isProfessor(dispatch, IS_PROFESSOR);
-  };
+        FireBaseTools.isProfessor(dispatch, IS_PROFESSOR);
+    };
 }
 
 export function getNotifications() {
     return (dispatch) => {
-      FireBaseTools.getNotifications(dispatch, GET_NOTIFICATIONS);
-  };
+        FireBaseTools.getNotifications(dispatch, GET_NOTIFICATIONS);
+    };
 }
 
 export function addUserSection(courseArray, courseNumber, section) {
