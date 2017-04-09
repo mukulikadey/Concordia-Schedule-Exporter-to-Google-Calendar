@@ -178,42 +178,42 @@ const FireBaseTools = {
     // Check if the user has already subscribed to one section of the course
         for (let i = 0; i < courseArray.length; i += 1) {
       // If the course is already in the course array, then overwrite the section
-            if (courseArray[i].coursenumber === courseNumber) {
-              courseIndex = i; // contains index number of course in user's courseArray
+              if (courseArray[i].coursenumber === courseNumber) {
+                courseIndex = i; // contains index number of course in user's courseArray
           }
         }
 
         if (courseIndex >= 0) {
-            if (section.component === 'LAB' && courseArray[courseIndex].labsection) {
-              path = courseArray[courseIndex].coursenumber + courseArray[courseIndex].labsection + 1;
-          }
-            if (section.component === 'TUT' && courseArray[courseIndex].tutorialsection) {
-              path = courseArray[courseIndex].coursenumber + courseArray[courseIndex].tutorialsection;
-          }
-            if (section.component === 'LEC' && courseArray[courseIndex].section) {
-              path = courseArray[courseIndex].coursenumber + courseArray[courseIndex].section;
-          }
-            if (path) {
-            coursesRef.child(path).child('Subscribers').child(id).set(null);
-          }
+              if (section.component === 'LAB' && courseArray[courseIndex].labsection) {
+                path = courseArray[courseIndex].coursenumber + courseArray[courseIndex].labsection + 1;
+            }
+              if (section.component === 'TUT' && courseArray[courseIndex].tutorialsection) {
+                path = courseArray[courseIndex].coursenumber + courseArray[courseIndex].tutorialsection;
+            }
+              if (section.component === 'LEC' && courseArray[courseIndex].section) {
+                path = courseArray[courseIndex].coursenumber + courseArray[courseIndex].section;
+            }
+              if (path) {
+                coursesRef.child(path).child('Subscribers').child(id).set(null);
+            }
         }
 
         if (courseIndex < 0) {
-      // A new course is added to the courseArray if the student was not previously subscribed to it
+        // A new course is added to the courseArray if the student was not previously subscribed to it
             const newCourse =
-            {
-                coursename: courseNumber,
-                coursenumber: courseNumber,
-            };
+                {
+                    coursename: courseNumber,
+                    coursenumber: courseNumber,
+                };
 
-      // Set course index to the next available index value or to 0 if courseArray doesn't exist yet
+          // Set course index to the next available index value or to 0 if courseArray doesn't exist yet
           courseIndex = courseArray ? courseArray.length : 0;
 
-      // Create new firebase path with the course details
-          const updates = {};
-          updates[courseIndex] = newCourse;
-          usersRef.child(id.toString()).child('coursearray').update(updates);
-      }
+            // Create new firebase path with the course details
+            const updates = {};
+            updates[courseIndex] = newCourse;
+            usersRef.child(id.toString()).child('coursearray').update(updates);
+        }
 
     // Adding the user to the subscriber list of the course
         const updateSubs = {};
@@ -253,15 +253,15 @@ const FireBaseTools = {
 
     // Loop through every pat value of a given course section (usually only greater than 1 for labs)
         for (let i = 1; i <= section.maxPat; i += 1) {
-      /* eslint-disable */
-      // new section path has PatNumber appended if it is a lab sections
-      const newSectionPath = section.component === 'LAB' ? sectionPath + i + '/' : sectionPath;
-      /* eslint-enable */
+            /* eslint-disable */
+            // new section path has PatNumber appended if it is a lab sections
+            const newSectionPath = section.component === 'LAB' ? sectionPath + i + '/' : sectionPath;
+            /* eslint-enable */
 
-      // We add a promise to the array for every path we're
-      // fetching data from (will be more than one if it's a lab section)
-        timetablePromises.push(FireBaseTools.getTimetable(newSectionPath));
-    }
+            // We add a promise to the array for every path we're
+            // fetching data from (will be more than one if it's a lab section)
+            timetablePromises.push(FireBaseTools.getTimetable(newSectionPath));
+        }
 
     // The .then() function is ONLY triggered if and when ALL of the promises in the given array are resolved.
     // The resolved objects (collection of class date objects)
@@ -300,7 +300,7 @@ const FireBaseTools = {
       errorMessage: error.message,
     }));
     /* eslint-enable */
-  },
+    },
 
     addProf: (courseSectionPath) => {
     // This function adds the path to a course section that the professor teaches under the path professor/<prof Email>/
@@ -311,16 +311,16 @@ const FireBaseTools = {
         /* eslint-enable */
         const profEmail = snap.val().replace(/\./g, '%2E'); // Replace all the periods in the email with the escape
         const updateProf = {};
-      updateProf[courseSectionPath] = courseSectionPath;
-      // Update the Professor's email in Firebase thereby adding the course section under the list of courses this prof
-      // teaches, if it wasn't already there
-      profsRef.child(profEmail).update(updateProf);
+        updateProf[courseSectionPath] = courseSectionPath;
+        // Update the Professor's email in Firebase thereby adding the course section under the list of courses this prof
+        // teaches, if it wasn't already there
+        profsRef.child(profEmail).update(updateProf);
     })
     .catch(error => ({
-      errorCode: error.code,
-      errorMessage: error.message,
+        errorCode: error.code,
+        errorMessage: error.message,
     }));
-  },
+    },
 
 /* eslint-disable */
   getTimetable: (sectionPath) => {
@@ -349,58 +349,60 @@ const FireBaseTools = {
    * Populates the noclassThisDay array with the dates on which no classes are given
    * @param noClassThisDay The array of dates on which NO classes are given
    */
-  fillNoClassThisDay: (noClassThisDay) => {
+    fillNoClassThisDay: (noClassThisDay) => {
     // Winter Semester Reading Week
     // Monday, February 20 to Sunday February 26
-    noClassThisDay.push(new Date(2017, 1, 20));
-    noClassThisDay.push(new Date(2017, 1, 21));
-    noClassThisDay.push(new Date(2017, 1, 22));
-    noClassThisDay.push(new Date(2017, 1, 23));
-    noClassThisDay.push(new Date(2017, 1, 24));
-    noClassThisDay.push(new Date(2017, 1, 25));
-    noClassThisDay.push(new Date(2017, 1, 26));
+      noClassThisDay.push(new Date(2017, 1, 20));
+      noClassThisDay.push(new Date(2017, 1, 21));
+      noClassThisDay.push(new Date(2017, 1, 22));
+      noClassThisDay.push(new Date(2017, 1, 23));
+      noClassThisDay.push(new Date(2017, 1, 24));
+      noClassThisDay.push(new Date(2017, 1, 25));
+      noClassThisDay.push(new Date(2017, 1, 26));
 
-    // Easter Weekend and end of semester
-    // Friday, April 14 to Sunday April 17
-    noClassThisDay.push(new Date(2017, 3, 14));
-    noClassThisDay.push(new Date(2017, 3, 15));
-    noClassThisDay.push(new Date(2017, 3, 16));
-    noClassThisDay.push(new Date(2017, 3, 17));
+      // Easter Weekend and end of semester
+      // Friday, April 14 to Sunday April 17
+      noClassThisDay.push(new Date(2017, 3, 14));
+      noClassThisDay.push(new Date(2017, 3, 15));
+      noClassThisDay.push(new Date(2017, 3, 16));
+      noClassThisDay.push(new Date(2017, 3, 17));
   },
 
-  /**
-   *  Populates timetable with date objects and descriptions
-   * @param startDate The date of the week on which the first class is given
-   * @param endDate The date of the week on which the last class is given
-   * @param noClassThisDay The array of dates on which NO classes are given
-   * @param snap Firebase snapshot of path /course/[Course Section] with all course details
-   * @returns timetable
-   */
-  populate: (startDate, endDate, noClassThisDay, snap) => {
-    // create empty timeTable object
-    const timetable = {};
-    // Iterate through every date between day 1 and the last day to see if there's a class
-    while (startDate < endDate) {
-      // Verify if classes are given on this day or not
-      let classesGivenOnThisDay = true;
-      for (let i = 0; i < noClassThisDay.length; i += 1) {
-        if (noClassThisDay[i].getFullYear() === startDate.getFullYear() && noClassThisDay[i].getMonth() === startDate.getMonth() && noClassThisDay[i].getDate() === startDate.getDate()) {
-          // If the current date is included in the list of dates when there are no classes,
-          // then don't update the timetable
-          classesGivenOnThisDay = false;
+    /**
+     *  Populates timetable with date objects and descriptions
+     * @param startDate The date of the week on which the first class is given
+     * @param endDate The date of the week on which the last class is given
+     * @param noClassThisDay The array of dates on which NO classes are given
+     * @param snap Firebase snapshot of path /course/[Course Section] with all course details
+     * @returns timetable
+     */
+    populate: (startDate, endDate, noClassThisDay, snap) => {
+      // create empty timeTable object
+      const timetable = {};
+      // Iterate through every date between day 1 and the last day to see if there's a class
+      while (startDate < endDate) {
+        // Verify if classes are given on this day or not
+        let classesGivenOnThisDay = true;
+        for (let i = 0; i < noClassThisDay.length; i += 1) {
+          /* eslint-disable */
+          if (noClassThisDay[i].getFullYear() === startDate.getFullYear() && noClassThisDay[i].getMonth() === startDate.getMonth() && noClassThisDay[i].getDate() === startDate.getDate()) {
+            /* eslint-enable */
+            // If the current date is included in the list of dates when there are no classes,
+            // then don't update the timetable
+            classesGivenOnThisDay = false;
         }
       }
 
       // only update timetable in this iteration if classes are actually given on this date
-      if (classesGivenOnThisDay) {
-        FireBaseTools.checkWeekday(startDate, timetable, snap);
-      }
+        if (classesGivenOnThisDay) {
+          FireBaseTools.checkWeekday(startDate, timetable, snap);
+        }
 
-      // check next date (startDate acts as our iterator in this loop so it takes the value of the next day)
-      const newDate = startDate.setDate(startDate.getDate() + 1);
-      /* eslint-disable */
-      startDate = new Date(newDate);
-      /* eslint-enable */
+        // check next date (startDate acts as our iterator in this loop so it takes the value of the next day)
+        const newDate = startDate.setDate(startDate.getDate() + 1);
+        /* eslint-disable */
+        startDate = new Date(newDate);
+        /* eslint-enable */
     }
     // return a promise of a timetable object with all the dates of a given course section path
     return timetable;
@@ -419,12 +421,10 @@ const FireBaseTools = {
         const dateNumber = startDate.getDate() < 10 ? '0' + (startDate.getDate()) : (startDate.getDate());
         // Create the key for the new DateObject in the form "YEAR-MONTH-DATE"
         const newDateObject = startDate.getFullYear() + '-' + monthNumber + '-' + dateNumber;
-        /* eslint-enable */
         // Checks which day of the week the startDate represents.
         // Get the days of the weeks where the course is given
         const givenWeekDay = [snap.val().Sun, snap.val().Mon, snap.val().Tues, snap.val().Wed, snap.val().Thurs, snap.val().Fri, snap.val().Sat];
         // Add the JSON date key
-        /* eslint-disable */
         switch (startDate.getDay()) {
           case 0: // Sunday
             if (givenWeekDay[0] === 'Y') {
