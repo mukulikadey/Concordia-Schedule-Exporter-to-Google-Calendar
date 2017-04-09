@@ -138,7 +138,7 @@ div.transbox{
 }
 
 div.transBox p{
-  margin: 5%;
+  margin: 3%;
   font-weight: bold;
   color: #000000;
 }
@@ -522,6 +522,12 @@ hr {
   box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
   line-break: auto;
 }
+.popover-content {
+  padding: 9px 14px;
+  overflow: auto;
+  max-height: 400px;
+}
+
 .hrNotifs{
   display: block;
   margin-left: 0%;
@@ -541,4 +547,14 @@ hr {
   margin-left: -8.5px;
   width: 10px;
   margin-bottom: 5px;
+}
+
+.closeNotif{
+  left: 95%;
+  position: absolute;
+}
+
+.white{
+  color: white !important;
+  font-weight: bold;
 }

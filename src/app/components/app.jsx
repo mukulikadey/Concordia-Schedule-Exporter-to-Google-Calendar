@@ -72,7 +72,7 @@ class App extends Component {
     let notify = this.props.notifications;
     if (this.props.notifications && this.props.notifications !== "No notifications") {
       Object.keys(notify).map(function (key) {
-        array.push(<div>{notify[key].event.title + notify[key].event.section  + "\n" + notify[key].event.courseTime + ": \n"}<br />{notify[key].editor + " on " + notify[key].timeStamp}<br />{notify[key].event.desc} <span  className="fa fa-times-circle" onClick={this.removeNotification.bind(this, key)}> </span> </div>,<hr className="hrNotifs" />);
+        array.push(<div>{notify[key].event.title + notify[key].event.section  + "\n" + notify[key].event.courseTime + ": \n"}<br />{notify[key].editor + " on " + notify[key].timeStamp}<br />{notify[key].event.desc} <span className="fa fa-times-circle" onClick={this.removeNotification.bind(this, key)}> </span> </div>,<hr className="hrNotifs" />);
         i++;
         NotifIconRed=<span className="redNotif" aria-hidden="true"></span>
       }, this);
@@ -108,7 +108,7 @@ class App extends Component {
             <ul className="nav navbar-nav">
               <li><Link to="/profile"><span className="fa fa-user" aria-hidden="true"></span> Profile</Link></li>
               <li><Link to="/scheduleGen"><span className="fa fa-calendar" aria-hidden="true"></span> Schedule</Link></li>
-              <li><Link to="."><OverlayTrigger trigger="click" rootClose placement="right" overlay={popoverClickRootClose}>
+              <li><Link to="."><OverlayTrigger trigger="click" rootClose placement="bottom" overlay={popoverClickRootClose}>
                 <span className=" gold fa fa-bell" aria-hidden="true">{NotifIconRed}<span className="arial gold"> Notification </span></span>
               </OverlayTrigger></Link></li>
             </ul>
