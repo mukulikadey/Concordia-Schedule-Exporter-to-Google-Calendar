@@ -7,58 +7,58 @@ import {Popover, OverlayTrigger} from 'react-bootstrap'
 
 class App extends Component {
 
-    constructor(props) {
-        super(props);
-        this.props.fetchUser();
-        this.logOut = this.logOut.bind(this);
-      this.returnNotifications = this.returnNotifications.bind(this);
-      this.removeNotification = this.removeNotification.bind(this);
-    }
+  constructor(props) {
+    super(props);
+    this.props.fetchUser();
+    this.logOut = this.logOut.bind(this);
+    this.returnNotifications = this.returnNotifications.bind(this);
+    this.removeNotification = this.removeNotification.bind(this);
+  }
 
-    componentDidMount() {
-      this.props.getNotifications();
-    }
+  componentDidMount() {
+    this.props.getNotifications();
+  }
 
-    componentDidUpdate(){
-      if(!this.props.notifications) {
-        this.props.getNotifications()
-      }
+  componentDidUpdate(){
+    if(!this.props.notifications) {
+      this.props.getNotifications()
     }
+  }
 
-    logOut() {
-        this.props.logoutUser().then((data) => {
+  logOut() {
+    this.props.logoutUser().then((data) => {
       // reload props from reducer
-            this.props.fetchUser();
-            gapi.auth2.getAuthInstance().signOut();
-        });
-    }
+      this.props.fetchUser();
+      gapi.auth2.getAuthInstance().signOut();
+    });
+  }
 
   renderUserMenu(currentUser) {
     // if current user exists and user id exists than make user navigation
-        if (currentUser && currentUser.uid) {
-          this.props.getEvents();
-            return (
-                <li className="dropdown">
-                    <a
-                      href="#" className="dropdown-toggle" data-toggle="dropdown" role="button"
-                      aria-haspopup="true" aria-expanded="false"
-                    >
-                        {currentUser.email} <span className="caret" /></a>
-                    <ul className="dropdown-menu">
-                        <li><Link to="/profile"><span className="fa fa-user" aria-hidden="true"></span> Profile</Link></li>
-                        <li role="separator" className="divider" />
-                        <li><Link to="/scheduleGen"><span className="fa fa-calendar" aria-hidden="true"></span> Schedule</Link></li>
-                        <li role="separator" className="divider" />
-                        <li><Link to="/login" onClick={this.logOut}> <span className="fa fa-sign-out" aria-hidden="true"></span> Logout</Link></li>
-                    </ul>
-                </li>
-            );
-        } else {
-            return [
-                <li key={1}><Link to="/login">Login/Register</Link></li>,
-            ];
-        }
+    if (currentUser && currentUser.uid) {
+      this.props.getEvents();
+      return (
+        <li className="dropdown">
+          <a
+            href="#" className="dropdown-toggle" data-toggle="dropdown" role="button"
+            aria-haspopup="true" aria-expanded="false"
+          >
+            {currentUser.email} <span className="caret" /></a>
+          <ul className="dropdown-menu">
+            <li><Link to="/profile"><span className="fa fa-user" aria-hidden="true"></span> Profile</Link></li>
+            <li role="separator" className="divider" />
+            <li><Link to="/scheduleGen"><span className="fa fa-calendar" aria-hidden="true"></span> Schedule</Link></li>
+            <li role="separator" className="divider" />
+            <li><Link to="/login" onClick={this.logOut}> <span className="fa fa-sign-out" aria-hidden="true"></span> Logout</Link></li>
+          </ul>
+        </li>
+      );
+    } else {
+      return [
+        <li key={1}><Link to="/login">Login/Register</Link></li>,
+      ];
     }
+  }
 
   removeNotification(key){
     this.props.removeNotification(key);
@@ -86,7 +86,7 @@ class App extends Component {
         {this.props.children}
       </div>
     </div>
-}
+  }
 
   loginNav() {
     const popoverClickRootClose = (
@@ -143,3 +143,7 @@ function mapStateToProps(state) {
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
+
+
+
+
