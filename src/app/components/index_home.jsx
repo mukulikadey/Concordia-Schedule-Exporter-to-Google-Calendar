@@ -35,6 +35,7 @@ class Index_home extends Component{
     this.addAlert=this.addAlert.bind(this)
     this.submitInfo=this.submitInfo.bind(this)
     this.submitButton=this.submitButton.bind(this)
+    this.returnNotifications = this.returnNotifications(this)
   }
 
   componentDidMount(){
@@ -195,13 +196,28 @@ class Index_home extends Component{
             <ToastContainer ref="container"
                             toastMessageFactory={ToastMessageFactory}
                             className="toast-top-right" />
-            <button onClick={this.addAlert.bind(this)}>Notification</button>
+            <button onClick={this.returnNotifications}>Notification</button>
           </div>
         </div>
       </div>
 
     );
 
+  }
+
+  returnNotifications() {
+    let array = [];
+    let i=0;
+    let notify = this.props.notifications;
+    if (this.props.notifications !== "No notifications") {
+      Object.keys(notify).map(function (key) {
+        array.push( <div>{notify[key].event.title + notify[key].event.section + "\n" + notify[key].event.courseTime + notify[key].event.desc} </div> );
+        i++;
+      });
+      console.log(array);
+      return <div>{array}</div>
+    }
+    return <div></div>
   }
   addAlert () {
     var c = this.state.counter
