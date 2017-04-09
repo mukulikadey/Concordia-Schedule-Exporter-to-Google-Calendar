@@ -35,7 +35,9 @@ class Index_home extends Component{
     this.addAlert=this.addAlert.bind(this)
     this.submitInfo=this.submitInfo.bind(this)
     this.submitButton=this.submitButton.bind(this)
-    this.returnNotifications = this.returnNotifications(this)
+    this.returnNotifications = this.returnNotifications.bind(this)
+    this.returnButton=this.returnButton.bind(this)
+    this.change=this.change.bind(this)
   }
 
   componentDidMount(){
@@ -196,13 +198,25 @@ class Index_home extends Component{
             <ToastContainer ref="container"
                             toastMessageFactory={ToastMessageFactory}
                             className="toast-top-right" />
-            <button onClick={this.returnNotifications}>Notification</button>
+            <div  className="transboxonClick" >{this.returnButton()}</div>
           </div>
         </div>
       </div>
 
     );
 
+  }
+
+  returnButton(){
+    return <div> 
+    <div id="noB" className="btn btn-warning" onClick={this.change}>Notification</div>
+    <div id= "N" className="hideThis">{this.returnNotifications()}</div>
+    </div>
+  }
+
+  change(){
+    document.getElementById('noB').className='hideThis'
+    document.getElementById('N').className='showThis'
   }
 
   returnNotifications() {
