@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { browserHistory, Link } from 'react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { fetchUser, logoutUser,getEvents } from '../actions/firebase_actions';
-
+import { fetchUser, logoutUser,getEvents,getNotifications, removeNotification } from '../actions/firebase_actions';
+import {Popover, OverlayTrigger} from 'react-bootstrap'
 
 class App extends Component {
 
@@ -11,6 +11,18 @@ class App extends Component {
         super(props);
         this.props.fetchUser();
         this.logOut = this.logOut.bind(this);
+      this.returnNotifications = this.returnNotifications.bind(this);
+      this.removeNotification = this.removeNotification.bind(this);
+    }
+
+    componentDidMount() {
+      this.props.getNotifications();
+    }
+
+    componentDidUpdate(){
+      if(!this.props.notifications) {
+        this.props.getNotifications()
+      }
     }
 
     logOut() {
@@ -48,6 +60,23 @@ class App extends Component {
         }
     }
 
+  removeNotification(key){
+    this.props.removeNotification(key);
+  }
+
+  returnNotifications() {
+    let array = [];
+    let i=0;
+    let notify = this.props.notifications;
+    if (this.props.notifications !== "No notifications") {
+      Object.keys(notify).map(function (key) {
+        array.push(<div>{notify[key].event.title + notify[key].event.section  + "\n" + notify[key].event.courseTime + "\n" + notify[key].event.desc} <span  className="fa fa-times-circle" onClick={this.removeNotification.bind(this, key)}> </span> </div>);
+        i++;
+      }, this);
+      return <div>{array}</div>
+    }
+    return <div></div>
+  }
 
   logoutNav(){
     return<div>
@@ -60,6 +89,11 @@ class App extends Component {
 }
 
   loginNav() {
+    const popoverClickRootClose = (
+      <Popover id="popover-trigger-click-root-close" title="Notifications">
+        {this.returnNotifications()}.
+      </Popover>
+    );
     if (this.props.currentUser) {
       var homeLink = "/index_home";
       return <div>
@@ -70,8 +104,10 @@ class App extends Component {
             </div>
             <ul className="nav navbar-nav">
               <li><Link to="/profile"><span className="fa fa-user" aria-hidden="true"></span> Profile</Link></li>
-              <li><Link to="/scheduleGen"><span className="fa fa-calendar" aria-hidden="true"></span> Schedule</Link>
-              </li>
+              <li><Link to="/scheduleGen"><span className="fa fa-calendar" aria-hidden="true"></span> Schedule</Link></li>
+              <li><Link><OverlayTrigger trigger="click" rootClose placement="right" overlay={popoverClickRootClose}>
+                <span className=" gold fa fa-bell" aria-hidden="true"><span className="arial gold"> Notification</span></span>
+              </OverlayTrigger></Link></li>
             </ul>
             <ul className="nav navbar-nav navbar-right">
               <li><Link to="/login" onClick={this.logOut}> <span className="fa fa-sign-out" aria-hidden="true"></span>
@@ -97,12 +133,12 @@ class App extends Component {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ fetchUser, logoutUser, getEvents }, dispatch);
+  return bindActionCreators({ fetchUser, logoutUser, getEvents, getNotifications, removeNotification }, dispatch);
 }
 
 
 function mapStateToProps(state) {
-  return { currentUser: state.currentUser };
+  return { currentUser: state.currentUser, notifications: state.notifications };
 }
 
 

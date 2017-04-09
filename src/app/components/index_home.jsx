@@ -30,10 +30,7 @@ class Index_home extends Component{
     this.refresh=this.refresh.bind(this);
     this.submitInfo=this.submitInfo.bind(this);
     this.submitButton=this.submitButton.bind(this);
-    this.returnNotifications = this.returnNotifications.bind(this);
     this.removeNotification = this.removeNotification.bind(this);
-    this.returnButton=this.returnButton.bind(this);
-    this.change=this.change.bind(this)
 
   }
 
@@ -195,40 +192,12 @@ class Index_home extends Component{
           <div className="transbox">
             {this.addTa()}
           </div>
-          <div className="fadeInHome">
-            <div  className="transboxonClick" >{this.returnButton()}</div>
-          </div>
+
         </div>
       </div>
 
     );
 
-  }
-
-  returnButton(){
-    return <div>
-    <div id="noB" className="btn btn-warning" onClick={this.change}>Notification</div>
-    <div id= "N" className="hideThis">{this.returnNotifications()}</div>
-    </div>
-  }
-
-  change(){
-    document.getElementById('noB').className='hideThis'
-    document.getElementById('N').className='showThis'
-  }
-
-  returnNotifications() {
-    let array = [];
-    let i=0;
-    let notify = this.props.notifications;
-    if (this.props.notifications !== "No notifications") {
-      Object.keys(notify).map(function (key) {
-        array.push(<div>{notify[key].event.title + notify[key].event.section  + "\n" + notify[key].event.courseTime + "\n" + notify[key].event.desc} <span  className="fa fa-times-circle" onClick={this.removeNotification.bind(this, key)}> </span> </div>);
-        i++;
-      }, this);
-      return <div>{array}</div>
-    }
-    return <div></div>
   }
 
   renderName(currentUser)
