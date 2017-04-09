@@ -159,6 +159,7 @@ div.trans-sc {
 
 .parent:hover .hiding {
   display:inline;
+  cursor: pointer;
 }
 
 // Styling for links in alert box - ScheduleGen Page
@@ -280,34 +281,8 @@ li a:focus {
 
 }
 
-.wave {
-  opacity: .3;
-  position: absolute;
-  top: 3%;
-  left: 50%;
-  background: rgba(255, 255, 255, 0.4);
-  width: 500px;
-  height: 500px;
-  margin-left: -250px;
-  margin-top: -250px;
-  transform-origin: 50% 48%;
-  border-radius: 43%;
-  animation: drift 3000ms infinite linear;
-}
-
-.wave.-three {
-  animation: drift 5000ms infinite linear;
-}
-
-.wave.-two {
-  animation: drift 7000ms infinite linear;
-  opacity: .1;
-  background: #EEEEEE;
-}
-
-@keyframes drift {
-  from { transform: rotate(0deg); }
-  from { transform: rotate(360deg); }
+.boxReg{
+  width: 55%!important;
 }
 
 h5 > a {

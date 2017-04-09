@@ -3,45 +3,62 @@ import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { registerUser } from '../../actions/firebase_actions';
+import {Alert} from 'react-bootstrap'
 
 class UserRegister extends Component {
-    constructor(props) {
-        super(props);
-        this.onFormSubmit = this.onFormSubmit.bind(this);
-        this.state = {
-            message: '',
-        };
-    }
+  constructor(props) {
+    super(props);
+    this.onFormSubmit = this.onFormSubmit.bind(this);
+    this.handleAlertDismiss=this.handleAlertDismiss.bind(this);
+    this.state = {
+      message: '',
+      alertVisible: false,
+    };
+  }
 
-    mathLib(a) {
-        return a + 5;
-    }
+  mathLib(a) {
+    return a + 5;
+  }
 
-    componentDidMount(){
-        document.body.className = "";
-    }
+  componentDidMount(){
+    document.body.className = "";
+  }
 
-    onFormSubmit(event) {
-        event.preventDefault();
+  onFormSubmit(event) {
+    event.preventDefault();
 
-        const email = this.refs.email.value;
-        const password = this.refs.password.value;
-        this.props.registerUser({ email, password }).then((data) => {
-            if (data.payload.errorCode) {
-                this.setState({ message: data.payload.errorMessage })
-              ;
-            } else {
-                browserHistory.push('/index_home');
-            }
+    const email = this.refs.email.value;
+    const password = this.refs.password.value;
+    this.props.registerUser({ email, password }).then((data) => {
+        if (data.payload.errorCode) {
+          this.setState({alertVisible : !this.state.alertVisible});
+          this.setState({ message: data.payload.errorMessage })
+          ;
+        } else {
+          browserHistory.push('/index_home');
         }
+      }
     );
-    }
+  }
 
-    render() {
-        return (
-          <div className="col-md-4 box fadeInHome">
+  handleAlertDismiss() {
+    this.setState({alertVisible: !this.state.alertVisible});
+  }
+
+  alert() {
+    if (this.state.alertVisible) {
+      return (<Alert bsStyle="danger" onDismiss={this.handleAlertDismiss}>
+        <p> {this.state.message}</p>
+      </Alert>)
+    }
+  }
+
+  render() {
+    return (
+      <div>
+        <div className="row center">
+          <div className="col-md-4 box boxReg fadeInHome">
             <form id="frmRegister" role="form" onSubmit={this.onFormSubmit}>
-              <p>{this.state.message}</p>
               <h2 className="align-center">Register</h2><br />
               <div className="form-group">
                 <label htmlFor="txtRegEmail">Email address</label>
@@ -71,20 +88,23 @@ class UserRegister extends Component {
               <br /> <br />
             </form>
           </div>
+        </div>
+        {this.alert()}
+      </div>
 
-        );
-    }
+    );
+  }
 
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({
-        registerUser,
-    }, dispatch);
+  return bindActionCreators({
+    registerUser,
+  }, dispatch);
 }
 
 function mapStateToProps(state) {
-    return { currentUser: state.currentUser };
+  return { currentUser: state.currentUser };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserRegister);
