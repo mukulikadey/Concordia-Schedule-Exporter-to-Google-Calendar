@@ -4,12 +4,12 @@
 <head profile="http://selenium-ide.openqa.org/profiles/test-case">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="selenium.base" href="http://localhost:3000/" />
-<title>Register with Email/Password</title>
+<title>Login with Email/Password</title>
 </head>
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">Register with Email/Password</td></tr>
+<tr><td rowspan="1" colspan="3">Login with Email/Password</td></tr>
 </thead><tbody>
 <tr>
 	<td>open</td>
@@ -18,28 +18,23 @@
 </tr>
 <tr>
 	<td>type</td>
-	<td>css=#frmRegister &gt; div.form-group &gt; #txtEmail</td>
-	<td>tester@hotmail.com</td>
+	<td>id=txtPass</td>
+	<td>einstein1</td>
 </tr>
 <tr>
 	<td>type</td>
-	<td>css=#frmRegister &gt; div.form-group &gt; #txtPass</td>
-	<td>conustudent</td>
+	<td>id=txtEmail</td>
+	<td>regi10kandi@hotmail.com</td>
 </tr>
 <tr>
 	<td>click</td>
-	<td>css=#frmRegister &gt; button.btn.btn-default</td>
+	<td>//button[@type='submit']</td>
 	<td></td>
 </tr>
 <tr>
-	<td>assertTextPresent</td>
-	<td></td>
-	<td>WELCOME</td>
-</tr>
-<tr>
-	<td>assertTextNotPresent</td>
-	<td></td>
-	<td>The email address is already in use by another account.</td>
+	<td>verifyText</td>
+	<td>css=div.welcomeHome.white &gt; span</td>
+	<td>Welcome</td>
 </tr>
 </tbody></table>
 </body>
