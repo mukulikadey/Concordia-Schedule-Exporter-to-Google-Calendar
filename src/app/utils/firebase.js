@@ -499,11 +499,11 @@ const FireBaseTools = {
         }
     /* eslint-disable */
 
-    if(userCourses[0]== "No Courses") {return {value: 0};}
-    for (var i = 0; i<userCourses.length; i+=1) {
-      userCourses[i].section ? stringCourses.push(userCourses[i].coursename + userCourses[i].section ):null;
+    if(userCourses[0] == 'No Courses') { return { value: 0 }; }
+    for (var i = 0; i < userCourses.length; i += 1) {
+      userCourses[i].section ? stringCourses.push(userCourses[i].coursename + userCourses[i].section ): null;
       userCourses[i].tutorialsection ? stringCourses.push(userCourses[i].coursename + userCourses[i].tutorialsection): null;
-      userCourses[i].labsection ? stringCourses.push(userCourses[i].coursename + (userCourses[i].labsection + "1")):null;
+      userCourses[i].labsection ? stringCourses.push(userCourses[i].coursename + (userCourses[i].labsection + '1')): null;
 
     }
     var coursePromises = [];
@@ -517,8 +517,8 @@ const FireBaseTools = {
     return Promise.all(coursePromises).then(function(resolvedarray){
         resolvedarray.map((course)=>{
           var timetable = course.Timetable? course.Timetable : null;
-          var subject=(course.Subject+course.Catalog);
-          var  section=(" - "+course.Section);
+          var subject=(course.Subject + course.Catalog);
+          var  section=(' - ' + course.Section);
           var time=[];
 
             Object.keys(timetable).map(function(key) {
@@ -552,8 +552,8 @@ const FireBaseTools = {
               date['end'].setHours(eHours);
               date['start'].setMinutes(sMinutes);
               date['end'].setMinutes(eMinutes);
-              date['title']= subject;
-              date['section']= section;
+              date['title'] = subject;
+              date['section'] = section;
               // Check if the current user is the prof or in the section's Whitelist of user's that can edit the class' description
               // Ensure that you properly format the email string with escape chars since firebase keys don't have '.' characters
               let edit = false;
@@ -565,7 +565,7 @@ const FireBaseTools = {
               }
               date['canEditDescription'] = edit;
               // Store the path to the courseSection in each class event
-              date['sectionPath'] = course.Component == "Lab" ? course.Subject + course.Catalog + course.Section + 1 : course.Subject + course.Catalog + course.Section ;
+              date['sectionPath'] = course.Component == 'Lab' ? course.Subject + course.Catalog + course.Section + 1 : course.Subject + course.Catalog + course.Section ;
               if (course) {
                 FireBaseTools.setDateEvents(course, date);
               }
@@ -588,45 +588,45 @@ const FireBaseTools = {
   * @param date the date event array that will be pushed as a class event
   */
 setDateEvents : (course, date) => {
-             let teacher = (course['First Name']+" "+course.Last);
+             let teacher = (course['First Name'] + '' + course.Last);
              let room=(course['Room Nbr']);
              let defaultStartString = '12:00:0 AM';
              let defaultEndString = '12:01:0 AM';
-             let startTime = course['Mtg Start']? course['Mtg Start'].split(":") : defaultStartString.split(":");
-             let endTime = course['Mtg End']? course['Mtg End'].split(":"): defaultEndString.split(":");
-             let courseTime=(startTime[0] + ":" + startTime[1] + startTime[2].slice(2, startTime[2].length) + " - " + endTime[0] + ":" + endTime[1] + endTime[2].slice(2, endTime[2].length));
+             let startTime = course['Mtg Start']? course['Mtg Start'].split(':') : defaultStartString.split(':');
+             let endTime = course['Mtg End']? course['Mtg End'].split(':'): defaultEndString.split(':');
+             let courseTime=(startTime[0] + ':' + startTime[1] + startTime[2].slice(2, startTime[2].length) + ' - ' + endTime[0] + ':' + endTime[1] + endTime[2].slice(2, endTime[2].length));
 
              date['type']= course.Component;
-              if (date['type'] == "LEC") {
-                date['type'] = "Lecture";
+              if (date['type'] == 'LEC') {
+                date['type'] = 'Lecture';
               }
               else
-              if (date['type'] == "TUT") {
-                date['type'] = "Tutorial";
+              if (date['type'] == 'TUT') {
+                date['type'] = 'Tutorial';
               }
               else {
-                (date['type'] == "LAB");
-                date['type'] = "Laboratory";
+                (date['type'] == 'LAB');
+                date['type'] = 'Laboratory';
               }
               date['teacher'] = teacher;
               date['popupType'] = course.Component;
-              if (date['popupType'] == "LEC") {
-                date['popupType'] = "Lecture";
+              if (date['popupType'] == 'LEC') {
+                date['popupType'] = 'Lecture';
               }
               else
-              if (date['popupType'] == "TUT") {
-                date['popupType'] = "Tutorial";
+              if (date['popupType'] == 'TUT') {
+                date['popupType'] = 'Tutorial';
               }
               else {
-                (date['popupType'] == "LAB");
-                date['popupType'] = "Lab";
+                (date['popupType'] == 'LAB');
+                date['popupType'] = 'Lab';
               }
               date['monthType'] = course.Component;
               date['room'] = room;
-              if (date['room'] ==="") {
-                date['room'] = "TBA";
+              if (date['room'] === '') {
+                date['room'] = 'TBA';
               }
-              date['courseTime']=courseTime;
+              date['courseTime'] = courseTime;
               return date;
 },
   /**
