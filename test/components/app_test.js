@@ -5,13 +5,15 @@ import FireBaseTools from '../../src/app/utils/firebase';
 describe('fillNoClassThisDay', () => {
   let noClassThisDay = new Array();
   FireBaseTools.fillNoClassThisDay(noClassThisDay);
-
+  // Expect the noClassThisDay to be an array
   it('expect array', () => {
     expect(noClassThisDay).to.be.a('array');
   });
+  // Expect the noClassThisDay array to be greater than 0
   it('fill', () => {
       expect(noClassThisDay.length).greaterThan(0);
   });
+  // Expect the noClassThisDay array to equal 11.
   it('number of days', () => {
     expect(noClassThisDay.length).equals(11);
   });
@@ -49,9 +51,17 @@ describe('Weekdays', () => {
     };
   }; 
   let snap = {val: val};
+  let timeTable = FireBaseTools.populate(startDate, endDate, noClassThisDay, snap);
+  FireBaseTools.checkWeekday(startDate, timeTable, snap);
+  /* eslint-disable */
+  const monthNumber = startDate.getMonth() < 9 ? '0' + (startDate.getMonth() + 1) : (startDate.getMonth() + 1);
+  const dateNumber = startDate.getDate() < 10 ? '0' + (startDate.getDate()) : (startDate.getDate());
+  const newDateObject = startDate.getFullYear() + '-' + monthNumber + '-' + dateNumber;
+  /* eslint-enable */
 
+  // Checks if classes are scheduled to run on Tuesdays
   it('check weekday', () => {
-    expect(FireBaseTools.checkWeekday(startDate, endDate, snap)).to.not.exist;
+    expect(timeTable[newDateObject].description).to.equal('No Description');
   });
 });
 
@@ -89,9 +99,11 @@ describe('populate', () => {
   let snap = {val: val};
   let timeTable = FireBaseTools.populate(startDate, endDate, noClassThisDay, snap);
 
+  // Expects a timetable to exist.
   it('populate timetable', () => {
     expect(timeTable).to.exist;
   });
+  // Expects a timetable to be an object
   it('timetable object', () => {
       expect(timeTable).to.be.an('object');
   });
@@ -128,9 +140,11 @@ describe('setDateEvents', () => {
     let date = {};
     let returnDate = FireBaseTools.setDateEvents(course, date);
   
+  // Expect the date object to exist.
   it('date exists', () => {
     expect(returnDate).to.exist;
   });
+  // Expect the date to be an object.
   it('date object', () => {
       expect(returnDate).to.be.an('object');
   });
