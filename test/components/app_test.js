@@ -51,6 +51,7 @@ describe('Weekdays', () => {
     };
   }; 
   let snap = {val: val};
+  let timeTable = FireBaseTools.populate(startDate, endDate, noClassThisDay, snap);
   FireBaseTools.checkWeekday(startDate, timeTable, snap)
 
   // Checks if classes are scheduled to run on Tuesdays
