@@ -52,11 +52,16 @@ describe('Weekdays', () => {
   }; 
   let snap = {val: val};
   let timeTable = FireBaseTools.populate(startDate, endDate, noClassThisDay, snap);
-  FireBaseTools.checkWeekday(startDate, timeTable, snap)
+  FireBaseTools.checkWeekday(startDate, timeTable, snap);
+  /* eslint-disable */
+  const monthNumber = startDate.getMonth() < 9 ? '0' + (startDate.getMonth() + 1) : (startDate.getMonth() + 1);
+  const dateNumber = startDate.getDate() < 10 ? '0' + (startDate.getDate()) : (startDate.getDate());
+  const newDateObject = startDate.getFullYear() + '-' + monthNumber + '-' + dateNumber;
+  /* eslint-enable */
 
   // Checks if classes are scheduled to run on Tuesdays
   it('check weekday', () => {
-    expect(timeTable[1]).to.equal('Y');
+    expect(timeTable[newDateObject].description).to.equal('No Description');
   });
 });
 
