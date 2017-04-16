@@ -49,9 +49,10 @@ describe('Weekdays', () => {
     };
   }; 
   let snap = {val: val};
+  FireBaseTools.checkWeekday(startDate, timeTable, snap)
 
   it('check weekday', () => {
-    expect(FireBaseTools.checkWeekday(startDate, endDate, snap)).to.not.exist;
+    expect(timeTable[1]).to.equal('Y');
   });
 });
 
